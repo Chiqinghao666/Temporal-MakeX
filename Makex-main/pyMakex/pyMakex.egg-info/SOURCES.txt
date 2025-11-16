@@ -1,0 +1,6 @@
+pyMakex.cpp
+setup.py
+pyMakex.egg-info/PKG-INFO
+pyMakex.egg-info/SOURCES.txt
+pyMakex.egg-info/dependency_links.txt
+pyMakex.egg-info/top_level.txt

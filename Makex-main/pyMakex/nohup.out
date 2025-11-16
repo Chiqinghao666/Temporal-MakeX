@@ -1,0 +1,61 @@
+running install
+/opt/anaconda3/lib/python3.12/site-packages/setuptools/_distutils/cmd.py:66: SetuptoolsDeprecationWarning: setup.py install is deprecated.
+!!
+
+        ********************************************************************************
+        Please avoid running ``setup.py`` directly.
+        Instead, use pypa/build, pypa/installer or other
+        standards-based tools.
+
+        See https://blog.ganssle.io/articles/2021/10/setup-py-deprecated.html for details.
+        ********************************************************************************
+
+!!
+  self.initialize_options()
+/opt/anaconda3/lib/python3.12/site-packages/setuptools/_distutils/cmd.py:66: EasyInstallDeprecationWarning: easy_install command is deprecated.
+!!
+
+        ********************************************************************************
+        Please avoid running ``setup.py`` and ``easy_install``.
+        Instead, use pypa/build, pypa/installer or other
+        standards-based tools.
+
+        See https://github.com/pypa/setuptools/issues/917 for details.
+        ********************************************************************************
+
+!!
+  self.initialize_options()
+running bdist_egg
+running egg_info
+writing pyMakex.egg-info/PKG-INFO
+writing dependency_links to pyMakex.egg-info/dependency_links.txt
+writing top-level names to pyMakex.egg-info/top_level.txt
+reading manifest file 'pyMakex.egg-info/SOURCES.txt'
+writing manifest file 'pyMakex.egg-info/SOURCES.txt'
+installing library code to build/bdist.macosx-11.1-arm64/egg
+running install_lib
+running build_ext
+creating build/bdist.macosx-11.1-arm64
+creating build/bdist.macosx-11.1-arm64/egg
+copying build/lib.macosx-11.1-arm64-cpython-312/pyMakex.cpython-312-darwin.so -> build/bdist.macosx-11.1-arm64/egg
+creating stub loader for pyMakex.cpython-312-darwin.so
+byte-compiling build/bdist.macosx-11.1-arm64/egg/pyMakex.py to pyMakex.cpython-312.pyc
+creating build/bdist.macosx-11.1-arm64/egg/EGG-INFO
+copying pyMakex.egg-info/PKG-INFO -> build/bdist.macosx-11.1-arm64/egg/EGG-INFO
+copying pyMakex.egg-info/SOURCES.txt -> build/bdist.macosx-11.1-arm64/egg/EGG-INFO
+copying pyMakex.egg-info/dependency_links.txt -> build/bdist.macosx-11.1-arm64/egg/EGG-INFO
+copying pyMakex.egg-info/top_level.txt -> build/bdist.macosx-11.1-arm64/egg/EGG-INFO
+writing build/bdist.macosx-11.1-arm64/egg/EGG-INFO/native_libs.txt
+zip_safe flag not set; analyzing archive contents...
+__pycache__.pyMakex.cpython-312: module references __file__
+creating dist
+creating 'dist/pyMakex-1.0-py3.12-macosx-11.1-arm64.egg' and adding 'build/bdist.macosx-11.1-arm64/egg' to it
+removing 'build/bdist.macosx-11.1-arm64/egg' (and everything under it)
+Processing pyMakex-1.0-py3.12-macosx-11.1-arm64.egg
+creating /opt/anaconda3/lib/python3.12/site-packages/pyMakex-1.0-py3.12-macosx-11.1-arm64.egg
+Extracting pyMakex-1.0-py3.12-macosx-11.1-arm64.egg to /opt/anaconda3/lib/python3.12/site-packages
+Adding pyMakex 1.0 to easy-install.pth file
+
+Installed /opt/anaconda3/lib/python3.12/site-packages/pyMakex-1.0-py3.12-macosx-11.1-arm64.egg
+Processing dependencies for pyMakex==1.0
+Finished processing dependencies for pyMakex==1.0
