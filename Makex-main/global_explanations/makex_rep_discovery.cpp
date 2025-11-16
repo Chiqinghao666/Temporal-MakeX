@@ -1,5 +1,8 @@
+#ifdef _OPENMP
 #include <omp.h>
-
+#else
+inline void omp_set_num_threads(int) {}
+#endif
 #include <chrono>
 
 #include <iostream>
@@ -51,9 +54,15 @@ using DataGraphVertexPtr = typename GUNDAM::VertexHandle<DataGraph>::type;
 using DataGraphAttrKeyType = typename DataGraph::VertexType::AttributeKeyType;
 using DataGraphVertexConstPtr =
     typename GUNDAM::VertexHandle<const DataGraph>::type;
-using StarMiner = Makex::StarMiner<DataGraph>;
+using StarMiner = CFLogic::StarMiner<DataGraph>;
 using DataGraphAttributePtr = typename DataGraph::VertexType::AttributePtr;
-using DataGraphWithInformation = Makex::DataGraphWithInformation<DataGraph>;
+using DataGraphWithInformation = CFLogic::DataGraphWithInformation<DataGraph>;
+
+#ifdef _OPENMP
+#define OMP_PARALLEL_FOR _Pragma("omp parallel for schedule(dynamic)")
+#else
+#define OMP_PARALLEL_FOR
+#endif
 
 
 Makex::Operation StringToOp(std::string op) {
@@ -1714,26 +1723,6 @@ void GetEdgeLabelToNodeLabel(const std::string& edge_label_reverse_csv, std::map
     file.close();
 }
 
-void filter_rep_by_supp_conf(const std::string& file_path, const std::string& output_file_path, int rep_support, double rep_conf) {
-
-
-    if (!inputFile.is_open() || !outputFile.is_open()) {
-        std::cerr << "Can't open the file!" << std::endl;
-        return 1;
-    }
-    
-    std::string line;
-    while (std::getline(inputFile, line)) {
-        if (check_rep(line)) {
-            outputFile << line << std::endl;
-        }
-    }
-    
-    inputFile.close();
-    outputFile.close();
-}
-
-
 bool check_rep(const std::string& line, int rep_support, double rep_conf) {
     std::size_t lastOpenBracket = line.rfind('[');
     std::size_t lastCloseBracket = line.rfind(']');
@@ -1753,6 +1742,40 @@ bool check_rep(const std::string& line, int rep_support, double rep_conf) {
         }
     }
     return false;
+}
+
+void filter_rep_by_supp_conf(const std::string& file_path, const std::string& output_file_path, int rep_support, double rep_conf) {
+    std::ifstream inputFile(file_path);
+    std::ofstream outputFile(output_file_path);
+
+    if (!inputFile.is_open() || !outputFile.is_open()) {
+        std::cerr << "Can't open the file!" << std::endl;
+        return;
+    }
+    
+    std::string line;
+    while (std::getline(inputFile, line)) {
+        if (check_rep(line, rep_support, rep_conf)) {
+            outputFile << line << std::endl;
+        }
+    }
+}
+
+void remove_zero_rows_and_save(const std::string& input_path, const std::string& output_path, int rep_support, double rep_conf) {
+    std::ifstream inputFile(input_path);
+    std::ofstream outputFile(output_path);
+
+    if (!inputFile.is_open() || !outputFile.is_open()) {
+        std::cerr << "Cannot open file for filtering support/conf: " << input_path << " or " << output_path << std::endl;
+        return;
+    }
+
+    std::string line;
+    while (std::getline(inputFile, line)) {
+        if (check_rep(line, rep_support, rep_conf)) {
+            outputFile << line << std::endl;
+        }
+    }
 }
 
 
@@ -1777,7 +1800,11 @@ void makex_rep_discovery(const std::string& pattern_file, const std::string& can
     }
     data_graph_ptr->BuildEncodeHashMap();
     data_graph_ptr->BuildLabelAttributeKeyMap();
-    data_graph_ptr->BuildMLModel(ml_train_file, delta_l, delta_r, user_offset);
+    if (fs::exists(ml_train_file) && !fs::is_directory(ml_train_file)) {
+        data_graph_ptr->BuildMLModel(ml_train_file, delta_l, delta_r, user_offset);
+    } else {
+        std::cout << "Skip BuildMLModel, file not found: " << ml_train_file << std::endl;
+    }
 
 
     std::map<int, std::vector<std::pair<std::string, std::string>>> node_label_predicates;
@@ -1839,8 +1866,10 @@ void makex_rep_discovery(const std::string& pattern_file, const std::string& can
 
     auto path_predicates_start = std::chrono::high_resolution_clock::now();
 
+#ifdef _OPENMP
     omp_set_num_threads(num_process);
-    #pragma omp parallel for schedule(dynamic)
+#endif
+    OMP_PARALLEL_FOR
 
     for (size_t path_node_index_ = 0; path_node_index_ < all_paths.size(); ++path_node_index_) {
 
@@ -2294,8 +2323,10 @@ void makex_rep_discovery(const std::string& pattern_file, const std::string& can
     int rep_id = -1;
 
     auto pattern_predicates_start = std::chrono::high_resolution_clock::now();
+#ifdef _OPENMP
     omp_set_num_threads(num_process);
-    #pragma omp parallel for schedule(dynamic)
+#endif
+    OMP_PARALLEL_FOR
     for (size_t rep_index_ = 0; rep_index_ < rep_pattern_set.size(); ++rep_index_) {
         auto rep = rep_pattern_set[rep_index_];
         rep_id = rep_index_;
@@ -2713,8 +2744,3 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
-
-
-
-
-

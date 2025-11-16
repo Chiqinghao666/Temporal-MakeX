@@ -1,26 +1,112 @@
 #!/bin/bash
+set -euo pipefail
 
+DATASET_DIR="../DataSets/icews14"
+PROCESSED_DIR="$DATASET_DIR/processed"
+GRAPH_DIR="$PROCESSED_DIR/original_graph"
+TRAIN_DIR="$PROCESSED_DIR/train_test"
 
-pattern_file="../DataSets/Movielens/pattern.txt"
-candidate_predicates_file="../DataSets/Movielens/candidate_predicates.txt"
-rep_support=100000
-rep_conf=0.7
+python3 - <<PY
+from pathlib import Path
+import csv
+import json
+
+dataset_dir = Path("$DATASET_DIR").resolve()
+processed_dir = Path("$PROCESSED_DIR").resolve()
+graph_dir = Path("$GRAPH_DIR").resolve()
+train_dir = Path("$TRAIN_DIR").resolve()
+processed_dir.mkdir(parents=True, exist_ok=True)
+graph_dir.mkdir(parents=True, exist_ok=True)
+train_dir.mkdir(parents=True, exist_ok=True)
+
+entity2id = json.loads(Path(dataset_dir / "entity2id.json").read_text())
+relation2id = json.loads(Path(dataset_dir / "relation2id.json").read_text())
+
+vertex_path = graph_dir / "icews_v.csv"
+with vertex_path.open("w", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerow(["vertex_id:int", "label_id:int", "name:string"])
+    for name, idx in entity2id.items():
+        writer.writerow([idx, 0, name])
+
+edge_path = graph_dir / "icews_e.csv"
+edge_id = 0
+with edge_path.open("w", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerow(["edge_id:int", "source_id:int", "target_id:int", "label_id:int"])
+    for split in ["train.txt", "valid.txt", "test.txt"]:
+        split_path = dataset_dir / split
+        if not split_path.exists():
+            continue
+        for line in split_path.read_text().splitlines():
+            parts = line.strip().split("\\t")
+            if len(parts) < 3:
+                continue
+            head, relation, tail = parts[:3]
+            try:
+                h_id = entity2id[head]
+                t_id = entity2id[tail]
+                r_id = relation2id[relation]
+            except KeyError:
+                continue
+            writer.writerow([edge_id, h_id, t_id, r_id])
+            edge_id += 1
+
+train_log = train_dir / "train.log"
+with train_log.open("w") as f:
+    for line in (dataset_dir / "train.txt").read_text().splitlines():
+        parts = line.strip().split("\\t")
+        if len(parts) < 3:
+            continue
+        head, relation, tail = parts[:3]
+        try:
+            h_id = entity2id[head]
+            t_id = entity2id[tail]
+        except KeyError:
+            continue
+        f.write(f"{h_id}\\t{t_id}\\t1\\n")
+
+edge_label_reverse = processed_dir / "edge_label_reverse.csv"
+with edge_label_reverse.open("w", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerow(["source_node_label", "target_node_label", "edge_label"])
+    for rel_id in sorted(relation2id.values()):
+        writer.writerow([0, 0, rel_id])
+
+pattern_path = processed_dir / "pattern.txt"
+top_relations = sorted(relation2id.values())[:3]
+with pattern_path.open("w") as f:
+    for idx, rel_id in enumerate(top_relations):
+        f.write(f"pattern {idx}: [[1, 0], [2, 0]]  [[1, 2, {rel_id}]]\\n")
+
+candidate_predicates_path = processed_dir / "candidate_predicates.txt"
+top_entities = list(entity2id.items())[:5]
+with candidate_predicates_path.open("w") as f:
+    for name, idx in top_entities:
+        safe_name = name.replace(",", " ")
+        f.write(f"0,name,{safe_name}\\n")
+        f.write(f"0,id,{idx}\\n")
+PY
+
+pattern_file="$PROCESSED_DIR/pattern.txt"
+candidate_predicates_file="$PROCESSED_DIR/candidate_predicates.txt"
+rep_support=1
+rep_conf=0.0
 rep_to_path_ratio=0.2
-each_node_predicates=3
+each_node_predicates=2
 sort_by_support_weights=0.3
-v_file="../DataSets/Movielens/original_graph/movielens_v.csv"
-e_file="../DataSets/Movielens/original_graph/movielens_e.csv"
-ml_file="../DataSets/Movielens/train_test/train.log"
+v_file="$GRAPH_DIR/icews_v.csv"
+e_file="$GRAPH_DIR/icews_e.csv"
+ml_file="$TRAIN_DIR/train.log"
 delta_l=0.0
 delta_r=1.0
 user_offset=0
 rep_file_generate="./rep_all.txt"
 rep_file_generate_support_conf="./rep_support_conf.txt"
-edge_label_reverse_csv="../DataSets/Movielens/edge_label_reverse.csv"
+edge_label_reverse_csv="$PROCESSED_DIR/edge_label_reverse.csv"
 rep_file_generate_support_conf_none_support="./rep.txt"
-num_process=25
+num_process=4
 
-g++ makex_rep_discovery.cpp -o makex_rep_discovery -std=c++17 -I ../pyMakex/include/ -fopenmp -O3 >> makex_rep_discovery.txt 2>&1
-
+g++ makex_rep_discovery.cpp -o makex_rep_discovery -std=c++17 -I ../pyMakex/include/ -O3 >> makex_rep_discovery.txt 2>&1
 
 ./makex_rep_discovery "$pattern_file" "$candidate_predicates_file" $rep_support $rep_conf $rep_to_path_ratio $each_node_predicates $sort_by_support_weights "$v_file" "$e_file" "$ml_file" $delta_l $delta_r $user_offset "$rep_file_generate" "$rep_file_generate_support_conf" "$edge_label_reverse_csv" "$rep_file_generate_support_conf_none_support" $num_process > ./output.txt 2>&1

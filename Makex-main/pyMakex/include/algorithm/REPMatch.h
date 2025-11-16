@@ -6,13 +6,13 @@
 #include <cmath>
 #include <string>
 #include <queue>
+#include <functional>
 #include <set>
 #include <algorithm>
 #include <limits>
 #include <numeric>
 #include <chrono>
 #include <unordered_set>
-#include <boost/functional/hash.hpp>
 #include "../include/gundam/algorithm/dp_iso.h"
 #include "../include/gundam/type_getter/vertex_handle.h"
 #include "../structure/REP.h"
@@ -34,9 +34,14 @@ inline double score_transform(double ori_score) {
   return new_score;
 }
 
-template <typename Container>struct container_hash {
+template <typename Container>
+struct container_hash {
     std::size_t operator()(Container const& c) const {
-        return boost::hash_range(c.begin(), c.end());
+        std::size_t seed = c.size();
+        for (const auto& elem : c) {
+            seed ^= std::hash<typename Container::value_type>{}(elem) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+        }
+        return seed;
     }
 };
 template <

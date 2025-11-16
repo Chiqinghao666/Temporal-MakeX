@@ -1,1 +1,265 @@
-./rep_discovery.sh: line 26: ./makex_rep_discovery: No such file or directory
+File cleared successfully: ./rep_all.txt
+File cleared successfully: ./rep_support_conf.txt
+File cleared successfully: ./rep.txt
+../DataSets/icews14/processed/original_graph/icews_v.csv
+Attributes name: vertex_id
+Attributes name: label_id
+Attributes name: name
+vertex_id size: 7128
+../DataSets/icews14/processed/original_graph/icews_e.csv
+BuildMLModel begin
+user_offset: 0
+ml size = 24095
+name 10_Downing_Street id 0 name A.K._Singh id 1 name A.P._Sharma id 2 name AB_Lithuanian_Gas id 3 name ACT_Party id 4 
+[1, 0]
+[2, 0]
+[1, 2, 0]
+[1, 0]
+[2, 0]
+[1, 2, 0]
+[1, 0]
+[2, 0]
+[1, 2, 1]
+[1, 0]
+[2, 0]
+[1, 2, 1]
+[1, 0]
+[2, 0]
+[1, 2, 2]
+[1, 0]
+[2, 0]
+[1, 2, 2]
+Pattern number: 0
+source_node_label: 0, target_node_label: 0, Edge: 0
+source_node_label: 0, target_node_label: 0, Edge: 1
+source_node_label: 0, target_node_label: 0, Edge: 2
+source_node_label: 0, target_node_label: 0, Edge: 3
+source_node_label: 0, target_node_label: 0, Edge: 4
+source_node_label: 0, target_node_label: 0, Edge: 5
+source_node_label: 0, target_node_label: 0, Edge: 6
+source_node_label: 0, target_node_label: 0, Edge: 7
+source_node_label: 0, target_node_label: 0, Edge: 8
+source_node_label: 0, target_node_label: 0, Edge: 9
+source_node_label: 0, target_node_label: 0, Edge: 10
+source_node_label: 0, target_node_label: 0, Edge: 11
+source_node_label: 0, target_node_label: 0, Edge: 12
+source_node_label: 0, target_node_label: 0, Edge: 13
+source_node_label: 0, target_node_label: 0, Edge: 14
+source_node_label: 0, target_node_label: 0, Edge: 15
+source_node_label: 0, target_node_label: 0, Edge: 16
+source_node_label: 0, target_node_label: 0, Edge: 17
+source_node_label: 0, target_node_label: 0, Edge: 18
+source_node_label: 0, target_node_label: 0, Edge: 19
+source_node_label: 0, target_node_label: 0, Edge: 20
+source_node_label: 0, target_node_label: 0, Edge: 21
+source_node_label: 0, target_node_label: 0, Edge: 22
+source_node_label: 0, target_node_label: 0, Edge: 23
+source_node_label: 0, target_node_label: 0, Edge: 24
+source_node_label: 0, target_node_label: 0, Edge: 25
+source_node_label: 0, target_node_label: 0, Edge: 26
+source_node_label: 0, target_node_label: 0, Edge: 27
+source_node_label: 0, target_node_label: 0, Edge: 28
+source_node_label: 0, target_node_label: 0, Edge: 29
+source_node_label: 0, target_node_label: 0, Edge: 30
+source_node_label: 0, target_node_label: 0, Edge: 31
+source_node_label: 0, target_node_label: 0, Edge: 32
+source_node_label: 0, target_node_label: 0, Edge: 33
+source_node_label: 0, target_node_label: 0, Edge: 34
+source_node_label: 0, target_node_label: 0, Edge: 35
+source_node_label: 0, target_node_label: 0, Edge: 36
+source_node_label: 0, target_node_label: 0, Edge: 37
+source_node_label: 0, target_node_label: 0, Edge: 38
+source_node_label: 0, target_node_label: 0, Edge: 39
+source_node_label: 0, target_node_label: 0, Edge: 40
+source_node_label: 0, target_node_label: 0, Edge: 41
+source_node_label: 0, target_node_label: 0, Edge: 42
+source_node_label: 0, target_node_label: 0, Edge: 43
+source_node_label: 0, target_node_label: 0, Edge: 44
+source_node_label: 0, target_node_label: 0, Edge: 45
+source_node_label: 0, target_node_label: 0, Edge: 46
+source_node_label: 0, target_node_label: 0, Edge: 47
+source_node_label: 0, target_node_label: 0, Edge: 48
+source_node_label: 0, target_node_label: 0, Edge: 49
+source_node_label: 0, target_node_label: 0, Edge: 50
+source_node_label: 0, target_node_label: 0, Edge: 51
+source_node_label: 0, target_node_label: 0, Edge: 52
+source_node_label: 0, target_node_label: 0, Edge: 53
+source_node_label: 0, target_node_label: 0, Edge: 54
+source_node_label: 0, target_node_label: 0, Edge: 55
+source_node_label: 0, target_node_label: 0, Edge: 56
+source_node_label: 0, target_node_label: 0, Edge: 57
+source_node_label: 0, target_node_label: 0, Edge: 58
+source_node_label: 0, target_node_label: 0, Edge: 59
+source_node_label: 0, target_node_label: 0, Edge: 60
+source_node_label: 0, target_node_label: 0, Edge: 61
+source_node_label: 0, target_node_label: 0, Edge: 62
+source_node_label: 0, target_node_label: 0, Edge: 63
+source_node_label: 0, target_node_label: 0, Edge: 64
+source_node_label: 0, target_node_label: 0, Edge: 65
+source_node_label: 0, target_node_label: 0, Edge: 66
+source_node_label: 0, target_node_label: 0, Edge: 67
+source_node_label: 0, target_node_label: 0, Edge: 68
+source_node_label: 0, target_node_label: 0, Edge: 69
+source_node_label: 0, target_node_label: 0, Edge: 70
+source_node_label: 0, target_node_label: 0, Edge: 71
+source_node_label: 0, target_node_label: 0, Edge: 72
+source_node_label: 0, target_node_label: 0, Edge: 73
+source_node_label: 0, target_node_label: 0, Edge: 74
+source_node_label: 0, target_node_label: 0, Edge: 75
+source_node_label: 0, target_node_label: 0, Edge: 76
+source_node_label: 0, target_node_label: 0, Edge: 77
+source_node_label: 0, target_node_label: 0, Edge: 78
+source_node_label: 0, target_node_label: 0, Edge: 79
+source_node_label: 0, target_node_label: 0, Edge: 80
+source_node_label: 0, target_node_label: 0, Edge: 81
+source_node_label: 0, target_node_label: 0, Edge: 82
+source_node_label: 0, target_node_label: 0, Edge: 83
+source_node_label: 0, target_node_label: 0, Edge: 84
+source_node_label: 0, target_node_label: 0, Edge: 85
+source_node_label: 0, target_node_label: 0, Edge: 86
+source_node_label: 0, target_node_label: 0, Edge: 87
+source_node_label: 0, target_node_label: 0, Edge: 88
+source_node_label: 0, target_node_label: 0, Edge: 89
+source_node_label: 0, target_node_label: 0, Edge: 90
+source_node_label: 0, target_node_label: 0, Edge: 91
+source_node_label: 0, target_node_label: 0, Edge: 92
+source_node_label: 0, target_node_label: 0, Edge: 93
+source_node_label: 0, target_node_label: 0, Edge: 94
+source_node_label: 0, target_node_label: 0, Edge: 95
+source_node_label: 0, target_node_label: 0, Edge: 96
+source_node_label: 0, target_node_label: 0, Edge: 97
+source_node_label: 0, target_node_label: 0, Edge: 98
+source_node_label: 0, target_node_label: 0, Edge: 99
+source_node_label: 0, target_node_label: 0, Edge: 100
+source_node_label: 0, target_node_label: 0, Edge: 101
+source_node_label: 0, target_node_label: 0, Edge: 102
+source_node_label: 0, target_node_label: 0, Edge: 103
+source_node_label: 0, target_node_label: 0, Edge: 104
+source_node_label: 0, target_node_label: 0, Edge: 105
+source_node_label: 0, target_node_label: 0, Edge: 106
+source_node_label: 0, target_node_label: 0, Edge: 107
+source_node_label: 0, target_node_label: 0, Edge: 108
+source_node_label: 0, target_node_label: 0, Edge: 109
+source_node_label: 0, target_node_label: 0, Edge: 110
+source_node_label: 0, target_node_label: 0, Edge: 111
+source_node_label: 0, target_node_label: 0, Edge: 112
+source_node_label: 0, target_node_label: 0, Edge: 113
+source_node_label: 0, target_node_label: 0, Edge: 114
+source_node_label: 0, target_node_label: 0, Edge: 115
+source_node_label: 0, target_node_label: 0, Edge: 116
+source_node_label: 0, target_node_label: 0, Edge: 117
+source_node_label: 0, target_node_label: 0, Edge: 118
+source_node_label: 0, target_node_label: 0, Edge: 119
+source_node_label: 0, target_node_label: 0, Edge: 120
+source_node_label: 0, target_node_label: 0, Edge: 121
+source_node_label: 0, target_node_label: 0, Edge: 122
+source_node_label: 0, target_node_label: 0, Edge: 123
+source_node_label: 0, target_node_label: 0, Edge: 124
+source_node_label: 0, target_node_label: 0, Edge: 125
+source_node_label: 0, target_node_label: 0, Edge: 126
+source_node_label: 0, target_node_label: 0, Edge: 127
+source_node_label: 0, target_node_label: 0, Edge: 128
+source_node_label: 0, target_node_label: 0, Edge: 129
+source_node_label: 0, target_node_label: 0, Edge: 130
+source_node_label: 0, target_node_label: 0, Edge: 131
+source_node_label: 0, target_node_label: 0, Edge: 132
+source_node_label: 0, target_node_label: 0, Edge: 133
+source_node_label: 0, target_node_label: 0, Edge: 134
+source_node_label: 0, target_node_label: 0, Edge: 135
+source_node_label: 0, target_node_label: 0, Edge: 136
+source_node_label: 0, target_node_label: 0, Edge: 137
+source_node_label: 0, target_node_label: 0, Edge: 138
+source_node_label: 0, target_node_label: 0, Edge: 139
+source_node_label: 0, target_node_label: 0, Edge: 140
+source_node_label: 0, target_node_label: 0, Edge: 141
+source_node_label: 0, target_node_label: 0, Edge: 142
+source_node_label: 0, target_node_label: 0, Edge: 143
+source_node_label: 0, target_node_label: 0, Edge: 144
+source_node_label: 0, target_node_label: 0, Edge: 145
+source_node_label: 0, target_node_label: 0, Edge: 146
+source_node_label: 0, target_node_label: 0, Edge: 147
+source_node_label: 0, target_node_label: 0, Edge: 148
+source_node_label: 0, target_node_label: 0, Edge: 149
+source_node_label: 0, target_node_label: 0, Edge: 150
+source_node_label: 0, target_node_label: 0, Edge: 151
+source_node_label: 0, target_node_label: 0, Edge: 152
+source_node_label: 0, target_node_label: 0, Edge: 153
+source_node_label: 0, target_node_label: 0, Edge: 154
+source_node_label: 0, target_node_label: 0, Edge: 155
+source_node_label: 0, target_node_label: 0, Edge: 156
+source_node_label: 0, target_node_label: 0, Edge: 157
+source_node_label: 0, target_node_label: 0, Edge: 158
+source_node_label: 0, target_node_label: 0, Edge: 159
+source_node_label: 0, target_node_label: 0, Edge: 160
+source_node_label: 0, target_node_label: 0, Edge: 161
+source_node_label: 0, target_node_label: 0, Edge: 162
+source_node_label: 0, target_node_label: 0, Edge: 163
+source_node_label: 0, target_node_label: 0, Edge: 164
+source_node_label: 0, target_node_label: 0, Edge: 165
+source_node_label: 0, target_node_label: 0, Edge: 166
+source_node_label: 0, target_node_label: 0, Edge: 167
+source_node_label: 0, target_node_label: 0, Edge: 168
+source_node_label: 0, target_node_label: 0, Edge: 169
+source_node_label: 0, target_node_label: 0, Edge: 170
+source_node_label: 0, target_node_label: 0, Edge: 171
+source_node_label: 0, target_node_label: 0, Edge: 172
+source_node_label: 0, target_node_label: 0, Edge: 173
+source_node_label: 0, target_node_label: 0, Edge: 174
+source_node_label: 0, target_node_label: 0, Edge: 175
+source_node_label: 0, target_node_label: 0, Edge: 176
+source_node_label: 0, target_node_label: 0, Edge: 177
+source_node_label: 0, target_node_label: 0, Edge: 178
+source_node_label: 0, target_node_label: 0, Edge: 179
+source_node_label: 0, target_node_label: 0, Edge: 180
+source_node_label: 0, target_node_label: 0, Edge: 181
+source_node_label: 0, target_node_label: 0, Edge: 182
+source_node_label: 0, target_node_label: 0, Edge: 183
+source_node_label: 0, target_node_label: 0, Edge: 184
+source_node_label: 0, target_node_label: 0, Edge: 185
+source_node_label: 0, target_node_label: 0, Edge: 186
+source_node_label: 0, target_node_label: 0, Edge: 187
+source_node_label: 0, target_node_label: 0, Edge: 188
+source_node_label: 0, target_node_label: 0, Edge: 189
+source_node_label: 0, target_node_label: 0, Edge: 190
+source_node_label: 0, target_node_label: 0, Edge: 191
+source_node_label: 0, target_node_label: 0, Edge: 192
+source_node_label: 0, target_node_label: 0, Edge: 193
+source_node_label: 0, target_node_label: 0, Edge: 194
+source_node_label: 0, target_node_label: 0, Edge: 195
+source_node_label: 0, target_node_label: 0, Edge: 196
+source_node_label: 0, target_node_label: 0, Edge: 197
+source_node_label: 0, target_node_label: 0, Edge: 198
+source_node_label: 0, target_node_label: 0, Edge: 199
+source_node_label: 0, target_node_label: 0, Edge: 200
+source_node_label: 0, target_node_label: 0, Edge: 201
+source_node_label: 0, target_node_label: 0, Edge: 202
+source_node_label: 0, target_node_label: 0, Edge: 203
+source_node_label: 0, target_node_label: 0, Edge: 204
+source_node_label: 0, target_node_label: 0, Edge: 205
+source_node_label: 0, target_node_label: 0, Edge: 206
+source_node_label: 0, target_node_label: 0, Edge: 207
+source_node_label: 0, target_node_label: 0, Edge: 208
+source_node_label: 0, target_node_label: 0, Edge: 209
+source_node_label: 0, target_node_label: 0, Edge: 210
+source_node_label: 0, target_node_label: 0, Edge: 211
+source_node_label: 0, target_node_label: 0, Edge: 212
+source_node_label: 0, target_node_label: 0, Edge: 213
+source_node_label: 0, target_node_label: 0, Edge: 214
+source_node_label: 0, target_node_label: 0, Edge: 215
+source_node_label: 0, target_node_label: 0, Edge: 216
+source_node_label: 0, target_node_label: 0, Edge: 217
+source_node_label: 0, target_node_label: 0, Edge: 218
+source_node_label: 0, target_node_label: 0, Edge: 219
+source_node_label: 0, target_node_label: 0, Edge: 220
+source_node_label: 0, target_node_label: 0, Edge: 221
+source_node_label: 0, target_node_label: 0, Edge: 222
+source_node_label: 0, target_node_label: 0, Edge: 223
+source_node_label: 0, target_node_label: 0, Edge: 224
+source_node_label: 0, target_node_label: 0, Edge: 225
+source_node_label: 0, target_node_label: 0, Edge: 226
+source_node_label: 0, target_node_label: 0, Edge: 227
+source_node_label: 0, target_node_label: 0, Edge: 228
+source_node_label: 0, target_node_label: 0, Edge: 229
+Time taken by get all path candidate preconditions: 1.0792e-05 seconds
+Time taken by generate REP: 8.4e-08 seconds
+Time taken by all: 5.75e-05 seconds

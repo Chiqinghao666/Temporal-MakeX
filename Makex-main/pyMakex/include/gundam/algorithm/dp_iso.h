@@ -1,6 +1,10 @@
 #ifndef _GUNDAM_ALGORITHM_DPISO_H
 #define _GUNDAM_ALGORITHM_DPISO_H
+#ifdef _OPENMP
 #include <omp.h>
+#else
+using omp_lock_t = int;
+#endif
 
 #include <algorithm>
 #include <cassert>
