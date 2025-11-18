@@ -890,6 +890,12 @@ static PyObject *MineStar(PyObject *self, PyObject *args) {
     return Py_None;
   }
 
+  // clamp parameters to keep patterns small on ICEWS
+  if (root_max_outdegree > 3) root_max_outdegree = 3;
+  if (max_len_of_path > 2) max_len_of_path = 2;
+  if (root_max_outdegree < 1) root_max_outdegree = 1;
+  if (max_len_of_path < 1) max_len_of_path = 1;
+
   StarMiner *star_miner_ptr = (StarMiner *)(ptr_val);
   typename StarMiner::EncodeStarContainer sample_star;
   star_miner_ptr->GetStar(root_max_outdegree, max_len_of_path,

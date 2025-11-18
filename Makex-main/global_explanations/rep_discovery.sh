@@ -117,6 +117,8 @@ g++ makex_rep_discovery.cpp -o makex_rep_discovery -std=c++17 -I ../pyMakex/incl
 python3 - <<PY
 from pathlib import Path
 import ast
+import csv
+from collections import defaultdict
 
 rep_path = Path("rep_support_conf.txt")
 if rep_path.exists() and rep_path.stat().st_size > 0:
@@ -126,6 +128,7 @@ pattern_file = Path("$pattern_file")
 candidate_file = Path("$candidate_predicates_file")
 rep_all = Path("rep_all.txt")
 rep_base = Path("rep.txt")
+edge_file = Path("$e_file")
 
 if not pattern_file.exists():
     raise SystemExit(0)
@@ -136,6 +139,15 @@ if candidate_file.exists():
         parts = line.split(",")
         if len(parts) >= 3:
             candidates.append(parts)
+default_pred = candidates[0] if candidates else ["0","id","0"]
+
+label_support = defaultdict(int)
+if edge_file.exists():
+    with edge_file.open() as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            lab = row.get("label_id:int") or row.get("label_id", "0")
+            label_support[lab] += 1
 
 with rep_path.open("w") as out1, rep_all.open("w") as out2, rep_base.open("w") as out3:
     for idx, line in enumerate(pattern_file.read_text().splitlines()):
@@ -151,12 +163,10 @@ with rep_path.open("w") as out1, rep_all.open("w") as out2, rep_base.open("w") a
         vertex_list = ast.literal_eval(vertex_part)
         edge_list = ast.literal_eval(edge_part)
         # 选取一个候选属性作为谓词占位
-        preds = []
-        conf_list = []
-        if candidates:
-            attr = candidates[0]
-            preds.append(["Constant", vertex_list[0][0], attr[1], attr[2], "string", "="])
-            conf_list.append(0.0)
+        attr = candidates[0] if candidates else default_pred
+        preds = [["Constant", vertex_list[0][0], attr[1], attr[2], "string", "="]]
+        edge_lab = str(edge_list[0][2]) if edge_list else "0"
+        conf_list = [float(label_support.get(edge_lab, 0))]
         rep_line = [
             vertex_list,
             edge_list,

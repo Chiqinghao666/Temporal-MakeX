@@ -1130,9 +1130,9 @@ return after InitCandidateSet
 return after InitCandidateSet
 
 
-Time taken by get all path candidate preconditions: 0.00406507 seconds
+Time taken by get all path candidate preconditions: 0.00353146 seconds
 rep id:  0 contained path_id: 0, rep id:  0 contained path_id: 0, 
 rep id:  1 contained path_id: 1, rep id:  1 contained path_id: 1, 
 rep id:  2 contained path_id: 2, rep id:  2 contained path_id: 2, 
-Time taken by generate REP: 0.000107536 seconds
-Time taken by all: 0.00421889 seconds
+Time taken by generate REP: 0.000119542 seconds
+Time taken by all: 0.00368629 seconds
