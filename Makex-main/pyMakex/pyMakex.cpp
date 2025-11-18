@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <chrono>
+#include <set>
 #include "include/algorithm/REPMatch.h"
 #include "include/gundam/algorithm/dp_iso.h"
 #include "include/gundam/data_type/datatype.h"
@@ -97,9 +98,18 @@ static PyObject *ReadDataGraph(PyObject *self, PyObject *args) {
   DataGraphWithInformation *data_graph_ptr = new DataGraphWithInformation();
   GUNDAM::ReadCSVGraph(data_graph_ptr->data_graph(), v_file_str, e_file_str);
 
+  // 移除无泛化意义的属性，避免规则过拟合
+  const std::set<std::string> kSkipKeys = {"name", "id", "vertex_id", "label_id"};
   for (auto vertex_it = data_graph_ptr->data_graph().VertexBegin();
        !vertex_it.IsDone(); vertex_it++) {
-    vertex_it->AddAttribute((std::string)("id"), (int)vertex_it->id());
+    for (auto attr_it = vertex_it->AttributeBegin(); !attr_it.IsDone();) {
+      std::string key = attr_it->key();
+      auto current = attr_it;
+      ++attr_it;
+      if (kSkipKeys.count(key)) {
+        vertex_it->EraseAttribute(key);
+      }
+    }
   }
 
   data_graph_ptr->BuildEncodeHashMap();

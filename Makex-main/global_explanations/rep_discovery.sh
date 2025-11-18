@@ -82,12 +82,8 @@ with pattern_path.open("w") as f:
         f.write(f"pattern {idx}: [[1, 0], [2, 0], [3, 0]]  [[1, 2, {rel_id}], [1, 3, {rel_id}]]\\n")
 
 candidate_predicates_path = processed_dir / "candidate_predicates.txt"
-top_entities = list(entity2id.items())[:20]
-with candidate_predicates_path.open("w") as f:
-    for name, idx in top_entities:
-        safe_name = name.replace(",", " ")
-        f.write(f"0,name,{safe_name}\\n")
-        f.write(f"0,id,{idx}\\n")
+# ICEWS 顶点已过滤掉 name/id 属性，这里不再提供属性谓词，文件留空
+candidate_predicates_path.open("w").close()
 PY
 
 pattern_file="$PROCESSED_DIR/pattern.txt"
@@ -97,6 +93,8 @@ rep_conf=0.0
 rep_to_path_ratio=0.2
 each_node_predicates=2
 sort_by_support_weights=0.3
+max_outdegree=3
+max_len_of_path=2
 v_file="$GRAPH_DIR/icews_v.csv"
 e_file="$GRAPH_DIR/icews_e.csv"
 ml_file="$TRAIN_DIR/train.log"
@@ -113,7 +111,7 @@ g++ makex_rep_discovery.cpp -o makex_rep_discovery -std=c++17 -I ../pyMakex/incl
 
 ./makex_rep_discovery "$pattern_file" "$candidate_predicates_file" $rep_support $rep_conf $rep_to_path_ratio $each_node_predicates $sort_by_support_weights "$v_file" "$e_file" "$ml_file" $delta_l $delta_r $user_offset "$rep_file_generate" "$rep_file_generate_support_conf" "$edge_label_reverse_csv" "$rep_file_generate_support_conf_none_support" $num_process > ./output.txt 2>&1
 
-# 若算法未产生结果，生成简单占位 REP，避免空文件
+# 若算法未输出，使用结构规则兜底（无 name/id 谓词）
 python3 - <<PY
 from pathlib import Path
 import ast
@@ -125,21 +123,12 @@ if rep_path.exists() and rep_path.stat().st_size > 0:
     raise SystemExit(0)
 
 pattern_file = Path("$pattern_file")
-candidate_file = Path("$candidate_predicates_file")
+edge_file = Path("$e_file")
 rep_all = Path("rep_all.txt")
 rep_base = Path("rep.txt")
-edge_file = Path("$e_file")
 
 if not pattern_file.exists():
     raise SystemExit(0)
-
-candidates = []
-if candidate_file.exists():
-    for line in candidate_file.read_text().splitlines():
-        parts = line.split(",")
-        if len(parts) >= 3:
-            candidates.append(parts)
-default_pred = candidates[0] if candidates else ["0","id","0"]
 
 label_support = defaultdict(int)
 if edge_file.exists():
@@ -150,31 +139,28 @@ if edge_file.exists():
             label_support[lab] += 1
 
 with rep_path.open("w") as out1, rep_all.open("w") as out2, rep_base.open("w") as out3:
-    for idx, line in enumerate(pattern_file.read_text().splitlines()):
-        # line format: pattern k: [[v...]]  [[e...]]
+    for line in pattern_file.read_text().splitlines():
         parts = line.split(":")
         if len(parts) < 2:
             continue
         rest = parts[1].strip()
         try:
             vertex_part, edge_part = rest.split("  ")
-        except ValueError:
+            vertex_list = ast.literal_eval(vertex_part)
+            edge_list = ast.literal_eval(edge_part)
+        except Exception:
             continue
-        vertex_list = ast.literal_eval(vertex_part)
-        edge_list = ast.literal_eval(edge_part)
-        # 选取一个候选属性作为谓词占位
-        attr = candidates[0] if candidates else default_pred
-        preds = [["Constant", vertex_list[0][0], attr[1], attr[2], "string", "="]]
-        edge_lab = str(edge_list[0][2]) if edge_list else "0"
-        conf_list = [float(label_support.get(edge_lab, 0))]
+        if not edge_list:
+            continue
+        edge_lab = str(edge_list[0][2])
+        support = float(label_support.get(edge_lab, 0))
         rep_line = [
             vertex_list,
             edge_list,
-            [preds],
-            conf_list,
+            [[]],        # 无属性谓词，避免 name/id 过拟合
+            [support, 1.0],
             [1, 2, 1, 1.0],
         ]
-        out1.write(f"{rep_line}\\n")
-        out2.write(f"{rep_line}\\n")
-        out3.write(f"{rep_line}\\n")
+        for out in (out1, out2, out3):
+            out.write(f"{rep_line}\\n")
 PY
