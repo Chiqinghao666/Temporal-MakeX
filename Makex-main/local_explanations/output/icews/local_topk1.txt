@@ -15,9 +15,27 @@ subgraph_pivot_path: ./output/icews/subgraph_pivot.csv
 edge_label_reverse: ./output/icews/edge_label_reverse.csv
 v_path: ../DataSets/icews14/processed/original_graph/icews_v.csv
 e_path: ../DataSets/icews14/processed/original_graph/icews_e.csv
+ReadCSVGraph begin
+v_file: ../DataSets/icews14/processed/original_graph/icews_v.csv
+e_file: ../DataSets/icews14/processed/original_graph/icews_e.csv
+../DataSets/icews14/processed/original_graph/icews_v.csv
+Attributes name: vertex_id
+Attributes name: label_id
+Attributes name: name
+vertex_id size: 7128
+../DataSets/icews14/processed/original_graph/icews_e.csv
+BuildMLModel begin
+user_offset: 0
+ml size = 24095
+positive pair count =  63686
+negative pair count =  0
 Traceback (most recent call last):
-  File "/home/chiqh24/test/own/Temporal-makex-own/Makex-main/local_explanations/./local_explanation.py", line 457, in <module>
+  File "/home/chiqh24/test/own/Temporal-makex-own/Makex-main/local_explanations/./local_explanation.py", line 458, in <module>
     main(parse_args())
-  File "/home/chiqh24/test/own/Temporal-makex-own/Makex-main/local_explanations/./local_explanation.py", line 294, in main
-    pattern = SubgraphToPattern(star_x, star_y, node_type, edge_type_dict, edge_type_label_dict, pivot_x, pivot_y)
-TypeError: SubgraphToPattern() takes 6 positional arguments but 7 were given
+  File "/home/chiqh24/test/own/Temporal-makex-own/Makex-main/local_explanations/./local_explanation.py", line 322, in main
+    gen_rep_list = get_all_REP(all_rep_file, args.each_pattern_rep)
+  File "/home/chiqh24/test/own/Temporal-makex-own/Makex-main/Makex.py", line 756, in get_all_REP
+    predicate_list, predicate_score_list = filter_node_same_predicates_wllabel(old_predicate_list, old_predicate_score_list)
+  File "/home/chiqh24/test/own/Temporal-makex-own/Makex-main/Makex.py", line 671, in filter_node_same_predicates_wllabel
+    node_id = predicate_list[i][1]
+IndexError: list index out of range
