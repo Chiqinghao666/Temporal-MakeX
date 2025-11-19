@@ -10,16 +10,14 @@ topk_rep_id_file=$7
 makex_explanation_v=$8
 makex_explanation_e=$9
 topk=${10}
-random_seed=${11}
-output_file=${12}
-reserve_rep_file=${13}
-output_file_txt=${14}
-test_pairs_file=${15}
-subgraph_path=${16}
-subgraph_pivot_path=${17}
-edge_label_reverse=${18}
-v_path=${19}
-e_path=${20}
+reserve_rep_file=${11}
+output_file_txt=${12}
+test_pairs_file=${13}
+subgraph_path=${14}
+subgraph_pivot_path=${15}
+edge_label_reverse=${16}
+v_path=${17}
+e_path=${18}
 
 echo "pattern_num: $pattern_num"
 echo "conf_limit: $conf_limit"
@@ -30,8 +28,6 @@ echo "rep_num_ratio: $rep_num_ratio"
 echo "topk_rep_id_file: $topk_rep_id_file"
 echo "makex_explanation_v: $makex_explanation_v"
 echo "makex_explanation_e: $makex_explanation_e"
-echo "random_seed: $random_seed"
-echo "output_file: $output_file"
 echo "reserve_rep_file: $reserve_rep_file"
 echo "output_file_txt: $output_file_txt"
 echo "test_pairs_file: $test_pairs_file"
@@ -54,8 +50,6 @@ python ./local_explanation.py \
 --makex_explanation_v "$makex_explanation_v" \
 --makex_explanation_e "$makex_explanation_e" \
 --topk "$topk" \
---random_seed "$random_seed" \
---output_file "$output_file" \
 --reserve_rep_file "$reserve_rep_file" \
 --edge_label_reverse_csv "$edge_label_reverse" \
 --v_path "$v_path" \
