@@ -7,7 +7,7 @@ import copy
 import time
 import os
 sys.path.append("..")
-import tool.Match as Match
+import structure.Match as Match
 
 
 class SalePredictor:
