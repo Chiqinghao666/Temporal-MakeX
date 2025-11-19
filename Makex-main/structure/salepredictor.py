@@ -1,4 +1,7 @@
-from torch.utils import data
+try:
+    from torch.utils import data
+except ModuleNotFoundError:
+    data = None
 from structure.topkheap import TopKHeap
 import pyMakex
 import sys

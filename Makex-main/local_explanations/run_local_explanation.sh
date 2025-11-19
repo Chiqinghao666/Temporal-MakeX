@@ -1,5 +1,5 @@
 #!/bin/bash
-rm output/icews/local_topk1.txt
+rm -f output/icews/local_topk1.txt
 set -euo pipefail
 
 # 适配 ICEWS：目录与路径

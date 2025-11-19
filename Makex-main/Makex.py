@@ -11,8 +11,11 @@ except ImportError:
 import copy
 import random
 from collections import defaultdict
-from structure.dataloader import RuleDataset, Iterator
-from torch.utils.data import Dataset, DataLoader
+try:
+    from structure.dataloader import RuleDataset, Iterator
+except ModuleNotFoundError:
+    RuleDataset = None
+    Iterator = None
 import pyMakex
 from structure.salepredictor import SalePredictor
 import structure.Convert as Convert
@@ -668,6 +671,9 @@ def filter_node_same_predicates_wllabel(predicate_list, predicate_score_list):
     new_predicate_score_list = []
     dict_predicate_list = {}
     for i in range(len(predicate_list)):
+        if not predicate_list[i] or len(predicate_list[i]) < 3:
+            # 结构型规则可能没有附带属性，直接跳过这类空谓词
+            continue
         node_id = predicate_list[i][1]
         node_attributes = predicate_list[i][2]
         if node_attributes == 'wllabel_select':

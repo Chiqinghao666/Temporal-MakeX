@@ -4,11 +4,11 @@ supp_limit: 150000
 each_pattern_rep_num: 5
 rep_file: ../global_explanations/rep.txt
 rep_num_ratio: 1.0
-topk_rep_id_file: ./output/icews/topk_rep_id_topk1.csv
-makex_explanation_v: ./output/icews/v_topk1.csv
-makex_explanation_e: ./output/icews/e_topk1.csv
-reserve_rep_file: ./reserve_rep/icews/rep_topk1.txt
-output_file_txt: ./output/icews/local_topk1.txt
+topk_rep_id_file: ./output/icews/topk_rep_id_topk5.csv
+makex_explanation_v: ./output/icews/v_topk5.csv
+makex_explanation_e: ./output/icews/e_topk5.csv
+reserve_rep_file: ./reserve_rep/icews/rep_topk5.txt
+output_file_txt: ./output/icews/local_topk5.txt
 test_pairs_file: ./output/icews/test_sample_pairs.csv
 subgraph_path: ./output/icews/subgraph.csv
 subgraph_pivot_path: ./output/icews/subgraph_pivot.csv
