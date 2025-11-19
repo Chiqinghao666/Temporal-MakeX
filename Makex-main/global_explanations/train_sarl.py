@@ -83,7 +83,7 @@ def train(args: argparse.Namespace) -> None:
     for epoch in range(args.epochs):
         total_loss = 0.0
         for batch in loader:
-            scores = model(
+            pos_scores = model(
                 batch["history_entities"],
                 batch["history_times"],
                 batch["query_relation"],
@@ -91,7 +91,36 @@ def train(args: argparse.Namespace) -> None:
                 batch["query_relation"].unsqueeze(1),
                 batch["timestamp"].unsqueeze(1),
             )
-            loss = F.binary_cross_entropy_with_logits(scores, torch.ones_like(scores))
+            pos_loss = F.binary_cross_entropy_with_logits(
+                pos_scores, torch.ones_like(pos_scores)
+            )
+
+            neg_tail = torch.randint(
+                low=0,
+                high=args.num_entities,
+                size=batch["positive_tail"].shape,
+                dtype=torch.long,
+            )
+            mask = neg_tail.eq(batch["positive_tail"])
+            while mask.any():
+                neg_tail[mask] = torch.randint(
+                    0, args.num_entities, size=(mask.sum().item(),), dtype=torch.long
+                )
+                mask = neg_tail.eq(batch["positive_tail"])
+
+            neg_scores = model(
+                batch["history_entities"],
+                batch["history_times"],
+                batch["query_relation"],
+                neg_tail.unsqueeze(1),
+                batch["query_relation"].unsqueeze(1),
+                batch["timestamp"].unsqueeze(1),
+            )
+            neg_loss = F.binary_cross_entropy_with_logits(
+                neg_scores, torch.zeros_like(neg_scores)
+            )
+
+            loss = pos_loss + neg_loss
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
