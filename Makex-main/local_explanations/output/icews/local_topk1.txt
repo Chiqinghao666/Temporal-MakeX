@@ -16,8 +16,8 @@ edge_label_reverse: ./output/icews/edge_label_reverse.csv
 v_path: ../DataSets/icews14/processed/original_graph/icews_v.csv
 e_path: ../DataSets/icews14/processed/original_graph/icews_e.csv
 Traceback (most recent call last):
-  File "/Users/cqhao/Documents/研一下/规则挖掘和双星型/Temporal-makex/code/Temporal-makex-own/Makex-main/local_explanations/./local_explanation.py", line 8, in <module>
-    from Makex import Makex
-  File "/Users/cqhao/Documents/研一下/规则挖掘和双星型/Temporal-makex/code/Temporal-makex-own/Makex-main/Makex.py", line 4, in <module>
-    import torch
-ModuleNotFoundError: No module named 'torch'
+  File "/home/chiqh24/test/own/Temporal-makex-own/Makex-main/local_explanations/./local_explanation.py", line 457, in <module>
+    main(parse_args())
+  File "/home/chiqh24/test/own/Temporal-makex-own/Makex-main/local_explanations/./local_explanation.py", line 276, in main
+    explain_graph_data = read_subgraph(subgraph_path, subgraph_pivot_path)
+TypeError: read_subgraph() missing 1 required positional argument: 'edge_label_reverse_csv'
