@@ -84,8 +84,8 @@ def train(args: argparse.Namespace) -> None:
         total_loss = 0.0
         for batch in loader:
             scores = model(
-                batch["history_entities"].unsqueeze(1),
-                batch["history_times"].unsqueeze(1),
+                batch["history_entities"],
+                batch["history_times"],
                 batch["query_relation"],
                 batch["positive_tail"].unsqueeze(1),
                 batch["query_relation"].unsqueeze(1),

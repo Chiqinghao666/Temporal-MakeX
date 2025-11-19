@@ -36,7 +36,7 @@ class TemporalSARL(nn.Module):
         self.pos_encoder = PositionalEncoding(embed_dim, dropout)
 
         encoder_layer = nn.TransformerEncoderLayer(
-            d_model=embed_dim, nhead=nhead, batch_first=True, dropout=dropout
+            d_model=embed_dim, nhead=nhead, dropout=dropout
         )
         self.transformer = nn.TransformerEncoder(encoder_layer, num_layers=num_layers)
 
@@ -102,7 +102,9 @@ class TemporalSARL(nn.Module):
             + self.time_proj(history_times.unsqueeze(-1))
         )
         history_feats = self.pos_encoder(history_feats)
+        history_feats = history_feats.transpose(0, 1)  # Fix for Torch 1.8
         context = self.transformer(history_feats)
+        context = context.transpose(0, 1)  # Fix for Torch 1.8
         state = context[:, -1, :]
 
         cand_entity_vec = self.entity_emb(candidate_entities)
