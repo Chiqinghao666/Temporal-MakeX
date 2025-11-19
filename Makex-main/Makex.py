@@ -1,7 +1,13 @@
 import os
 import csv
 import pandas as pd
-import torch
+try:
+    import torch
+except ImportError:
+    # 若环境缺少 torch，则提供最小占位，保证本地解释脚本可运行结构规则
+    class _TorchStub:
+        pass
+    torch = _TorchStub()
 import copy
 import random
 from collections import defaultdict

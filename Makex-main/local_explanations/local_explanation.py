@@ -273,7 +273,7 @@ def main(args):
 
     hop_decay_factor = args.hop_decay_factor
 
-    explain_graph_data = read_subgraph(subgraph_path, subgraph_pivot_path)
+    explain_graph_data = read_subgraph(subgraph_path, subgraph_pivot_path, args.edge_label_reverse_csv)
 
     gen_pattern_list = []
     Score_Q_dict = {}
