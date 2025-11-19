@@ -76,6 +76,7 @@ def read_subgraph(subgraph_path, subgraph_pivot_path, edge_label_reverse_csv):
                 'neighbors_dict': {},
                 'node_type': {},
                 'edge_type_dict': {},
+                'edge_type_label_dict': {},  # 确保字段存在
             }
     
         src_id, dst_id = int(row['src_id']), int(row['dst_id'])
@@ -83,6 +84,7 @@ def read_subgraph(subgraph_path, subgraph_pivot_path, edge_label_reverse_csv):
         neighbors_dict = explain_graph_data[graph_id]['neighbors_dict']
         node_type = explain_graph_data[graph_id]['node_type']
         edge_type_dict = explain_graph_data[graph_id]['edge_type_dict']
+        edge_type_label_dict = explain_graph_data[graph_id]['edge_type_label_dict']
 
         pivot['pivot_x'] = int(row['pivot_x'])
         pivot['pivot_y'] = int(row['pivot_y'])
@@ -123,8 +125,10 @@ def read_subgraph(subgraph_path, subgraph_pivot_path, edge_label_reverse_csv):
         
         edge_key = (src_id, dst_id)
         edge_type_dict[edge_key] = row['edge_type']
+        edge_type_label_dict[edge_key] = row['edge_type']
         reverse_edge_key = (dst_id, src_id)
         edge_type_dict[reverse_edge_key] = src_reverse_dict[row['edge_type']]
+        edge_type_label_dict[reverse_edge_key] = row['edge_type']
 
     return explain_graph_data
 
