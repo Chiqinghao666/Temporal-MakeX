@@ -17,9 +17,5 @@ subgraph_pivot_path: ./output/icews/edge_label_reverse.csv
 edge_label_reverse: ../DataSets/icews14/processed/original_graph/icews_v.csv
 v_path: ../DataSets/icews14/processed/original_graph/icews_e.csv
 e_path: 
-Traceback (most recent call last):
-  File "/Users/cqhao/Documents/研一下/规则挖掘和双星型/Temporal-makex/code/Temporal-makex-own/Makex-main/local_explanations/./local_explanation.py", line 8, in <module>
-    from Makex import Makex
-  File "/Users/cqhao/Documents/研一下/规则挖掘和双星型/Temporal-makex/code/Temporal-makex-own/Makex-main/Makex.py", line 4, in <module>
-    import torch
-ModuleNotFoundError: No module named 'torch'
+usage: run.py [<args>] [-h | --help]
+local_explanation.py: error: unrecognized arguments: --random_seed 1996 --output_file ./output/icews/local_topk1.csv --tie_num 100
