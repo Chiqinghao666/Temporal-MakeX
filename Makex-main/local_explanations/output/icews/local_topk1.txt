@@ -1,4 +1,3 @@
-./run_local_explanation.sh: line 106: ./local_explanation.sh: Permission denied
 pattern_num: 50
 conf_limit: 0.7
 supp_limit: 150000
@@ -19,31 +18,10 @@ edge_label_reverse: ../DataSets/icews14/processed/original_graph/icews_v.csv
 v_path: ../DataSets/icews14/processed/original_graph/icews_e.csv
 e_path: 
 Traceback (most recent call last):
-  File "/Users/cqhao/Documents/研一下/规则挖掘和双星型/Temporal-makex/code/Temporal-makex-own/Makex-main/local_explanations/./local_explanation.py", line 4, in <module>
-    from structure.structure import DataGraph
-ModuleNotFoundError: No module named 'structure'
-pattern_num: 50
-conf_limit: 0.7
-supp_limit: 150000
-each_pattern_rep_num: 5
-rep_file: ../global_explanations/rep.txt
-rep_num_ratio: 1.0
-topk_rep_id_file: ./output/icews/topk_rep_id_topk1.csv
-makex_explanation_v: ./output/icews/v_topk1.csv
-makex_explanation_e: ./output/icews/e_topk1.csv
-random_seed: 1996
-output_file: ./output/icews/local_topk1.csv
-reserve_rep_file: ./reserve_rep/icews/rep_topk1.txt
-output_file_txt: ./output/icews/test_sample_pairs.csv
-test_pairs_file: ./output/icews/subgraph.csv
-subgraph_path: ./output/icews/subgraph_pivot.csv
-subgraph_pivot_path: ./output/icews/edge_label_reverse.csv
-edge_label_reverse: ../DataSets/icews14/processed/original_graph/icews_v.csv
-v_path: ../DataSets/icews14/processed/original_graph/icews_e.csv
-e_path: 
-Traceback (most recent call last):
-  File "/Users/cqhao/Documents/研一下/规则挖掘和双星型/Temporal-makex/code/Temporal-makex-own/Makex-main/local_explanations/./local_explanation.py", line 8, in <module>
+  File "/home/chiqh24/test/own/Temporal-makex-own/Makex-main/local_explanations/./local_explanation.py", line 8, in <module>
     from Makex import Makex
-  File "/Users/cqhao/Documents/研一下/规则挖掘和双星型/Temporal-makex/code/Temporal-makex-own/Makex-main/Makex.py", line 4, in <module>
-    import torch
-ModuleNotFoundError: No module named 'torch'
+  File "/home/chiqh24/test/own/Temporal-makex-own/Makex-main/Makex.py", line 11, in <module>
+    from structure.salepredictor import SalePredictor
+  File "/home/chiqh24/test/own/Temporal-makex-own/Makex-main/structure/salepredictor.py", line 10, in <module>
+    import tool.Match as Match
+ModuleNotFoundError: No module named 'tool'
