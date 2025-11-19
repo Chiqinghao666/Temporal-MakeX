@@ -289,9 +289,9 @@ source_node_label: 0, target_node_label: 0, Edge: 229
 
 
 
-Time taken by get all path candidate preconditions: 7.1459e-05 seconds
+Time taken by get all path candidate preconditions: 5.4844e-05 seconds
 rep id:  0 contained path_id: 0, rep id:  0 contained path_id: 0, 
 rep id:  1 contained path_id: 1, rep id:  1 contained path_id: 1, 
 rep id:  2 contained path_id: 2, rep id:  2 contained path_id: 2, 
-Time taken by generate REP: 0.000133 seconds
-Time taken by all: 0.000240041 seconds
+Time taken by generate REP: 9.9987e-05 seconds
+Time taken by all: 0.000207284 seconds
