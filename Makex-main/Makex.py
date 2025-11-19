@@ -514,8 +514,9 @@ def explanation_rep_to_csv(gnn_exp_model_input_explanation,pair_id,df_original_v
     if not os.path.exists(directory_path_e):
         os.makedirs(directory_path_e)
 
-    attributes_list = ['title', 'genres', 'avgrating', 'year', 'gender', 'age', 'occupation', 'zip-code', 'wllabel']
-    attributes_type_list = ['title:string', 'genres:string', 'avgrating:double', 'year:double', 'gender:string', 'age:double', 'occupation:int', 'zip-code:string', 'wllabel:string']
+    skip_keys = {'vertex_id:int', 'label_id:int', 'id', 'name', 'vertex_id', 'label_id'}
+    attributes_list = [col for col in df_original_v.columns if col not in skip_keys]
+    attributes_type_list = attributes_list[:]
     
     if not os.path.exists(makex_explanation_v):
         with open(makex_explanation_v, 'w', newline='') as f:
@@ -592,13 +593,10 @@ def explanation_rep_to_csv(gnn_exp_model_input_explanation,pair_id,df_original_v
 
                     vertex_info = df_original_v[df_original_v['vertex_id:int'] == val]
                     row_vertex.append(vertex_info['label_id:int'].iloc[0])
-                    
 
                     for attribute in attributes_list:
-                        if val in vertex_attributes and attribute in vertex_attributes[val]:
-                            index = attributes_list.index(attribute)
-                            attributes_type = attributes_type_list[index]
-                            row_vertex.append(vertex_info[attributes_type].iloc[0])
+                        if attribute in vertex_info.columns:
+                            row_vertex.append(vertex_info[attribute].iloc[0])
                         else:
                             row_vertex.append('')
 
@@ -822,4 +820,3 @@ def get_all_REP_filter_support_conf(rep_file, each_pattern_rep, pattern_num, sop
         index += 1
 
     return all_rep_filter_by_supp_conf
-

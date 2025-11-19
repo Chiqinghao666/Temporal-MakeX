@@ -14,7 +14,12 @@ random_seed=${11}
 output_file=${12}
 reserve_rep_file=${13}
 output_file_txt=${14}
-
+test_pairs_file=${15}
+subgraph_path=${16}
+subgraph_pivot_path=${17}
+edge_label_reverse=${18}
+v_path=${19}
+e_path=${20}
 
 echo "pattern_num: $pattern_num"
 echo "conf_limit: $conf_limit"
@@ -29,6 +34,14 @@ echo "random_seed: $random_seed"
 echo "output_file: $output_file"
 echo "reserve_rep_file: $reserve_rep_file"
 echo "output_file_txt: $output_file_txt"
+echo "test_pairs_file: $test_pairs_file"
+echo "subgraph_path: $subgraph_path"
+echo "subgraph_pivot_path: $subgraph_pivot_path"
+echo "edge_label_reverse: $edge_label_reverse"
+echo "v_path: $v_path"
+echo "e_path: $e_path"
+
+export PYTHONPATH="$(cd .. && pwd):$PYTHONPATH"
 
 python ./local_explanation.py \
 --pattern_num "$pattern_num" \
@@ -44,12 +57,12 @@ python ./local_explanation.py \
 --random_seed "$random_seed" \
 --output_file "$output_file" \
 --reserve_rep_file "$reserve_rep_file" \
---edge_label_reverse_csv ../DataSets/Movielens/edge_label_reverse.csv \
---v_path ../DataSets/Movielens/original_graph/movielens_v.csv \
---e_path ../DataSets/Movielens/original_graph/movielens_e.csv \
---subgraph_path ../DataSets/Movielens/subgraph_by_subgraphx/hgt/explain_sgs_largeuser.csv \
---subgraph_pivot_path ../DataSets/Movielens/subgraph_by_subgraphx/hgt/explain_sgs_prop_largeuser.csv \ 
---ml_path ../DataSets/Movielens/train_test/train.log \
+--edge_label_reverse_csv "$edge_label_reverse" \
+--v_path "$v_path" \
+--e_path "$e_path" \
+--subgraph_path "$subgraph_path" \
+--subgraph_pivot_path "$subgraph_pivot_path" \
+--ml_path ../DataSets/icews14/processed/train_test/train.log \
 --delta_l 0.0  --delta_r 1.0 \
 --tie_num 100 \
 --sort_criteria conf \
@@ -58,4 +71,5 @@ python ./local_explanation.py \
 --hop_decay_factor 0.8 \
 --enable_topk 1 \
 --sample_pair_num 1000 \
---test_sample_pairs_file ../DataSets/Movielens/test_sample_pairs/hgt_sample_pairs.csv \
+--test_sample_pairs_file "$test_pairs_file" \
+--pattern_file pattern.txt
