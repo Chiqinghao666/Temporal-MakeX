@@ -99,11 +99,10 @@ for pattern_num in "${pattern_nums[@]}"; do
               echo "makex_explanation_v: $makex_explanation_v"
               echo "makex_explanation_e: $makex_explanation_e"
               echo "random_seed: $random_seed"
-              echo "output_file: $output_file"
               echo "reserve_rep_file: $reserve_rep_file"
               echo "output_file_txt: $output_file_txt"
 
-              ./local_explanation.sh "$pattern_num" "$conf_limit" "$supp_limit" "$each_pattern_rep_num" "$rep_file" "$rep_num_ratio" "$topk_rep_id_file" "$makex_explanation_v" "$makex_explanation_e" "$topk" "$random_seed" "$output_file" "$reserve_rep_file" "$test_pairs_file" "$subgraph_path" "$subgraph_pivot_path" "$edge_label_reverse" "$v_path" "$e_path" >> "$output_file_txt" 2>&1
+              ./local_explanation.sh "$pattern_num" "$conf_limit" "$supp_limit" "$each_pattern_rep_num" "$rep_file" "$rep_num_ratio" "$topk_rep_id_file" "$makex_explanation_v" "$makex_explanation_e" "$topk" "$reserve_rep_file" "$output_file_txt" "$test_pairs_file" "$subgraph_path" "$subgraph_pivot_path" "$edge_label_reverse" "$v_path" "$e_path" >> "$output_file_txt" 2>&1
             done
           done
         done

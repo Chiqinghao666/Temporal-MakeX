@@ -58,7 +58,6 @@ python ./local_explanation.py \
 --subgraph_pivot_path "$subgraph_pivot_path" \
 --ml_path ../DataSets/icews14/processed/train_test/train.log \
 --delta_l 0.0  --delta_r 1.0 \
---tie_num 100 \
 --sort_criteria conf \
 --has_ml 1 \
 --max_degree 3 --max_length 2 --max_subgraph_to_pattern_num 2 \
