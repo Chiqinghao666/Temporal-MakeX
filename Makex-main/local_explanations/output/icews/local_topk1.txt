@@ -22,6 +22,8 @@ e_file: ../DataSets/icews14/processed/original_graph/icews_e.csv
 Attributes name: vertex_id
 Attributes name: label_id
 Attributes name: name
+Attributes name: type
+Attributes name: country
 vertex_id size: 7128
 ../DataSets/icews14/processed/original_graph/icews_e.csv
 BuildMLModel begin

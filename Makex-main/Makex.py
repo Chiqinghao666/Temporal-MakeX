@@ -670,6 +670,12 @@ def filter_node_same_predicates_wllabel(predicate_list, predicate_score_list):
     new_predicate_list = []
     new_predicate_score_list = []
     dict_predicate_list = {}
+    def safe_score(index):
+        if not predicate_score_list:
+            return 1.0
+        if index < len(predicate_score_list):
+            return predicate_score_list[index]
+        return predicate_score_list[-1]
     for i in range(len(predicate_list)):
         if not predicate_list[i] or len(predicate_list[i]) < 3:
             # 结构型规则可能没有附带属性，直接跳过这类空谓词
@@ -700,7 +706,7 @@ def filter_node_same_predicates_wllabel(predicate_list, predicate_score_list):
                 constant_predicate_list.append('=')
 
                 new_predicate_list.append(constant_predicate_list)
-                new_predicate_score_list.append(predicate_score_list[i])
+                new_predicate_score_list.append(safe_score(i))
 
 
             key_node2 = (node_id2,node_attributes_)    
@@ -716,13 +722,13 @@ def filter_node_same_predicates_wllabel(predicate_list, predicate_score_list):
                 constant_predicate_list2.append('=')
 
                 new_predicate_list.append(constant_predicate_list2)
-                new_predicate_score_list.append(predicate_score_list[i])
+                new_predicate_score_list.append(safe_score(i))
         else:
             key = (node_id, node_attributes)
             if key not in dict_predicate_list.keys():
                 dict_predicate_list[key] = predicate_list[i]
                 new_predicate_list.append(predicate_list[i])
-                new_predicate_score_list.append(predicate_score_list[i])
+                new_predicate_score_list.append(safe_score(i))
     return new_predicate_list, new_predicate_score_list
 
 

@@ -1,0 +1,400 @@
+0,type,Police
+0,type,Foreign Affairs
+0,type,Citizen
+0,type,Head of Government
+0,type,Ministry
+0,type,Criminal
+0,type,Government
+0,type,Military Personnel
+0,type,Other Authorities / Officials
+0,type,Military
+0,type,Business
+0,type,Employee
+0,type,Men
+0,type,Lawyer/Attorney
+0,type,Legislature
+0,type,Media
+0,type,Media Personnel
+0,type,Member of Parliament
+0,type,Lawmaker
+0,type,Representatives
+0,type,Women
+0,type,Court Judge
+0,type,Defense / Security Ministry
+0,type,Party Member
+0,type,Activist
+0,type,Combatant
+0,type,Children
+0,type,Indigenous People
+0,type,Student
+0,type,Member of the Judiciary
+0,type,Protester
+0,type,Government Official
+0,type,Militant
+0,type,Governor
+0,type,Military Personnel - Special
+0,type,Cabinet / Council of Ministers / Advisors
+0,type,Member of Legislative (Govt)
+0,type,City Mayor
+0,type,Company - Owner or Operator
+0,type,Treasury/Finance Ministry
+0,type,Businessperson
+0,type,Justice Department/Ministery
+0,type,Armed Gang
+0,type,Education
+0,type,Labor Union
+0,type,Royal Administration
+0,type,Domestic Affairs
+0,type,Medical Personnel
+0,type,People Associated with the Opposition
+0,type,Political Parties
+0,type,Education Ministry
+0,type,Health Ministry
+0,type,High Ranking Military Personnel
+0,type,Attacker
+0,type,Bank
+0,type,Director General
+0,type,Population
+0,type,Senate
+0,type,Armed Band
+0,type,Healthcare Facility
+0,type,Armed Rebel
+0,type,Immigrants
+0,type,Professor
+0,type,Main Opposition
+0,type,News Editor
+0,type,Newspaper
+0,type,Party President
+0,type,Terrorist
+0,type,Detainee
+0,type,Envoy
+0,type,Government Affiliated Bank
+0,type,Muslim
+0,type,Air Force
+0,type,Religion
+0,type,Secretariat
+0,type,Villager
+0,type,Agriculture / Fishing / Forestry Ministry
+0,type,Attorney General
+0,type,Refugee
+0,type,Rights Activist
+0,type,Scholar
+0,type,Scientist
+0,type,Chief of Staff
+0,type,Energy Department/Ministry
+0,type,Farm Worker
+0,type,Information / Communication / Transparency Ministry
+0,type,Public Prosecutor
+0,type,Finance / Economy / Commerce / Trade Ministry
+0,type,House of Representatives
+0,type,Ministry of Tourism
+0,type,Naval
+0,type,Nurse
+0,type,Thief
+0,type,Bishop
+0,type,Election Commission
+0,type,Labor and Employment Ministry
+0,type,Murderer
+0,type,Ombudsman
+0,type,Actor
+0,type,Assemblies
+0,type,Civic Group
+0,type,Congress
+0,type,Environment Department/Ministry
+0,type,Industry
+0,type,Islamic Preacher
+0,type,Militia
+0,type,Rebel Group
+0,type,Ruling Party
+0,type,Veterans
+0,type,Archbishop
+0,type,Democratic Party
+0,type,Extremist
+0,type,Human Rights Group
+0,type,Intelligence Officer
+0,type,Reserve Personnel
+0,type,Asylum Seeker
+0,type,Christian
+0,type,Civil Servant
+0,type,Drug Gang
+0,type,Insurgent
+0,type,Intelligence
+0,type,Oversight Court
+0,type,Public Courts
+0,type,Secret Agent
+0,type,Admiral
+0,type,Armed Opposition
+0,type,Fishermen
+0,type,Industrial / Textiles / Mining Ministry
+0,type,Mob
+0,type,Peacekeeping Troop
+0,type,Presidential Candidate
+0,type,Presidential Press Service
+0,type,Terrorist Leader
+0,type,Airline
+0,type,Army Personnel
+0,type,Constitutional Court
+0,type,Engineer
+0,type,Fighter Bomber
+0,type,Guerrilla
+0,type,Illegal Immigrant
+0,type,Information Ministry
+0,type,Intelligence Chief
+0,type,Kidnapper
+0,type,Local Media
+0,type,National Security Advisor
+0,type,Opposition Supporter
+0,type,Preacher
+0,type,Tourist
+0,type,Cleric
+0,type,Ethnic Group
+0,type,House Speaker
+0,type,Labor Party
+0,type,Priest
+0,type,Transport
+0,type,Undersecretary
+0,type,Chief Court Judge
+0,type,Communist Party
+0,type,Defense Attorney
+0,type,Displaced Families
+0,type,Economist
+0,type,High Commission
+0,type,Intellectual
+0,type,Public Sector
+0,type,State Media
+0,type,Appeals Court
+0,type,Blogger
+0,type,Commando
+0,type,Dissident
+0,type,Fire Brigade
+0,type,Government Delegation
+0,type,Human Rights Activist
+0,type,Human Rights Commission
+0,type,Islamic
+0,type,Islamic Militant
+0,type,Military Police
+0,type,Ministry/Department of Technology
+0,type,National Party
+0,type,Opposition Coalition
+0,type,Rioter
+0,type,Ruling Coalition
+0,type,Terrorist Organization
+0,type,The Poor
+0,type,Army National Guard
+0,type,Central Bank
+0,type,Customs Official
+0,type,Government Lawyer/Representative
+0,type,Hacker
+0,type,Hunter
+0,type,Inspector General
+0,type,Interim Government
+0,type,Jew
+0,type,Liberal Party
+0,type,Medical Association
+0,type,Military Advisor
+0,type,Mujahideen
+0,type,National Intelligence Bureau
+0,type,National Union Party
+0,type,New Party
+0,type,Oil Tanker
+0,type,Opposition Activist
+0,country,Unknown
+0,country,India
+0,country,Nigeria
+0,country,Thailand
+0,country,China
+0,country,United States
+0,country,Philippines
+0,country,United Kingdom
+0,country,Russia
+0,country,South Africa
+0,country,Pakistan
+0,country,Turkey
+0,country,Iraq
+0,country,Kenya
+0,country,Syria
+0,country,Egypt
+0,country,Sudan
+0,country,France
+0,country,Iran
+0,country,South Korea
+0,country,Afghanistan
+0,country,Jordan
+0,country,Argentina
+0,country,Canada
+0,country,Lebanon
+0,country,Ukraine
+0,country,Australia
+0,country,Yemen
+0,country,Zambia
+0,country,Bahrain
+0,country,Namibia
+0,country,Indonesia
+0,country,Brazil
+0,country,Mexico
+0,country,Malaysia
+0,country,Colombia
+0,country,Venezuela
+0,country,Bangladesh
+0,country,Tanzania
+0,country,Romania
+0,country,Libya
+0,country,Greece
+0,country,Palestinian Territory  Occupied
+0,country,Israel
+0,country,Somalia
+0,country,Sri Lanka
+0,country,Taiwan
+0,country,Japan
+0,country,North Korea
+0,country,Uganda
+0,country,New Zealand
+0,country,Cote d'Ivoire
+0,country,Germany
+0,country,Senegal
+0,country,Angola
+0,country,Poland
+0,country,Zimbabwe
+0,country,Vietnam
+0,country,United Arab Emirates
+0,country,Belarus
+0,country,Czech Republic
+0,country,Slovakia
+0,country,Liberia
+0,country,Myanmar
+0,country,Peru
+0,country,Sweden
+0,country,Tunisia
+0,country,Saudi Arabia
+0,country,Algeria
+0,country,Azerbaijan
+0,country,Cambodia
+0,country,Africa
+0,country,Benin
+0,country,South Sudan
+0,country,Cameroon
+0,country,Croatia
+0,country,Kyrgyzstan
+0,country,Spain
+0,country,Mauritania
+0,country,Kuwait
+0,country,Central African Republic
+0,country,Bulgaria
+0,country,Italy
+0,country,Singapore
+0,country,Georgia
+0,country,Latvia
+0,country,Sierra Leone
+0,country,Malawi
+0,country,Belgium
+0,country,Democratic Republic of Congo
+0,country,Switzerland
+0,country,Qatar
+0,country,Morocco
+0,country,Cuba
+0,country,Hong Kong
+0,country,Chile
+0,country,Mozambique
+0,country,Lithuania
+0,country,Nepal
+0,country,Ecuador
+0,country,Guatemala
+0,country,Austria
+0,country,Botswana
+0,country,Ethiopia
+0,country,Congo
+0,country,Serbia
+0,country,Guinea
+0,country,Cyprus
+0,country,Kazakhstan
+0,country,Hungary
+0,country,Fiji
+0,country,Jamaica
+0,country,Bolivia
+0,country,Tajikistan
+0,country,Albania
+0,country,Kosovo
+0,country,Niger
+0,country,El Salvador
+0,country,Ireland
+0,country,Mali
+0,country,Burkina Faso
+0,country,Moldova
+0,country,Vatican City State)
+0,country,Costa Rica
+0,country,Madagascar
+0,country,Portugal
+0,country,Rwanda
+0,country,Bosnia and Herzegovina
+0,country,Ghana
+0,country,Netherlands
+0,country,Haiti
+0,country,Paraguay
+0,country,Dominican Republic
+0,country,Norway
+0,country,Tonga
+0,country,Gambia
+0,country,Armenia
+0,country,Maldives
+0,country,Estonia
+0,country,Swaziland
+0,country,Middle East
+0,country,Denmark
+0,country,Papua New Guinea
+0,country,Oman
+0,country,Burundi
+0,country,Chad
+0,country,Panama
+0,country,Uruguay
+0,country,Lesotho
+0,country,Mongolia
+0,country,Al Qaeda
+0,country,Boko Haram
+0,country,Xinjiang Uyghur
+0,country,Macedonia
+0,country,Mauritius
+0,country,Togo
+0,country,Vanuatu
+0,country,Luxembourg
+0,country,Crimea
+0,country,Gabon
+0,country,Djibouti
+0,country,Nauru
+0,country,Turkmenistan
+0,country,Brunei
+0,country,Islamic State of Iraq and the Levant
+0,country,Slovenia
+0,country,Guyana
+0,country,International
+0,country,Abu Sayyaf
+0,country,Nicaragua
+0,country,Honduras
+0,country,Hamas
+0,country,Finland
+0,country,Eritrea
+0,country,Laos
+0,country,Southeast Asia
+0,country,Trinidad and Tobago
+0,country,Western Sahara
+0,country,Syrian Kurds
+0,country,Al-Shabaab
+0,country,Iceland
+0,country,Uzbekistan
+0,country,Bermuda
+0,country,Guinea-Bissau
+0,country,Taliban
+0,country,Bahamas
+0,country,Latin America
+0,country,Norfolk Island
+0,country,Sao Tome and Principe
+0,country,Hezbul Mujahedeen
+0,country,Sahrawi people
+0,country,Solomon Islands
+0,country,Fula people
+0,country,Muslim Brotherhood
+0,country,Turkish Kurds
+0,country,Cape Verde
+0,country,Montenegro
+0,country,North America
+0,country,Houthis
+0,country,Iraqi Kurds
