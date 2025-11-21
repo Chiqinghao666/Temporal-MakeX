@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
-"""将 Makex 生成的全局 REP 规则翻译为中文可读文字。"""
+# -*- coding: utf-8 -*-
+"""生成 Makex SARL 全局模式的中文可读报告。"""
+
+from __future__ import annotations
 
 import argparse
 import ast
-import csv
 import json
 from pathlib import Path
-from typing import Dict, List, Sequence, Tuple
+from typing import Dict, List, Sequence
 
 
 def default_paths() -> argparse.Namespace:
@@ -14,11 +16,8 @@ def default_paths() -> argparse.Namespace:
     makex_root = repo_root / "Makex-main"
     return argparse.Namespace(
         rep_file=makex_root / "global_explanations/rep_sarl.txt",
-        edge_file=makex_root
-        / "DataSets/icews14/processed/original_graph/icews_e.csv",
-        vertex_file=makex_root
-        / "DataSets/icews14/processed/original_graph/icews_v.csv",
         relation_file=makex_root / "DataSets/icews14/relation2id.json",
+        output_file=makex_root / "global_explanations/global_rules_readable.txt",
     )
 
 
@@ -29,62 +28,40 @@ def load_relation_map(path: Path) -> Dict[int, str]:
     return {int(idx): name.replace("_", " ") for name, idx in data.items()}
 
 
-def load_label_examples(vertex_path: Path) -> Dict[int, str]:
-    examples: Dict[int, str] = {}
-    if not vertex_path.exists():
-        return examples
-    with vertex_path.open() as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            label_key = row.get("label_id:int") or row.get("label_id")
-            name = row.get("name:string") or row.get("name") or ""
-            if label_key is None:
+def describe_relation(rel_id: int, rel_map: Dict[int, str]) -> str:
+    name = rel_map.get(rel_id, f"关系{rel_id}")
+    return f"<{rel_id}: {name}>"
+
+
+def parse_rep(path: Path) -> List[dict]:
+    patterns: List[dict] = []
+    if not path.exists():
+        return patterns
+    with path.open() as f:
+        for line in f:
+            line = line.strip()
+            if not line:
                 continue
-            label = int(label_key)
-            if label not in examples and name:
-                examples[label] = name
-    return examples
-
-
-def describe_label(label_id: int, examples: Dict[int, str]) -> str:
-    if label_id in examples:
-        return f"标签{label_id}（示例：{examples[label_id]}）"
-    return f"标签{label_id}"
-
-
-def describe_relation(rel_id: int, relation_map: Dict[int, str]) -> str:
-    name = relation_map.get(rel_id)
-    if not name:
-        return f"关系{rel_id}"
-    return f"{name}（ID: {rel_id}）"
-
-
-def describe_predicates(predicates: Sequence[Sequence]) -> List[str]:
-    readable: List[str] = []
-    for predicate in predicates:
-        if not predicate:
-            continue
-        kind = predicate[0]
-        if kind == "Constant" and len(predicate) >= 6:
-            _, node_id, attr, value, _, op = predicate[:6]
-            readable.append(f"Pattern 节点{node_id} 的 {attr} {op} {value}")
-        elif kind == "Variable" and len(predicate) >= 6:
-            _, x_node, x_attr, y_node, y_attr, op = predicate[:6]
-            readable.append(
-                f"Pattern 节点{x_node} 的 {x_attr} {op} 节点{y_node} 的 {y_attr}"
+            try:
+                entry = ast.literal_eval(line)
+            except Exception:
+                continue
+            if len(entry) < 4:
+                continue
+            patterns.append(
+                {
+                    "nodes": entry[0],
+                    "edges": entry[1],
+                    "predicates": entry[2] if len(entry) > 2 else [],
+                    "stats": entry[3],
+                }
             )
-        else:
-            readable.append(f"谓词 {predicate}")
-    if not readable:
-        readable.append("（无）")
-    return readable
+    return patterns
 
 
-def split_stars(
-    edges: Sequence[Sequence[int]],
-    node_info: Dict[int, int],
-) -> Tuple[List[Sequence[int]], List[Sequence[int]], int, int]:
-    node_ids = list(node_info.keys())
+def split_stars(nodes: Sequence[Sequence[int]], edges: Sequence[Sequence[int]]):
+    node_map = {int(node[0]): int(node[1]) for node in nodes}
+    node_ids = list(node_map.keys())
     pivot_x = node_ids[0] if node_ids else 1
     pivot_y = node_ids[1] if len(node_ids) > 1 else pivot_x
     user_edges, item_edges = [], []
@@ -96,108 +73,89 @@ def split_stars(
             user_edges.append(edge)
         elif src == pivot_y or dst == pivot_y:
             item_edges.append(edge)
-    return user_edges, item_edges, pivot_x, pivot_y
+    return node_map, pivot_x, pivot_y, user_edges, item_edges
 
 
-def describe_edges(
-    star_edges: Sequence[Sequence[int]],
-    node_info: Dict[int, int],
-    relation_map: Dict[int, str],
-    label_examples: Dict[int, str],
-) -> List[str]:
+def summarize_edges(edges: Sequence[Sequence[int]], role: str, rel_map: Dict[int, str]) -> List[str]:
     lines: List[str] = []
-    for idx, edge in enumerate(star_edges, 1):
+    for edge in edges:
         if len(edge) < 3:
-            lines.append(f"- 路径 {idx}: {edge}")
             continue
         src, dst, rel = edge[:3]
-        src_label = describe_label(node_info.get(src, -1), label_examples)
-        dst_label = describe_label(node_info.get(dst, -1), label_examples)
-        relation_name = describe_relation(rel, relation_map)
         lines.append(
-            f"- 路径 {idx}: Pattern 节点{src}（{src_label}） --[{relation_name}]--> "
-            f"节点{dst}（{dst_label}）"
+            f"  ({role}节点{src}) --[{describe_relation(rel, rel_map)}]--> (节点{dst})"
         )
     if not lines:
-        lines.append("（暂无路径）")
+        lines.append(f"  ({role}) 无明确路径约束")
     return lines
+
+
+def extract_query_relation(predicates: Sequence[Sequence]) -> int | None:
+    for predicate in predicates:
+        if len(predicate) >= 4 and predicate[0] == "Constant":
+            if str(predicate[2]).lower() == "query_relation":
+                try:
+                    return int(predicate[3])
+                except ValueError:
+                    return None
+    return None
+
+
+def semantic_summary(edges: Sequence[Sequence[int]], rel_map: Dict[int, str]) -> str:
+    relations = [describe_relation(edge[2], rel_map) for edge in edges if len(edge) >= 3]
+    if not relations:
+        return "此模式描述了节点间的结构性约束。"
+    chain = " → ".join(relations[:4])
+    if len(relations) > 4:
+        chain += " → ..."
+    return f"此模式捕捉了 “{chain}” 的时序互动。"
+
+
+def build_report(patterns: List[dict], rel_map: Dict[int, str]) -> str:
+    lines: List[str] = []
+    for idx, pattern in enumerate(patterns, 1):
+        stats = pattern["stats"] if pattern.get("stats") else [0, 0]
+        support = int(stats[0]) if stats else 0
+        conf = float(stats[1]) if len(stats) > 1 else 0.0
+        node_map, pivot_x, pivot_y, user_edges, item_edges = split_stars(
+            pattern["nodes"], pattern["edges"]
+        )
+        query_rel = extract_query_relation(pattern.get("predicates", []))
+        intent = (
+            f"专门用于预测关系 {describe_relation(query_rel, rel_map)}"
+            if query_rel is not None
+            else "用于捕捉目标节点之间的共现结构"
+        )
+        lines.append(f"[模式 ID: {idx}]")
+        lines.append(f"统计: 支持度 {support} | 置信度 {conf * 100:.1f}%")
+        lines.append(f"意图: {intent}")
+        lines.append("结构:")
+        lines.extend(summarize_edges(user_edges, "User", rel_map))
+        lines.extend(summarize_edges(item_edges, "Item", rel_map))
+        lines.append("语义:")
+        lines.append(f"  {semantic_summary(pattern['edges'], rel_map)}")
+        lines.append("")
+    if not lines:
+        lines.append("未找到任何模式。")
+    return "\n".join(lines)
 
 
 def main() -> None:
     defaults = default_paths()
-    parser = argparse.ArgumentParser(
-        description="读取 rep.txt 并输出中文解释"
-    )
-    parser.add_argument(
-        "--rep_file", type=Path, default=defaults.rep_file, help="rep.txt 路径"
-    )
-    parser.add_argument(
-        "--vertex_file",
-        type=Path,
-        default=defaults.vertex_file,
-        help="顶点 CSV，提供标签示例",
-    )
-    parser.add_argument(
-        "--relation_file",
-        type=Path,
-        default=defaults.relation_file,
-        help="relation2id.json，用于翻译交互类型",
-    )
+    parser = argparse.ArgumentParser(description="生成全局时态模式报告")
+    parser.add_argument("--rep_file", type=Path, default=defaults.rep_file)
+    parser.add_argument("--relation_file", type=Path, default=defaults.relation_file)
+    parser.add_argument("--output_file", type=Path, default=defaults.output_file)
     args = parser.parse_args()
 
-    if not args.rep_file.exists():
-        raise SystemExit(f"未找到 rep 文件：{args.rep_file}")
+    patterns = parse_rep(args.rep_file)
+    rel_map = load_relation_map(args.relation_file)
+    report = build_report(patterns, rel_map)
 
-    relation_map = load_relation_map(args.relation_file)
-    label_examples = load_label_examples(args.vertex_file)
-
-    print("=== Makex 全局规则解释 ===")
-    with args.rep_file.open() as f:
-        for idx, line in enumerate(f, 1):
-            line = line.strip()
-            if not line:
-                continue
-            try:
-                rep_entry = ast.literal_eval(line)
-            except Exception as err:
-                print(f"[警告] 第 {idx} 行解析失败：{err}")
-                continue
-            if len(rep_entry) < 4:
-                continue
-            nodes = rep_entry[0]
-            edges = rep_entry[1]
-            predicates = rep_entry[2] if len(rep_entry) > 2 else []
-            stats = rep_entry[3]
-            support = stats[0] if stats else 0.0
-            conf = stats[1] if len(stats) > 1 else 0.0
-            node_info = {int(node[0]): int(node[1]) for node in nodes}
-            user_edges, item_edges, pivot_x, pivot_y = split_stars(
-                edges, node_info
-            )
-            predicate_text = describe_predicates(predicates)
-            print(
-                f"\n=== 全局规则 Pattern #{idx} (支持度: {int(support)}, "
-                f"置信度: {conf * 100:.1f}%) ==="
-            )
-            print("【双星结构 (Dual-Star Structure)】")
-            print(f"  ★ 用户星 (以 Pattern 节点{pivot_x} 为中心):")
-            for text in describe_edges(
-                user_edges, node_info, relation_map, label_examples
-            ):
-                print(f"     {text}")
-            print(f"  ★ 物品星 (以 Pattern 节点{pivot_y} 为中心):")
-            for text in describe_edges(
-                item_edges, node_info, relation_map, label_examples
-            ):
-                print(f"     {text}")
-            print("\n【属性限制 (Predicates)】")
-            for text in predicate_text:
-                print(f"  - {text}")
-            print("\n【解释】")
-            print(
-                "  当用户星与物品星同时匹配上述结构，并满足属性限制时，本规则触发。"
-            )
-            print("-" * 48)
+    output_path = args.output_file
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(report, encoding="utf-8")
+    print(f"《全局时态模式报告》已生成至 {output_path}")
 
 
 if __name__ == "__main__":
