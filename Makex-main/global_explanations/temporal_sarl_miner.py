@@ -33,6 +33,7 @@ class TemporalPath:
     relation: int
     query_time: float
     edges: List[TemporalNeighbor]
+    side: str = "head"
 
 
 @dataclass
@@ -57,11 +58,13 @@ class SARLMiner:
         relation2id_path: Path,
         graph_ptr: int,
         edge_store: Dict[int, List[TemporalNeighbor]],
+        rev_edge_store: Dict[int, List[TemporalNeighbor]],
     ) -> None:
         self.model = model.to(options.device)
         self.options = options
         self.graph_ptr = graph_ptr
         self.edge_store = edge_store
+        self.rev_edge_store = rev_edge_store
         self.entity_map = self._load_map(entity2id_path)
         self.relation_map = self._load_map(relation2id_path)
         self.entity_inv = {v: k for k, v in self.entity_map.items()}
@@ -97,7 +100,37 @@ class SARLMiner:
         results: List[TemporalPath] = []
         for walk_idx in range(num_walks):
             self.stats_attempted += 1
-            path = self._single_walk(head_id, relation_id, query_time, walk_idx)
+            path = self._single_walk(
+                pivot_id=head_id,
+                relation_id=relation_id,
+                query_time=query_time,
+                walk_idx=walk_idx,
+                neighbor_getter=self._temporal_neighbors,
+                side="head",
+            )
+            if path:
+                self.stats_hits += 1
+                results.append(path)
+        return results
+
+    def mine_reverse_paths(
+        self,
+        tail_id: int,
+        relation_id: int,
+        query_time: float,
+        num_walks: int,
+    ) -> List[TemporalPath]:
+        results: List[TemporalPath] = []
+        for walk_idx in range(num_walks):
+            self.stats_attempted += 1
+            path = self._single_walk(
+                pivot_id=tail_id,
+                relation_id=relation_id,
+                query_time=query_time,
+                walk_idx=walk_idx,
+                neighbor_getter=self._temporal_reverse_neighbors,
+                side="tail",
+            )
             if path:
                 self.stats_hits += 1
                 results.append(path)
@@ -105,17 +138,19 @@ class SARLMiner:
 
     def _single_walk(
         self,
-        head_id: int,
+        pivot_id: int,
         relation_id: int,
         query_time: float,
         walk_idx: int,
+        neighbor_getter,
+        side: str,
     ) -> Optional[TemporalPath]:
-        history_entities, history_relations, history_deltas = self._init_history(head_id, relation_id)
-        current = head_id
+        history_entities, history_relations, history_deltas = self._init_history(pivot_id, relation_id)
+        current = pivot_id
         current_time = query_time
         mined_edges: List[TemporalNeighbor] = []
         for hop in range(self.options.max_hops):
-            neighbors = self._temporal_neighbors(current, current_time)
+            neighbors = neighbor_getter(current, current_time)
             if not neighbors:
                 print(f"[SARL Step] Walk {walk_idx}, hop {hop}: no neighbors in window.")
                 return None
@@ -152,8 +187,8 @@ class SARLMiner:
             if len(mined_edges) == self.options.max_hops:
                 break
         if mined_edges:
-            self._write_raw_path(head_id, relation_id, query_time, mined_edges)
-            return TemporalPath(head=head_id, relation=relation_id, query_time=query_time, edges=mined_edges)
+            self._write_raw_path(pivot_id, relation_id, query_time, mined_edges, side)
+            return TemporalPath(head=pivot_id, relation=relation_id, query_time=query_time, edges=mined_edges, side=side)
         return None
 
     def _init_history(self, head: int, relation: int) -> Tuple[List[int], List[int], List[float]]:
@@ -236,8 +271,16 @@ class SARLMiner:
                 cand_deltas,
             )
         probs = torch.softmax(scores.squeeze(0), dim=-1)
-        top_idx = torch.argmax(probs).item()
-        return neighbors[top_idx], probs
+        k = min(5, len(neighbors))
+        if k <= 0:
+            raise RuntimeError("No neighbors available for selection.")
+        top_probs, top_idx = torch.topk(probs, k=k)
+        normalized = torch.softmax(top_probs, dim=-1)
+        sampled = torch.multinomial(normalized, num_samples=1).item()
+        selected_neighbor = neighbors[top_idx[sampled].item()]
+        sampled_probs = torch.zeros_like(probs)
+        sampled_probs[top_idx] = normalized
+        return selected_neighbor, sampled_probs
 
     def _temporal_neighbors(self, node_id: int, time_upper: float) -> List[TemporalNeighbor]:
         ts_upper = int(time_upper)
@@ -258,6 +301,18 @@ class SARLMiner:
             if allowed is not None and edge.dst not in allowed:
                 continue
             neighbors.append(edge)
+        neighbors.sort(key=lambda e: e.timestamp, reverse=True)
+        if len(neighbors) > self.options.beam_size:
+            neighbors = neighbors[: self.options.beam_size]
+        return neighbors
+
+    def _temporal_reverse_neighbors(self, node_id: int, time_upper: float) -> List[TemporalNeighbor]:
+        ts_upper = int(time_upper)
+        ts_lower = int(max(self.options.min_timestamp, time_upper - self.options.time_window))
+        neighbors: List[TemporalNeighbor] = []
+        for edge in self.rev_edge_store.get(node_id, []):
+            if ts_lower <= edge.timestamp <= ts_upper:
+                neighbors.append(edge)
         neighbors.sort(key=lambda e: e.timestamp, reverse=True)
         if len(neighbors) > self.options.beam_size:
             neighbors = neighbors[: self.options.beam_size]
@@ -299,6 +354,7 @@ class SARLMiner:
         relation: int,
         query_time: float,
         edges: List[TemporalNeighbor],
+        side: str,
     ) -> None:
         human_edges = " -> ".join(
             f"{self._id_to_name(self.relation_inv, edge.relation)}"
@@ -307,7 +363,7 @@ class SARLMiner:
         )
         with self.raw_path_file.open("a", encoding="utf-8") as fp:
             fp.write(
-                f"Query({self._id_to_name(self.entity_inv, head)}, {self._id_to_name(self.relation_inv, relation)}"
+                f"Query[{side}]({self._id_to_name(self.entity_inv, head)}, {self._id_to_name(self.relation_inv, relation)}"
                 f" @ {self._format_ts(query_time)}) -> Path: {human_edges}\n"
             )
 
@@ -324,10 +380,10 @@ class SARLMiner:
     def cluster_paths(
         self, paths: List[TemporalPath], time_bucket: float
     ) -> Dict[Tuple[int, int, str], List[TemporalPath]]:
-        grouped: Dict[Tuple[int, int, str], List[TemporalPath]] = {}
+        grouped: Dict[Tuple[int, int, str, str], List[TemporalPath]] = {}
         for path in paths:
             signature = self._build_signature(path, time_bucket)
-            key = (path.head, path.relation, signature)
+            key = (path.head, path.relation, signature, path.side)
             grouped.setdefault(key, []).append(path)
         return grouped
 
@@ -355,6 +411,7 @@ class SARLMiner:
         predicates = [
             ["Constant", 1, "query_relation", str(path.relation), "string", "="],
             ["Constant", 1, "path_length", str(len(path.edges)), "string", "="],
+            ["Constant", 1, "star_side", path.side, "string", "="],
         ]
         stats = [float(support), 1.0]
         meta = [1, 2, 1, 1.0]

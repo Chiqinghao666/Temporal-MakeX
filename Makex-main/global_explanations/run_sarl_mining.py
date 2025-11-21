@@ -64,13 +64,19 @@ def load_temporal_triples(
     return triples
 
 
-def build_edge_store(triples: Sequence[Triple]) -> Dict[int, List[TemporalNeighbor]]:
+def build_edge_store(
+    triples: Sequence[Triple],
+) -> Tuple[Dict[int, List[TemporalNeighbor]], Dict[int, List[TemporalNeighbor]]]:
     store: Dict[int, List[TemporalNeighbor]] = {}
+    rev_store: Dict[int, List[TemporalNeighbor]] = {}
     for head, relation, tail, ts in triples:
         store.setdefault(head, []).append(TemporalNeighbor(dst=tail, relation=relation, timestamp=ts))
+        rev_store.setdefault(tail, []).append(TemporalNeighbor(dst=head, relation=relation, timestamp=ts))
     for edges in store.values():
         edges.sort(key=lambda e: e.timestamp, reverse=True)
-    return store
+    for edges in rev_store.values():
+        edges.sort(key=lambda e: e.timestamp, reverse=True)
+    return store, rev_store
 
 
 def sample_queries(triples: Sequence[Triple], num_queries: int) -> List[Triple]:
@@ -124,7 +130,7 @@ def main() -> None:
     if not triples:
         raise RuntimeError("No temporal triples found; ensure ICEWS train/valid/test exist.")
 
-    edge_store = build_edge_store(triples)
+    edge_store, rev_edge_store = build_edge_store(triples)
     queries = sample_queries(triples, args.num_queries)
     print(f"[Init] Loaded {len(triples)} triples, sampled {len(queries)} queries.")
 
@@ -151,16 +157,19 @@ def main() -> None:
         relation2id_path=args.relation_map,
         graph_ptr=graph_ptr,
         edge_store=edge_store,
+        rev_edge_store=rev_edge_store,
     )
     miner.reset_statistics()
 
     all_paths: List[TemporalPath] = []
     total_queries = len(queries)
-    for idx, (head, relation, _, ts) in enumerate(queries, 1):
+    for idx, (head, relation, tail, ts) in enumerate(queries, 1):
         if idx % 10 == 0 or idx == total_queries:
             print(f"[Progress] Processed {idx}/{total_queries} queries...")
-        paths = miner.mine_paths(head, relation, ts, num_walks=args.walks_per_query)
-        all_paths.extend(paths)
+        head_paths = miner.mine_paths(head, relation, ts, num_walks=args.walks_per_query)
+        tail_paths = miner.mine_reverse_paths(tail, relation, ts, num_walks=args.walks_per_query)
+        all_paths.extend(head_paths)
+        all_paths.extend(tail_paths)
 
     miner.report_performance()
     if not all_paths:
@@ -170,7 +179,7 @@ def main() -> None:
     grouped = miner.cluster_paths(all_paths, args.time_bucket)
     ranked = sorted(grouped.items(), key=lambda kv: len(kv[1]), reverse=True)
     rep_entries = []
-    for (head, relation, _), path_group in ranked[: args.top_signatures]:
+    for (head, relation, _, side), path_group in ranked[: args.top_signatures]:
         rep_entries.append(miner.path_to_rep(path_group[0], len(path_group)))
 
     with args.output_rep.open("w", encoding="utf-8") as fp:
