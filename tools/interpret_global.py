@@ -13,7 +13,7 @@ def default_paths() -> argparse.Namespace:
     repo_root = Path(__file__).resolve().parent.parent
     makex_root = repo_root / "Makex-main"
     return argparse.Namespace(
-        rep_file=makex_root / "global_explanations/rep.txt",
+        rep_file=makex_root / "global_explanations/rep_sarl.txt",
         edge_file=makex_root
         / "DataSets/icews14/processed/original_graph/icews_e.csv",
         vertex_file=makex_root

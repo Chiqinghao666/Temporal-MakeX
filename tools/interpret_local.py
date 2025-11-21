@@ -16,7 +16,7 @@ def default_paths() -> argparse.Namespace:
     return argparse.Namespace(
         local_file=makex_root
         / "local_explanations/output/icews/local_topk1.txt",
-        rep_file=makex_root / "global_explanations/rep.txt",
+        rep_file=makex_root / "global_explanations/rep_sarl.txt",
         vertex_file=makex_root
         / "DataSets/icews14/processed/original_graph/icews_v.csv",
         relation_file=makex_root / "DataSets/icews14/relation2id.json",
@@ -40,13 +40,15 @@ def parse_log_params(log_path: Path) -> Dict[str, str]:
     return params
 
 
-def resolve_path(raw: str, base_dir: Path) -> Path:
+def resolve_path(raw: str, output_dir: Path, local_root: Path) -> Path:
     if not raw:
         return Path()
     path = Path(raw)
-    if not path.is_absolute():
-        path = (base_dir / raw).resolve()
-    return path
+    if path.is_absolute():
+        return path
+    if raw.startswith("./"):
+        return (local_root / raw[2:]).resolve()
+    return (output_dir / raw).resolve()
 
 
 def load_vertex_metadata(vertex_path: Path) -> Tuple[Dict[int, str], Dict[int, str]]:
@@ -181,6 +183,9 @@ def format_entity(entity_id: int, name_map: Dict[int, str]) -> str:
 
 def main() -> None:
     defaults = default_paths()
+    repo_root = Path(__file__).resolve().parent.parent
+    makex_root = repo_root / "Makex-main"
+    local_root = makex_root / "local_explanations"
     parser = argparse.ArgumentParser(
         description="将 Makex 局部解释结果翻译成中文描述"
     )
@@ -228,9 +233,13 @@ def main() -> None:
     log_params = parse_log_params(args.local_file)
     base_dir = args.local_file.parent if args.local_file else Path(".")
     if log_params.get("topk_rep_id_file"):
-        args.topk_file = resolve_path(log_params["topk_rep_id_file"], base_dir)
+        args.topk_file = resolve_path(
+            log_params["topk_rep_id_file"], base_dir, local_root
+        )
     if log_params.get("test_pairs_file"):
-        args.pairs_file = resolve_path(log_params["test_pairs_file"], base_dir)
+        args.pairs_file = resolve_path(
+            log_params["test_pairs_file"], base_dir, local_root
+        )
 
     if not args.topk_file.exists():
         raise SystemExit(f"未找到 topk 文件：{args.topk_file}")
