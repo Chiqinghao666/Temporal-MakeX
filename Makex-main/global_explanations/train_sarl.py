@@ -246,7 +246,7 @@ def train(args: argparse.Namespace) -> None:
         num_relations=args.num_relations + 1,
         embed_dim=args.embed_dim,
     ).to(device)
-    optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-2)
 
     for epoch in range(args.epochs):
         total_loss = 0.0
