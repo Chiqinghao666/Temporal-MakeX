@@ -125,7 +125,7 @@ class TemporalDataset(Dataset):
         self.min_history = min_history
         self.pad_entity_id = num_entities  # reserve extra slot for PAD
         self.pad_relation_id = num_relations
-        self.samples: List[Tuple[List[int], List[int], List[float], int, int, float]] = []
+        self.samples: List[Tuple[int, List[int], List[int], List[float], int, int, float]] = []
         for head, relation, tail, timestamp in triples:
             history_entities, history_relations, history_times = self._collect_history(head, timestamp)
             valid_steps = sum(ent != self.pad_entity_id for ent in history_entities)
@@ -133,6 +133,7 @@ class TemporalDataset(Dataset):
                 continue
             self.samples.append(
                 (
+                    head,
                     history_entities,
                     history_relations,
                     history_times,
@@ -152,6 +153,7 @@ class TemporalDataset(Dataset):
                 history_entities, history_relations, history_times = self._collect_history(head, timestamp)
                 self.samples.append(
                     (
+                        head,
                         history_entities,
                         history_relations,
                         history_times,
@@ -165,8 +167,9 @@ class TemporalDataset(Dataset):
         return len(self.samples)
 
     def __getitem__(self, idx: int):
-        history_entities, history_relations, history_times, relation, tail, timestamp = self.samples[idx]
+        head, history_entities, history_relations, history_times, relation, tail, timestamp = self.samples[idx]
         return {
+            "head": torch.tensor(head, dtype=torch.long),
             "history_entities": torch.tensor(history_entities, dtype=torch.long),
             "history_relations": torch.tensor(history_relations, dtype=torch.long),
             "history_times": torch.tensor(history_times, dtype=torch.float),
@@ -251,6 +254,7 @@ def train(args: argparse.Namespace) -> None:
     for epoch in range(args.epochs):
         total_loss = 0.0
         for batch in loader:
+            head_ids = batch["head"].to(device)
             history_entities = batch["history_entities"].to(device)
             history_relations = batch["history_relations"].to(device)
             history_times = batch["history_times"].to(device)
@@ -262,6 +266,7 @@ def train(args: argparse.Namespace) -> None:
                 history_entities,
                 history_relations,
                 history_times,
+                head_ids,
                 query_relation,
                 positive_tail.unsqueeze(1),
                 query_relation.unsqueeze(1),
@@ -274,6 +279,7 @@ def train(args: argparse.Namespace) -> None:
                 history_entities,
                 history_relations,
                 history_times,
+                head_ids,
                 query_relation,
                 neg_tail.unsqueeze(1),
                 query_relation.unsqueeze(1),

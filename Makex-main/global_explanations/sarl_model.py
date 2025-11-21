@@ -78,6 +78,7 @@ class TemporalSARL(nn.Module):
         history_entities: torch.Tensor,
         history_relations: torch.Tensor,
         history_times: torch.Tensor,
+        current_entities: torch.Tensor,
         query_relation: torch.Tensor,
         candidate_entities: torch.Tensor,
         candidate_relations: torch.Tensor,
@@ -106,6 +107,7 @@ class TemporalSARL(nn.Module):
         context = self.transformer(history_feats)
         context = context.transpose(0, 1)  # Fix for Torch 1.8
         state = context[:, -1, :]
+        state = state + self.entity_emb(current_entities) + self.relation_emb(query_relation)
 
         cand_entity_vec = self.entity_emb(candidate_entities)
         cand_rel_vec = self.relation_emb(candidate_relations)
