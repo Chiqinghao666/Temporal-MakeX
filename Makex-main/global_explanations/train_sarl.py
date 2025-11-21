@@ -151,10 +151,13 @@ class TemporalDataset(Dataset):
 
 
 def negative_sample(tails: torch.Tensor, num_entities: int) -> torch.Tensor:
-    neg_tails = torch.randint(0, num_entities, size=tails.shape, dtype=torch.long)
+    device = tails.device
+    neg_tails = torch.randint(0, num_entities, size=tails.shape, dtype=torch.long, device=device)
     mask = neg_tails.eq(tails)
     while mask.any():
-        neg_tails[mask] = torch.randint(0, num_entities, size=(mask.sum().item(),), dtype=torch.long)
+        neg_tails[mask] = torch.randint(
+            0, num_entities, size=(mask.sum().item(),), dtype=torch.long, device=device
+        )
         mask = neg_tails.eq(tails)
     return neg_tails
 
