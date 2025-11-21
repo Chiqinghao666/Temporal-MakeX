@@ -1,6 +1,6 @@
-#!/usr/bin/env python3
+# !/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Temporal SARL training script with real history sampling and negative sampling."""
+"""简单的 Temporal SARL 训练示例 (修复维度版)。"""
 
 from __future__ import annotations
 
@@ -22,7 +22,6 @@ if str(CURRENT_DIR) not in sys.path:
 
 from sarl_model import TemporalSARL
 
-
 HistoryRecord = Tuple[int, int, float]  # tail, relation, timestamp
 TripleRecord = Tuple[int, int, int, float]  # head, relation, tail, timestamp
 
@@ -41,12 +40,12 @@ class TemporalDataset(Dataset):
     """Dataset that samples real temporal histories before each event."""
 
     def __init__(
-        self,
-        triples: List[TripleRecord],
-        graph_index: Dict[int, List[HistoryRecord]],
-        num_entities: int,
-        max_history: int = 4,
-        pad_id: int | None = None,
+            self,
+            triples: List[TripleRecord],
+            graph_index: Dict[int, List[HistoryRecord]],
+            num_entities: int,
+            max_history: int = 4,
+            pad_id: int | None = None,
     ) -> None:
         self.triples = triples
         self.graph_index = graph_index
@@ -103,19 +102,34 @@ def load_triples(edge_csv: Path, limit: int | None = None) -> List[TripleRecord]
 
 
 def negative_sample(tails: torch.Tensor, num_entities: int) -> torch.Tensor:
-    neg_tails = torch.randint(0, num_entities, size=tails.shape, dtype=torch.long)
+    # 修改点 1: 添加 device=tails.device
+    neg_tails = torch.randint(
+        0, num_entities, size=tails.shape,
+        dtype=torch.long, device=tails.device
+    )
+
     mask = neg_tails.eq(tails)
     while mask.any():
-        neg_tails[mask] = torch.randint(0, num_entities, size=(mask.sum().item(),), dtype=torch.long)
+        # 修改点 2: 添加 device=tails.device
+        neg_tails[mask] = torch.randint(
+            0, num_entities, size=(mask.sum().item(),),
+            dtype=torch.long, device=tails.device
+        )
         mask = neg_tails.eq(tails)
     return neg_tails
 
 
 def train(args: argparse.Namespace) -> None:
+    # 1. GPU 检测
+    device = torch.device("cuda" if args.cuda and torch.cuda.is_available() else "cpu")
+    print(f"Training on device: {device}")
+
     triples = load_triples(Path(args.edge_file), limit=args.sample_limit or None)
     if not triples:
         raise RuntimeError("No triples loaded; check edge_file or sample_limit.")
+
     graph_index = build_graph_index(triples)
+
     dataset = TemporalDataset(
         triples=triples,
         graph_index=graph_index,
@@ -129,8 +143,9 @@ def train(args: argparse.Namespace) -> None:
         num_relations=args.num_relations,
         embed_dim=args.embed_dim,
     )
-    device = torch.device("cuda" if args.cuda and torch.cuda.is_available() else "cpu")
     model.to(device)
+
+    # 学习率调优建议：从 1e-3 开始
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
 
     for epoch in range(args.epochs):
@@ -142,9 +157,10 @@ def train(args: argparse.Namespace) -> None:
             positive_tail = batch["positive_tail"].to(device)
             timestamps = batch["timestamp"].to(device)
 
+            # === 关键修改：去掉了 .unsqueeze(1) ===
             pos_scores = model(
-                history_entities.unsqueeze(1),
-                history_times.unsqueeze(1),
+                history_entities,  # (B, HistLen)
+                history_times,  # (B, HistLen)
                 query_relation,
                 positive_tail.unsqueeze(1),
                 query_relation.unsqueeze(1),
@@ -153,9 +169,11 @@ def train(args: argparse.Namespace) -> None:
             pos_loss = F.binary_cross_entropy_with_logits(pos_scores, torch.ones_like(pos_scores))
 
             neg_tail = negative_sample(positive_tail, args.num_entities).to(device)
+
+            # === 关键修改：去掉了 .unsqueeze(1) ===
             neg_scores = model(
-                history_entities.unsqueeze(1),
-                history_times.unsqueeze(1),
+                history_entities,  # (B, HistLen)
+                history_times,  # (B, HistLen)
                 query_relation,
                 neg_tail.unsqueeze(1),
                 query_relation.unsqueeze(1),
@@ -168,8 +186,10 @@ def train(args: argparse.Namespace) -> None:
             loss.backward()
             optimizer.step()
             total_loss += loss.item()
+
         avg_loss = total_loss / len(loader)
         print(f"[Epoch {epoch}] loss={avg_loss:.4f}")
+
     torch.save(model.state_dict(), args.save_path)
     print(f"[Checkpoint] Saved SARL model to {args.save_path}")
 
