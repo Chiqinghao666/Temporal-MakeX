@@ -76,6 +76,7 @@ class TemporalSARL(nn.Module):
     def forward(  # type: ignore[override]
         self,
         history_entities: torch.Tensor,
+        history_relations: torch.Tensor,
         history_times: torch.Tensor,
         query_relation: torch.Tensor,
         candidate_entities: torch.Tensor,
@@ -95,10 +96,9 @@ class TemporalSARL(nn.Module):
             scores: (B, K) logits for each candidate.
         """
         batch_size, hist_len = history_entities.shape
-        history_rel = query_relation.unsqueeze(1).expand(-1, hist_len)
         history_feats = (
             self.entity_emb(history_entities)
-            + self.relation_emb(history_rel)
+            + self.relation_emb(history_relations)
             + self.time_proj(history_times.unsqueeze(-1))
         )
         history_feats = self.pos_encoder(history_feats)

@@ -109,45 +109,93 @@ def build_graph_index(triples: List[TripleRecord]) -> Dict[int, List[HistoryReco
 
 
 class TemporalDataset(Dataset):
+    """Dataset that retains only samples with sufficient historical context."""
+
     def __init__(
         self,
         triples: List[TripleRecord],
         graph_index: Dict[int, List[HistoryRecord]],
         num_entities: int,
+        num_relations: int,
         max_history: int = 4,
+        min_history: int = 1,
     ) -> None:
-        self.triples = triples
         self.graph_index = graph_index
         self.max_history = max_history
-        self.pad_id = num_entities  # use additional embedding slot for PAD
+        self.min_history = min_history
+        self.pad_entity_id = num_entities  # reserve extra slot for PAD
+        self.pad_relation_id = num_relations
+        self.samples: List[Tuple[List[int], List[int], List[float], int, int, float]] = []
+        for head, relation, tail, timestamp in triples:
+            history_entities, history_relations, history_times = self._collect_history(head, timestamp)
+            valid_steps = sum(ent != self.pad_entity_id for ent in history_entities)
+            if valid_steps < self.min_history:
+                continue
+            self.samples.append(
+                (
+                    history_entities,
+                    history_relations,
+                    history_times,
+                    relation,
+                    tail,
+                    timestamp,
+                )
+            )
+
+        if not self.samples:
+            # fallback: allow zero-history samples but warn user
+            print(
+                "[TemporalDataset] Warning: no samples satisfied min_history; "
+                "falling back to keep all samples."
+            )
+            for head, relation, tail, timestamp in triples:
+                history_entities, history_relations, history_times = self._collect_history(head, timestamp)
+                self.samples.append(
+                    (
+                        history_entities,
+                        history_relations,
+                        history_times,
+                        relation,
+                        tail,
+                        timestamp,
+                    )
+                )
 
     def __len__(self) -> int:
-        return len(self.triples)
+        return len(self.samples)
 
     def __getitem__(self, idx: int):
-        head, relation, tail, timestamp = self.triples[idx]
-        history_entities, history_times = self._collect_history(head, timestamp)
+        history_entities, history_relations, history_times, relation, tail, timestamp = self.samples[idx]
         return {
             "history_entities": torch.tensor(history_entities, dtype=torch.long),
+            "history_relations": torch.tensor(history_relations, dtype=torch.long),
             "history_times": torch.tensor(history_times, dtype=torch.float),
             "query_relation": torch.tensor(relation, dtype=torch.long),
             "positive_tail": torch.tensor(tail, dtype=torch.long),
             "timestamp": torch.tensor(timestamp, dtype=torch.float),
         }
 
-    def _collect_history(self, head: int, current_ts: float) -> Tuple[List[int], List[float]]:
+    def _collect_history(
+        self, head: int, current_ts: float
+    ) -> Tuple[List[int], List[int], List[float]]:
         records = self.graph_index.get(head, [])
-        past = [rec for rec in records if rec[2] < current_ts]
         history_entities: List[int] = []
+        history_relations: List[int] = []
         history_times: List[float] = []
-        for tail, _, ts in past[: self.max_history]:
+        for tail, relation, ts in records:
+            if ts >= current_ts:
+                continue
             history_entities.append(tail)
+            history_relations.append(relation)
             history_times.append(max(0.0, current_ts - ts))
+            if len(history_entities) >= self.max_history:
+                break
         pad_len = self.max_history - len(history_entities)
         if pad_len > 0:
-            history_entities.extend([self.pad_id] * pad_len)
+            history_entities.extend([self.pad_entity_id] * pad_len)
+            history_relations.extend([self.pad_relation_id] * pad_len)
             history_times.extend([0.0] * pad_len)
-        return history_entities, history_times
+        return history_entities, history_relations, history_times
 
 
 def negative_sample(tails: torch.Tensor, num_entities: int) -> torch.Tensor:
@@ -180,16 +228,22 @@ def train(args: argparse.Namespace) -> None:
         triples=triples,
         graph_index=graph_index,
         num_entities=args.num_entities,
+        num_relations=args.num_relations,
         max_history=args.max_history,
+        min_history=args.min_history,
     )
-    loader = DataLoader(dataset, batch_size=args.batch_size, shuffle=True)
+    print(
+        f"[TemporalDataset] retained {len(dataset)} samples with "
+        f"history>= {args.min_history} out of {len(triples)} total events."
+    )
+    loader = DataLoader(dataset, batch_size=args.batch_size, shuffle=True, drop_last=False)
 
     device = torch.device("cuda" if args.cuda and torch.cuda.is_available() else "cpu")
     print(f"Training on device: {device}")
 
     model = TemporalSARL(
         num_entities=args.num_entities + 1,
-        num_relations=args.num_relations,
+        num_relations=args.num_relations + 1,
         embed_dim=args.embed_dim,
     ).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
@@ -198,6 +252,7 @@ def train(args: argparse.Namespace) -> None:
         total_loss = 0.0
         for batch in loader:
             history_entities = batch["history_entities"].to(device)
+            history_relations = batch["history_relations"].to(device)
             history_times = batch["history_times"].to(device)
             query_relation = batch["query_relation"].to(device)
             positive_tail = batch["positive_tail"].to(device)
@@ -205,6 +260,7 @@ def train(args: argparse.Namespace) -> None:
 
             pos_scores = model(
                 history_entities,
+                history_relations,
                 history_times,
                 query_relation,
                 positive_tail.unsqueeze(1),
@@ -216,6 +272,7 @@ def train(args: argparse.Namespace) -> None:
             neg_tail = negative_sample(positive_tail, args.num_entities).to(device)
             neg_scores = model(
                 history_entities,
+                history_relations,
                 history_times,
                 query_relation,
                 neg_tail.unsqueeze(1),
@@ -247,6 +304,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--batch_size", type=int, default=64)
     parser.add_argument("--epochs", type=int, default=3)
     parser.add_argument("--max_history", type=int, default=4)
+    parser.add_argument("--min_history", type=int, default=1)
     parser.add_argument("--sample_limit", type=int, default=0)
     parser.add_argument("--save_path", type=str, default="./sarl_model.pth")
     parser.add_argument("--cuda", action="store_true")
