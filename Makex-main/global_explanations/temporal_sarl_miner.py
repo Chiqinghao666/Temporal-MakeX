@@ -1,29 +1,23 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Temporal SARL miner with detailed logging."""
+"""Temporal SARL miner with Transformer policy and rich logging."""
 
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Sequence
+from typing import Dict, Iterable, List, Optional, Tuple
 
 import torch
-
-CURRENT_DIR = Path(__file__).resolve().parent
-import sys
-
-if str(CURRENT_DIR) not in sys.path:
-    sys.path.append(str(CURRENT_DIR))
 
 from sarl_model import TemporalSARL
 
 try:
-    import pyMakex
+    import pyMakex  # type: ignore
 except ImportError as exc:  # pragma: no cover
-    raise RuntimeError("pyMakex module is required for SARL miner to run.") from exc
+    raise RuntimeError("pyMakex module is required for SARL miner.") from exc
 
 
 @dataclass(frozen=True)
@@ -34,17 +28,26 @@ class TemporalNeighbor:
 
 
 @dataclass
+class TemporalPath:
+    head: int
+    relation: int
+    query_time: float
+    edges: List[TemporalNeighbor]
+
+
+@dataclass
 class SARLOptions:
     max_hops: int = 3
+    history_size: int = 5
     beam_size: int = 8
+    time_window: float = 30 * 86400.0
     min_timestamp: float = 0.0
-    time_decay: float = 86400.0  # 1 day window by default
     device: str = "cpu"
-    log_dir: Path = Path("global_explanations")
+    log_dir: Path = Path(".")
 
 
 class SARLMiner:
-    """执行 SARL 路径挖掘并输出详尽日志。"""
+    """Run SARL walks on pyMakex graphs with time constraints."""
 
     def __init__(
         self,
@@ -59,17 +62,26 @@ class SARLMiner:
         self.options = options
         self.graph_ptr = graph_ptr
         self.edge_store = edge_store
-        self.log_dir = options.log_dir
-        self.log_dir.mkdir(parents=True, exist_ok=True)
-        self.raw_path_file = self.log_dir / "sarl_raw_paths.txt"
         self.entity_map = self._load_map(entity2id_path)
         self.relation_map = self._load_map(relation2id_path)
         self.entity_inv = {v: k for k, v in self.entity_map.items()}
         self.relation_inv = {v: k for k, v in self.relation_map.items()}
+        self.pad_entity = len(self.entity_map)
+        self.pad_relation = len(self.relation_map)
+        self.log_dir = options.log_dir
+        self.log_dir.mkdir(parents=True, exist_ok=True)
+        self.raw_path_file = self.log_dir / "sarl_raw_paths.txt"
+        self.raw_path_file.write_text("")
+        self.reset_statistics()
 
-    def _load_map(self, path: Path) -> Dict[str, int]:
+    def reset_statistics(self) -> None:
+        self.stats_attempted = 0
+        self.stats_hits = 0
+
+    @staticmethod
+    def _load_map(path: Path) -> Dict[str, int]:
         if not path.exists():
-            return {}
+            raise FileNotFoundError(f"Mapping file not found: {path}")
         return json.loads(path.read_text())
 
     def _id_to_name(self, inv_map: Dict[int, str], idx: int) -> str:
@@ -80,130 +92,285 @@ class SARLMiner:
         head_id: int,
         relation_id: int,
         query_time: float,
-        num_walks: int = 100,
-    ) -> List[List[TemporalNeighbor]]:
-        """Main loop to mine temporal paths from head."""
-        statistics = {"attempted": 0, "valid": 0}
-        mined_paths: List[List[TemporalNeighbor]] = []
-        with self.raw_path_file.open("a", encoding="utf-8") as fp:
-            for walk_idx in range(num_walks):
-                statistics["attempted"] += 1
-                path = self._single_walk(head_id, relation_id, query_time, fp, walk_idx)
-                if not path:
-                    continue
-                statistics["valid"] += 1
-                mined_paths.append(path)
-        attempted = max(statistics["attempted"], 1)
-        print(
-            "[SARL Performance]\n"
-            f"- Total Walks Attempted: {statistics['attempted']}\n"
-            f"- Valid Paths Found (Hits): {statistics['valid']}\n"
-            f"- Hit Rate: {statistics['valid'] / attempted * 100:.2f}%"
-        )
-        return mined_paths
+        num_walks: int,
+    ) -> List[TemporalPath]:
+        results: List[TemporalPath] = []
+        for walk_idx in range(num_walks):
+            self.stats_attempted += 1
+            path = self._single_walk(head_id, relation_id, query_time, walk_idx)
+            if path:
+                self.stats_hits += 1
+                results.append(path)
+        return results
 
     def _single_walk(
         self,
         head_id: int,
         relation_id: int,
         query_time: float,
-        log_fp,
         walk_idx: int,
-    ) -> List[TemporalNeighbor]:
+    ) -> Optional[TemporalPath]:
+        history_entities, history_relations, history_deltas = self._init_history(head_id, relation_id)
         current = head_id
         current_time = query_time
-        history_entities = [current]
-        history_times = [0.0]
-        mined_path: List[TemporalNeighbor] = []
+        mined_edges: List[TemporalNeighbor] = []
         for hop in range(self.options.max_hops):
             neighbors = self._temporal_neighbors(current, current_time)
             if not neighbors:
-                print(f"[SARL Step] Walk {walk_idx}, hop {hop}: no neighbors, terminate.")
-                return []
-            cand_entities = torch.tensor([[n.dst for n in neighbors]], dtype=torch.long)
-            cand_relations = torch.tensor([[n.relation for n in neighbors]], dtype=torch.long)
-            time_diff = torch.tensor(
-                [[max(0.0, current_time - n.timestamp) for n in neighbors]],
-                dtype=torch.float,
+                print(f"[SARL Step] Walk {walk_idx}, hop {hop}: no neighbors in window.")
+                return None
+            choice, probs = self._select_neighbor(
+                neighbors,
+                history_entities,
+                history_relations,
+                history_deltas,
+                current,
+                relation_id,
+                query_time,
             )
-            hist_entity_tensor = torch.tensor([history_entities], dtype=torch.long)
-            hist_time_tensor = torch.tensor([history_times], dtype=torch.float)
-            relation_tensor = torch.tensor([relation_id], dtype=torch.long)
+            mined_edges.append(choice)
+            self._log_step(
+                walk_idx,
+                hop,
+                current,
+                relation_id,
+                current_time,
+                neighbors,
+                probs,
+                choice,
+            )
+            self._append_history(
+                history_entities,
+                history_relations,
+                history_deltas,
+                choice.dst,
+                choice.relation,
+                max(0.0, query_time - choice.timestamp),
+            )
+            current = choice.dst
+            current_time = choice.timestamp
+            if len(mined_edges) == self.options.max_hops:
+                break
+        if mined_edges:
+            self._write_raw_path(head_id, relation_id, query_time, mined_edges)
+            return TemporalPath(head=head_id, relation=relation_id, query_time=query_time, edges=mined_edges)
+        return None
 
-            self.model.eval()
-            with torch.no_grad():
-                scores = self.model(
-                    hist_entity_tensor.to(self.options.device),
-                    hist_time_tensor.to(self.options.device),
-                    relation_tensor.to(self.options.device),
-                    cand_entities.to(self.options.device),
-                    cand_relations.to(self.options.device),
-                    time_diff.to(self.options.device),
-                )
-            probs = torch.softmax(scores.squeeze(0), dim=-1)
-            top_prob, top_idx = torch.max(probs, dim=-1)
-            selected = neighbors[top_idx.item()]
-            print(
-                f"[SARL Step] Walk {walk_idx}, hop {hop}\n"
-                f"  Current: {self._id_to_name(self.entity_inv, current)} "
-                f"(time={self._format_ts(current_time)})\n"
-                f"  [Model Decision] top prob {top_prob.item():.3f} -> "
-                f"{self._id_to_name(self.relation_inv, selected.relation)} "
-                f"@ {self._format_ts(selected.timestamp)}"
+    def _init_history(self, head: int, relation: int) -> Tuple[List[int], List[int], List[float]]:
+        entities = [head]
+        relations = [relation]
+        deltas = [0.0]
+        while len(entities) < self.options.history_size:
+            entities.append(self.pad_entity)
+            relations.append(self.pad_relation)
+            deltas.append(0.0)
+        return entities, relations, deltas
+
+    def _append_history(
+        self,
+        entities: List[int],
+        relations: List[int],
+        deltas: List[float],
+        entity: int,
+        relation: int,
+        delta: float,
+    ) -> None:
+        entities.append(entity)
+        relations.append(relation)
+        deltas.append(delta)
+        if len(entities) > self.options.history_size:
+            entities.pop(0)
+            relations.pop(0)
+            deltas.pop(0)
+
+    def _history_tensors(
+        self,
+        entities: List[int],
+        relations: List[int],
+        deltas: List[float],
+        current_entity: int,
+        relation_id: int,
+    ) -> Tuple[torch.Tensor, ...]:
+        device = self.options.device
+        hist_entities = torch.tensor([entities], dtype=torch.long, device=device)
+        hist_relations = torch.tensor([relations], dtype=torch.long, device=device)
+        hist_deltas = torch.tensor([deltas], dtype=torch.float32, device=device)
+        current_tensor = torch.tensor([current_entity], dtype=torch.long, device=device)
+        relation_tensor = torch.tensor([relation_id], dtype=torch.long, device=device)
+        return hist_entities, hist_relations, hist_deltas, current_tensor, relation_tensor
+
+    def _select_neighbor(
+        self,
+        neighbors: List[TemporalNeighbor],
+        history_entities: List[int],
+        history_relations: List[int],
+        history_deltas: List[float],
+        current_entity: int,
+        relation_id: int,
+        query_time: float,
+    ) -> Tuple[TemporalNeighbor, torch.Tensor]:
+        cand_entities = torch.tensor([[n.dst for n in neighbors]], dtype=torch.long, device=self.options.device)
+        cand_relations = torch.tensor([[n.relation for n in neighbors]], dtype=torch.long, device=self.options.device)
+        cand_deltas = torch.tensor(
+            [[max(0.0, query_time - n.timestamp) for n in neighbors]],
+            dtype=torch.float32,
+            device=self.options.device,
+        )
+        hist_entities, hist_relations, hist_deltas, current_tensor, relation_tensor = self._history_tensors(
+            history_entities,
+            history_relations,
+            history_deltas,
+            current_entity,
+            relation_id,
+        )
+        self.model.eval()
+        with torch.no_grad():
+            scores = self.model(
+                hist_entities,
+                hist_relations,
+                hist_deltas,
+                current_tensor,
+                relation_tensor,
+                cand_entities,
+                cand_relations,
+                cand_deltas,
             )
-            mined_path.append(selected)
-            log_fp.write(
-                f"Query({self._id_to_name(self.entity_inv, head_id)}, "
-                f"{self._id_to_name(self.relation_inv, relation_id)}) -> "
-                f"Step{hop}: {self._format_edge(current, selected)}\n"
-            )
-            current = selected.dst
-            history_entities.append(current)
-            history_times.append(max(0.0, query_time - selected.timestamp))
-            current_time = selected.timestamp
-        return mined_path
+        probs = torch.softmax(scores.squeeze(0), dim=-1)
+        top_idx = torch.argmax(probs).item()
+        return neighbors[top_idx], probs
 
     def _temporal_neighbors(self, node_id: int, time_upper: float) -> List[TemporalNeighbor]:
         ts_upper = int(time_upper)
-        ts_lower = int(max(self.options.min_timestamp, time_upper - self.options.time_decay))
-        neighbor_ids: Sequence[int] = []
+        ts_lower = int(max(self.options.min_timestamp, time_upper - self.options.time_window))
+        candidate_ids: Optional[Iterable[int]] = None
         try:
-            neighbor_ids = pyMakex.GetTemporalNeighbors(
+            candidate_ids = pyMakex.GetTemporalNeighbors(
                 self.graph_ptr, int(node_id), ts_lower, ts_upper, 1
             )
         except TypeError:
-            # 兼容旧的 pyMakex 版本
-            neighbor_ids = pyMakex.GetTemporalNeighbors(int(node_id), ts_lower, ts_upper)
+            candidate_ids = pyMakex.GetTemporalNeighbors(int(node_id), ts_lower, ts_upper)
 
-        edges: List[TemporalNeighbor] = []
-        candidates = set(neighbor_ids) if neighbor_ids else None
+        neighbors: List[TemporalNeighbor] = []
+        allowed = set(candidate_ids) if candidate_ids else None
         for edge in self.edge_store.get(node_id, []):
-            if candidates is not None and edge.dst not in candidates:
+            if not (ts_lower <= edge.timestamp <= ts_upper):
                 continue
-            if edge.timestamp > ts_upper or edge.timestamp < ts_lower:
+            if allowed is not None and edge.dst not in allowed:
                 continue
-            edges.append(edge)
-        if not edges:
-            for edge in self.edge_store.get(node_id, []):
-                if ts_lower <= edge.timestamp <= ts_upper:
-                    edges.append(edge)
-        edges.sort(key=lambda n: n.timestamp, reverse=True)
-        if len(edges) > self.options.beam_size:
-            edges = edges[: self.options.beam_size]
-        return edges
+            neighbors.append(edge)
+        neighbors.sort(key=lambda e: e.timestamp, reverse=True)
+        if len(neighbors) > self.options.beam_size:
+            neighbors = neighbors[: self.options.beam_size]
+        return neighbors
 
-    def _format_edge(self, src: int, edge: TemporalNeighbor) -> str:
-        src_name = self._id_to_name(self.entity_inv, src)
-        rel_name = self._id_to_name(self.relation_inv, edge.relation)
-        dst_name = self._id_to_name(self.entity_inv, edge.dst)
-        return f"{src_name} --[{rel_name}, {self._format_ts(edge.timestamp)}]--> {dst_name}"
+    def _log_step(
+        self,
+        walk_idx: int,
+        hop: int,
+        current: int,
+        goal_relation: int,
+        current_time: float,
+        neighbors: List[TemporalNeighbor],
+        probs: torch.Tensor,
+        selected: TemporalNeighbor,
+    ) -> None:
+        entity_name = self._id_to_name(self.entity_inv, current)
+        goal_name = self._id_to_name(self.relation_inv, goal_relation)
+        current_time_str = self._format_ts(current_time)
+        print(f"[SARL Step] Walk {walk_idx}, hop {hop}, Current: {entity_name} (t={current_time_str}), Goal Rel: {goal_name}")
+        sorted_idx = torch.argsort(probs, descending=True)
+        top = sorted_idx[: min(3, len(sorted_idx))]
+        top_desc = ", ".join(
+            f"{self._id_to_name(self.relation_inv, neighbors[i].relation)}({probs[i].item():.2f})" for i in top
+        )
+        low_idx = sorted_idx[-1].item()
+        low_desc = f"{self._id_to_name(self.relation_inv, neighbors[low_idx].relation)}({probs[low_idx].item():.2f})"
+        print(f"  [Model Decision] High scores for: {top_desc}")
+        print(f"  [Model Decision] Low scores for: {low_desc}")
+        print(
+            f"  [Action] Selected {self._id_to_name(self.relation_inv, selected.relation)}"
+            f" -> {self._id_to_name(self.entity_inv, selected.dst)}"
+            f" at {self._format_ts(selected.timestamp)}"
+        )
+
+    def _write_raw_path(
+        self,
+        head: int,
+        relation: int,
+        query_time: float,
+        edges: List[TemporalNeighbor],
+    ) -> None:
+        human_edges = " -> ".join(
+            f"{self._id_to_name(self.relation_inv, edge.relation)}"
+            f"({self._format_ts(edge.timestamp)}) => {self._id_to_name(self.entity_inv, edge.dst)}"
+            for edge in edges
+        )
+        with self.raw_path_file.open("a", encoding="utf-8") as fp:
+            fp.write(
+                f"Query({self._id_to_name(self.entity_inv, head)}, {self._id_to_name(self.relation_inv, relation)}"
+                f" @ {self._format_ts(query_time)}) -> Path: {human_edges}\n"
+            )
+
+    def report_performance(self) -> None:
+        attempted = max(1, self.stats_attempted)
+        hit_rate = self.stats_hits / attempted * 100
+        print(
+            "[SARL Performance]\n"
+            f"- Total Walks Attempted: {self.stats_attempted}\n"
+            f"- Valid Paths Found (Hits): {self.stats_hits}\n"
+            f"- Hit Rate: {hit_rate:.2f}% (Benchmark: Random Walk < 1%)"
+        )
+
+    def cluster_paths(
+        self, paths: List[TemporalPath], time_bucket: float
+    ) -> Dict[Tuple[int, int, str], List[TemporalPath]]:
+        grouped: Dict[Tuple[int, int, str], List[TemporalPath]] = {}
+        for path in paths:
+            signature = self._build_signature(path, time_bucket)
+            key = (path.head, path.relation, signature)
+            grouped.setdefault(key, []).append(path)
+        return grouped
+
+    def _build_signature(self, path: TemporalPath, bucket: float) -> str:
+        tokens = [f"L{len(path.edges)}"]
+        for edge in path.edges:
+            delta = max(0.0, path.query_time - edge.timestamp)
+            tokens.append(f"{edge.relation}:{int(delta // bucket)}")
+        return "|".join(tokens)
+
+    def path_to_rep(self, path: TemporalPath, support: int) -> List:
+        node_ids = {path.head: 1}
+        next_idx = 2
+        current = path.head
+        edges: List[List[int]] = []
+        for edge in path.edges:
+            if edge.dst not in node_ids:
+                node_ids[edge.dst] = next_idx
+                next_idx += 1
+            src_idx = node_ids[current]
+            dst_idx = node_ids[edge.dst]
+            edges.append([src_idx, dst_idx, edge.relation])
+            current = edge.dst
+        vertices = [[idx, 0] for _, idx in sorted(node_ids.items(), key=lambda item: item[1])]
+        predicates = [
+            ["Constant", 1, "query_relation", str(path.relation), "string", "="],
+            ["Constant", 1, "path_length", str(len(path.edges)), "string", "="],
+        ]
+        stats = [float(support), 1.0]
+        meta = [1, 2, 1, 1.0]
+        return [vertices, edges, predicates, stats, meta]
 
     @staticmethod
     def _format_ts(ts: float) -> str:
         try:
             return datetime.utcfromtimestamp(ts).strftime("%Y-%m-%d")
-        except (OverflowError, OSError, ValueError):
+        except (ValueError, OSError, OverflowError):
             return f"{ts:.2f}"
 
 
-__all__ = ["SARLMiner", "SARLOptions", "TemporalNeighbor"]
+__all__ = [
+    "SARLMiner",
+    "SARLOptions",
+    "TemporalNeighbor",
+    "TemporalPath",
+]

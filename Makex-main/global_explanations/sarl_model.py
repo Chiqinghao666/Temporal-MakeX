@@ -1,132 +1,40 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Temporal SARL model definition.
-
-该模块实现了一个轻量级、时态感知的 Transformer 编码器，用于对候选边进行打分。
-模型输入显式包含 Query Relation 的嵌入，并且支持 TorchScript 导出。
-"""
+"""Temporal-SARL transformer policy network."""
 
 from __future__ import annotations
 
 import math
-from typing import Optional
 
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 
 
-class TemporalSARL(nn.Module):
-    """Simple temporal-aware Transformer for SARL path scoring."""
+class Time2Vec(nn.Module):
+    """Continuous-time encoding combining linear and periodic terms."""
 
-    def __init__(
-        self,
-        num_entities: int,
-        num_relations: int,
-        embed_dim: int = 128,
-        nhead: int = 4,
-        num_layers: int = 2,
-        dropout: float = 0.1,
-    ) -> None:
+    def __init__(self, dim: int) -> None:
         super().__init__()
-        self.embed_dim = embed_dim
-        self.entity_emb = nn.Embedding(num_entities, embed_dim)
-        self.relation_emb = nn.Embedding(num_relations, embed_dim)
-        self.time_proj = nn.Linear(1, embed_dim)
-        self.pos_encoder = PositionalEncoding(embed_dim, dropout)
+        if dim < 2:
+            raise ValueError("Time2Vec dimension must be >= 2")
+        self.linear_weight = nn.Parameter(torch.randn(1))
+        self.linear_bias = nn.Parameter(torch.zeros(1))
+        self.freq = nn.Parameter(torch.randn(dim - 1))
+        self.phase = nn.Parameter(torch.zeros(dim - 1))
 
-        encoder_layer = nn.TransformerEncoderLayer(
-            d_model=embed_dim, nhead=nhead, dropout=dropout
-        )
-        self.transformer = nn.TransformerEncoder(encoder_layer, num_layers=num_layers)
-
-        self.scorer = nn.Sequential(
-            nn.Linear(embed_dim, embed_dim),
-            nn.ReLU(),
-            nn.Linear(embed_dim, 1),
-        )
-
-        self._reset_parameters()
-
-    def _reset_parameters(self) -> None:
-        nn.init.xavier_uniform_(self.entity_emb.weight)
-        nn.init.xavier_uniform_(self.relation_emb.weight)
-        nn.init.xavier_uniform_(self.time_proj.weight)
-        if self.time_proj.bias is not None:
-            nn.init.zeros_(self.time_proj.bias)
-        for m in self.scorer:
-            if isinstance(m, nn.Linear):
-                nn.init.xavier_uniform_(m.weight)
-                if m.bias is not None:
-                    nn.init.zeros_(m.bias)
-
-    def encode_state(
-        self,
-        current_entity: torch.Tensor,
-        query_relation: torch.Tensor,
-        time_diff: torch.Tensor,
-    ) -> torch.Tensor:
-        """Encode the current state."""
-        ent_vec = self.entity_emb(current_entity)
-        rel_vec = self.relation_emb(query_relation)
-        time_vec = self.time_proj(time_diff.unsqueeze(-1))
-        return ent_vec + rel_vec + time_vec
-
-    @torch.jit.export
-    def forward(  # type: ignore[override]
-        self,
-        history_entities: torch.Tensor,
-        history_relations: torch.Tensor,
-        history_times: torch.Tensor,
-        current_entities: torch.Tensor,
-        query_relation: torch.Tensor,
-        candidate_entities: torch.Tensor,
-        candidate_relations: torch.Tensor,
-        candidate_time_diff: torch.Tensor,
-    ) -> torch.Tensor:
-        """Compute scores for candidate edges.
-
-        Args:
-            history_entities: (B, L) entity ids along the path.
-            history_times: (B, L) time differences (float).
-            query_relation: (B,) relation ids for query.
-            candidate_entities: (B, K) next-hop entity ids.
-            candidate_relations: (B, K) relation ids for edges.
-            candidate_time_diff: (B, K) time diffs relative to current step.
-        Returns:
-            scores: (B, K) logits for each candidate.
-        """
-        batch_size, hist_len = history_entities.shape
-        history_feats = (
-            self.entity_emb(history_entities)
-            + self.relation_emb(history_relations)
-            + self.time_proj(history_times.unsqueeze(-1))
-        )
-        history_feats = self.pos_encoder(history_feats)
-        history_feats = history_feats.transpose(0, 1)  # Fix for Torch 1.8
-        context = self.transformer(history_feats)
-        context = context.transpose(0, 1)  # Fix for Torch 1.8
-        state = context[:, -1, :]
-        state = state + self.entity_emb(current_entities) + self.relation_emb(query_relation)
-
-        cand_entity_vec = self.entity_emb(candidate_entities)
-        cand_rel_vec = self.relation_emb(candidate_relations)
-        cand_time_vec = self.time_proj(candidate_time_diff.unsqueeze(-1))
-        cand_feats = cand_entity_vec + cand_rel_vec + cand_time_vec
-
-        scores = self.scorer(
-            torch.tanh(state.unsqueeze(1) + cand_feats)
-        ).squeeze(-1)
-        return scores
+    def forward(self, delta: torch.Tensor) -> torch.Tensor:
+        delta = delta.unsqueeze(-1)
+        linear = self.linear_weight * delta + self.linear_bias
+        sinusoid = torch.sin(delta * self.freq.view(1, 1, -1) + self.phase.view(1, 1, -1))
+        return torch.cat([linear, sinusoid], dim=-1)
 
 
 class PositionalEncoding(nn.Module):
-    """Sinusoidal positional encoding helping transformer capture order."""
+    """Standard sinusoidal positional encoding."""
 
     def __init__(self, d_model: int, dropout: float = 0.1, max_len: int = 5000) -> None:
         super().__init__()
         self.dropout = nn.Dropout(p=dropout)
-
         pe = torch.zeros(max_len, d_model)
         position = torch.arange(0, max_len, dtype=torch.float).unsqueeze(1)
         div_term = torch.exp(torch.arange(0, d_model, 2).float() * (-math.log(10000.0) / d_model))
@@ -138,6 +46,116 @@ class PositionalEncoding(nn.Module):
     def forward(self, x: torch.Tensor) -> torch.Tensor:  # type: ignore[override]
         x = x + self.pe[:, : x.size(1)]
         return self.dropout(x)
+
+
+class TemporalSARL(nn.Module):
+    """Temporal-aware transformer scoring module."""
+
+    def __init__(
+        self,
+        num_entities: int,
+        num_relations: int,
+        embed_dim: int = 128,
+        nhead: int = 4,
+        num_layers: int = 2,
+        dropout: float = 0.1,
+    ) -> None:
+        super().__init__()
+        self.entity_emb = nn.Embedding(num_entities, embed_dim)
+        self.relation_emb = nn.Embedding(num_relations, embed_dim)
+        self.time_enc = Time2Vec(embed_dim)
+        self.pos_encoder = PositionalEncoding(embed_dim, dropout)
+
+        encoder_layer = nn.TransformerEncoderLayer(
+            d_model=embed_dim, nhead=nhead, dropout=dropout, batch_first=False
+        )
+        self.transformer = nn.TransformerEncoder(encoder_layer, num_layers=num_layers)
+        self.state_proj = nn.Linear(embed_dim * 4, embed_dim)
+        self.policy_head = nn.Sequential(
+            nn.Linear(embed_dim, embed_dim),
+            nn.ReLU(),
+            nn.Linear(embed_dim, 1),
+        )
+        self.dropout = nn.Dropout(dropout)
+        self._reset_parameters()
+
+    def _reset_parameters(self) -> None:
+        nn.init.xavier_uniform_(self.entity_emb.weight)
+        nn.init.xavier_uniform_(self.relation_emb.weight)
+        nn.init.xavier_uniform_(self.state_proj.weight)
+        nn.init.zeros_(self.state_proj.bias)
+        for layer in self.policy_head:
+            if isinstance(layer, nn.Linear):
+                nn.init.xavier_uniform_(layer.weight)
+                nn.init.zeros_(layer.bias)
+
+    def _encode_history(
+        self, entities: torch.Tensor, relations: torch.Tensor, deltas: torch.Tensor
+    ) -> torch.Tensor:
+        seq = (
+            self.entity_emb(entities)
+            + self.relation_emb(relations)
+            + self.time_enc(deltas)
+        )
+        seq = self.pos_encoder(seq)
+        seq = seq.transpose(0, 1)
+        context = self.transformer(seq)
+        return context.transpose(0, 1)
+
+    def _compose_state(
+        self,
+        context_vec: torch.Tensor,
+        current_entities: torch.Tensor,
+        query_relation: torch.Tensor,
+        last_delta: torch.Tensor,
+    ) -> torch.Tensor:
+        pieces = [
+            context_vec,
+            self.entity_emb(current_entities),
+            self.relation_emb(query_relation),
+            self.time_enc(last_delta.unsqueeze(1)).squeeze(1),
+        ]
+        return torch.tanh(self.state_proj(torch.cat(pieces, dim=-1)))
+
+    def _encode_candidates(
+        self,
+        candidate_entities: torch.Tensor,
+        candidate_relations: torch.Tensor,
+        candidate_deltas: torch.Tensor,
+    ) -> torch.Tensor:
+        return (
+            self.entity_emb(candidate_entities)
+            + self.relation_emb(candidate_relations)
+            + self.time_enc(candidate_deltas)
+        )
+
+    @torch.jit.export
+    def forward(  # type: ignore[override]
+        self,
+        history_entities: torch.Tensor,
+        history_relations: torch.Tensor,
+        history_deltas: torch.Tensor,
+        current_entities: torch.Tensor,
+        query_relation: torch.Tensor,
+        candidate_entities: torch.Tensor,
+        candidate_relations: torch.Tensor,
+        candidate_deltas: torch.Tensor,
+    ) -> torch.Tensor:
+        """Return logits for each candidate edge."""
+
+        context = self._encode_history(history_entities, history_relations, history_deltas)
+        context_vec = context[:, -1, :]
+        state = self._compose_state(
+            context_vec,
+            current_entities,
+            query_relation,
+            history_deltas[:, -1],
+        )
+        cand_feats = self._encode_candidates(
+            candidate_entities, candidate_relations, candidate_deltas
+        )
+        logits = self.policy_head(torch.tanh(state.unsqueeze(1) + cand_feats)).squeeze(-1)
+        return logits
 
 
 __all__ = ["TemporalSARL"]
