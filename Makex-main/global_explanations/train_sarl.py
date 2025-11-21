@@ -36,6 +36,7 @@ class TemporalDataset(Dataset):
 
     def __getitem__(self, idx: int):
         head, rel, tail, ts = self.triples[idx]
+        # 这里简化处理，历史路径暂时填充为当前节点本身(Self-loop)
         history_entities = [head] * self.max_history
         history_times = [0.0] * self.max_history
         return {
@@ -67,6 +68,10 @@ def load_triples(edge_csv: Path, limit: int = 10000) -> List[Tuple[int, int, int
 
 
 def train(args: argparse.Namespace) -> None:
+    # 1. 自动检测设备
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(f"Training on device: {device}")
+
     edge_file = Path(args.edge_file)
     triples = load_triples(edge_file, limit=args.sample_limit)
     dataset = TemporalDataset(triples)
@@ -77,12 +82,22 @@ def train(args: argparse.Namespace) -> None:
         num_relations=args.num_relations,
         embed_dim=args.embed_dim,
     )
+
+    # 2. 将模型搬到 GPU
+    model = model.to(device)
     model.train()
+
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
 
     for epoch in range(args.epochs):
         total_loss = 0.0
         for batch in loader:
+            # 3. 将数据搬到 GPU
+            for k, v in batch.items():
+                if isinstance(v, torch.Tensor):
+                    batch[k] = v.to(device)
+
+            # 正样本前向传播
             pos_scores = model(
                 batch["history_entities"],
                 batch["history_times"],
@@ -95,19 +110,25 @@ def train(args: argparse.Namespace) -> None:
                 pos_scores, torch.ones_like(pos_scores)
             )
 
+            # 负采样逻辑 (确保生成的随机 Tensor 也在正确的 device 上)
             neg_tail = torch.randint(
                 low=0,
                 high=args.num_entities,
                 size=batch["positive_tail"].shape,
                 dtype=torch.long,
+                device=device  # 关键：指定设备
             )
+
+            # 简单去重：确保负样本不等于正样本
             mask = neg_tail.eq(batch["positive_tail"])
             while mask.any():
                 neg_tail[mask] = torch.randint(
-                    0, args.num_entities, size=(mask.sum().item(),), dtype=torch.long
+                    0, args.num_entities, size=(mask.sum().item(),),
+                    dtype=torch.long, device=device
                 )
                 mask = neg_tail.eq(batch["positive_tail"])
 
+            # 负样本前向传播
             neg_scores = model(
                 batch["history_entities"],
                 batch["history_times"],
@@ -125,8 +146,10 @@ def train(args: argparse.Namespace) -> None:
             loss.backward()
             optimizer.step()
             total_loss += loss.item()
+
         avg_loss = total_loss / len(loader)
         print(f"[Epoch {epoch}] loss={avg_loss:.4f}")
+
     torch.save(model.state_dict(), args.save_path)
     print(f"[Checkpoint] Saved SARL model to {args.save_path}")
 
