@@ -1,17 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""简单的 Temporal SARL 训练示例。
-
-该脚本展示如何读取 ICEWS 历史数据，构建训练样本，并应用 TemporalSARL。
-"""
+"""Temporal SARL training script with real history sampling and negative sampling."""
 
 from __future__ import annotations
 
 import argparse
 import csv
+import random
 import sys
+from collections import defaultdict
 from pathlib import Path
-from typing import List, Tuple
+from typing import Dict, List, Tuple
 
 import torch
 import torch.nn.functional as F
@@ -24,32 +23,68 @@ if str(CURRENT_DIR) not in sys.path:
 from sarl_model import TemporalSARL
 
 
-class TemporalDataset(Dataset):
-    """加载 (h, r, t, ts) 训练样本。"""
+HistoryRecord = Tuple[int, int, float]  # tail, relation, timestamp
+TripleRecord = Tuple[int, int, int, float]  # head, relation, tail, timestamp
 
-    def __init__(self, triples: List[Tuple[int, int, int, float]], max_history: int = 4):
+
+def build_graph_index(triples: List[TripleRecord]) -> Dict[int, List[HistoryRecord]]:
+    """Construct adjacency lists sorted by timestamp descending."""
+    graph: Dict[int, List[HistoryRecord]] = defaultdict(list)
+    for head, relation, tail, ts in triples:
+        graph[head].append((tail, relation, ts))
+    for history in graph.values():
+        history.sort(key=lambda x: x[2], reverse=True)
+    return graph
+
+
+class TemporalDataset(Dataset):
+    """Dataset that samples real temporal histories before each event."""
+
+    def __init__(
+        self,
+        triples: List[TripleRecord],
+        graph_index: Dict[int, List[HistoryRecord]],
+        num_entities: int,
+        max_history: int = 4,
+        pad_id: int | None = None,
+    ) -> None:
         self.triples = triples
+        self.graph_index = graph_index
+        self.num_entities = num_entities
         self.max_history = max_history
+        self.pad_id = num_entities if pad_id is None else pad_id
 
     def __len__(self) -> int:
         return len(self.triples)
 
     def __getitem__(self, idx: int):
-        head, rel, tail, ts = self.triples[idx]
-        # 这里简化处理，历史路径暂时填充为当前节点本身(Self-loop)
-        history_entities = [head] * self.max_history
-        history_times = [0.0] * self.max_history
+        head, relation, tail, timestamp = self.triples[idx]
+        history_entities, history_times = self._collect_history(head, timestamp)
         return {
             "history_entities": torch.tensor(history_entities, dtype=torch.long),
             "history_times": torch.tensor(history_times, dtype=torch.float),
-            "query_relation": torch.tensor(rel, dtype=torch.long),
+            "query_relation": torch.tensor(relation, dtype=torch.long),
             "positive_tail": torch.tensor(tail, dtype=torch.long),
-            "timestamp": torch.tensor(ts, dtype=torch.float),
+            "timestamp": torch.tensor(timestamp, dtype=torch.float),
         }
 
+    def _collect_history(self, head: int, timestamp: float) -> Tuple[List[int], List[float]]:
+        records = self.graph_index.get(head, [])
+        filtered = [rec for rec in records if rec[2] < timestamp]
+        history_entities: List[int] = []
+        history_times: List[float] = []
+        for tail, relation, ts in filtered[: self.max_history]:
+            history_entities.append(tail)
+            history_times.append(max(0.0, timestamp - ts))
+        pad_length = self.max_history - len(history_entities)
+        if pad_length > 0:
+            history_entities.extend([self.pad_id] * pad_length)
+            history_times.extend([0.0] * pad_length)
+        return history_entities, history_times
 
-def load_triples(edge_csv: Path, limit: int = 10000) -> List[Tuple[int, int, int, float]]:
-    triples: List[Tuple[int, int, int, float]] = []
+
+def load_triples(edge_csv: Path, limit: int | None = None) -> List[TripleRecord]:
+    triples: List[TripleRecord] = []
     with edge_csv.open() as f:
         reader = csv.DictReader(f)
         for idx, row in enumerate(reader):
@@ -62,94 +97,79 @@ def load_triples(edge_csv: Path, limit: int = 10000) -> List[Tuple[int, int, int
                     ts,
                 )
             )
-            if len(triples) >= limit:
+            if limit and len(triples) >= limit:
                 break
     return triples
 
 
-def train(args: argparse.Namespace) -> None:
-    # 1. 自动检测设备
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    print(f"Training on device: {device}")
+def negative_sample(tails: torch.Tensor, num_entities: int) -> torch.Tensor:
+    neg_tails = torch.randint(0, num_entities, size=tails.shape, dtype=torch.long)
+    mask = neg_tails.eq(tails)
+    while mask.any():
+        neg_tails[mask] = torch.randint(0, num_entities, size=(mask.sum().item(),), dtype=torch.long)
+        mask = neg_tails.eq(tails)
+    return neg_tails
 
-    edge_file = Path(args.edge_file)
-    triples = load_triples(edge_file, limit=args.sample_limit)
-    dataset = TemporalDataset(triples)
+
+def train(args: argparse.Namespace) -> None:
+    triples = load_triples(Path(args.edge_file), limit=args.sample_limit or None)
+    if not triples:
+        raise RuntimeError("No triples loaded; check edge_file or sample_limit.")
+    graph_index = build_graph_index(triples)
+    dataset = TemporalDataset(
+        triples=triples,
+        graph_index=graph_index,
+        num_entities=args.num_entities,
+        max_history=args.max_history,
+    )
     loader = DataLoader(dataset, batch_size=args.batch_size, shuffle=True)
 
     model = TemporalSARL(
-        num_entities=args.num_entities,
+        num_entities=args.num_entities + 1,  # reserve PAD id
         num_relations=args.num_relations,
         embed_dim=args.embed_dim,
     )
-
-    # 2. 将模型搬到 GPU
-    model = model.to(device)
-    model.train()
-
+    device = torch.device("cuda" if args.cuda and torch.cuda.is_available() else "cpu")
+    model.to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
 
     for epoch in range(args.epochs):
         total_loss = 0.0
         for batch in loader:
-            # 3. 将数据搬到 GPU
-            for k, v in batch.items():
-                if isinstance(v, torch.Tensor):
-                    batch[k] = v.to(device)
+            history_entities = batch["history_entities"].to(device)
+            history_times = batch["history_times"].to(device)
+            query_relation = batch["query_relation"].to(device)
+            positive_tail = batch["positive_tail"].to(device)
+            timestamps = batch["timestamp"].to(device)
 
-            # 正样本前向传播
             pos_scores = model(
-                batch["history_entities"],
-                batch["history_times"],
-                batch["query_relation"],
-                batch["positive_tail"].unsqueeze(1),
-                batch["query_relation"].unsqueeze(1),
-                batch["timestamp"].unsqueeze(1),
+                history_entities.unsqueeze(1),
+                history_times.unsqueeze(1),
+                query_relation,
+                positive_tail.unsqueeze(1),
+                query_relation.unsqueeze(1),
+                timestamps.unsqueeze(1),
             )
-            pos_loss = F.binary_cross_entropy_with_logits(
-                pos_scores, torch.ones_like(pos_scores)
-            )
+            pos_loss = F.binary_cross_entropy_with_logits(pos_scores, torch.ones_like(pos_scores))
 
-            # 负采样逻辑 (确保生成的随机 Tensor 也在正确的 device 上)
-            neg_tail = torch.randint(
-                low=0,
-                high=args.num_entities,
-                size=batch["positive_tail"].shape,
-                dtype=torch.long,
-                device=device  # 关键：指定设备
-            )
-
-            # 简单去重：确保负样本不等于正样本
-            mask = neg_tail.eq(batch["positive_tail"])
-            while mask.any():
-                neg_tail[mask] = torch.randint(
-                    0, args.num_entities, size=(mask.sum().item(),),
-                    dtype=torch.long, device=device
-                )
-                mask = neg_tail.eq(batch["positive_tail"])
-
-            # 负样本前向传播
+            neg_tail = negative_sample(positive_tail, args.num_entities).to(device)
             neg_scores = model(
-                batch["history_entities"],
-                batch["history_times"],
-                batch["query_relation"],
+                history_entities.unsqueeze(1),
+                history_times.unsqueeze(1),
+                query_relation,
                 neg_tail.unsqueeze(1),
-                batch["query_relation"].unsqueeze(1),
-                batch["timestamp"].unsqueeze(1),
+                query_relation.unsqueeze(1),
+                timestamps.unsqueeze(1),
             )
-            neg_loss = F.binary_cross_entropy_with_logits(
-                neg_scores, torch.zeros_like(neg_scores)
-            )
+            neg_loss = F.binary_cross_entropy_with_logits(neg_scores, torch.zeros_like(neg_scores))
 
             loss = pos_loss + neg_loss
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
             total_loss += loss.item()
-
         avg_loss = total_loss / len(loader)
         print(f"[Epoch {epoch}] loss={avg_loss:.4f}")
-
     torch.save(model.state_dict(), args.save_path)
     print(f"[Checkpoint] Saved SARL model to {args.save_path}")
 
@@ -160,12 +180,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--num_entities", type=int, required=True)
     parser.add_argument("--num_relations", type=int, required=True)
     parser.add_argument("--embed_dim", type=int, default=128)
-    parser.add_argument("--batch_size", type=int, default=16)
+    parser.add_argument("--batch_size", type=int, default=64)
     parser.add_argument("--epochs", type=int, default=3)
-    parser.add_argument("--sample_limit", type=int, default=10000)
-    parser.add_argument(
-        "--save_path", type=str, default="./sarl_model.pth", help="模型权重保存路径"
-    )
+    parser.add_argument("--max_history", type=int, default=4)
+    parser.add_argument("--sample_limit", type=int, default=0)
+    parser.add_argument("--save_path", type=str, default="./sarl_model.pth")
+    parser.add_argument("--cuda", action="store_true")
     return parser.parse_args()
 
 
