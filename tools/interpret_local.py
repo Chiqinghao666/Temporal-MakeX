@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""生成 Makex SARL 局部预测与归因报告。"""
+"""生成 Makex SARL 局部预测与归因报告 (修复版：去重 + 得分读取)。"""
 
 from __future__ import annotations
 
@@ -15,17 +15,18 @@ from typing import Dict, List, Tuple
 def default_paths() -> argparse.Namespace:
     repo_root = Path(__file__).resolve().parent.parent
     makex_root = repo_root / "Makex-main"
+    # 默认使用 SARL 的输出路径
+    icews_output = makex_root / "local_explanations/output/icews"
     return argparse.Namespace(
-        local_file=makex_root / "local_explanations/output/icews/local_topk1.txt",
+        local_file=icews_output / "local_topk1.txt",
         rep_file=makex_root / "global_explanations/rep_sarl.txt",
         vertex_file=makex_root
-        / "DataSets/icews14/processed/original_graph/icews_v.csv",
+                    / "DataSets/icews14/processed/original_graph/icews_v.csv",
         relation_file=makex_root / "DataSets/icews14/relation2id.json",
-        topk_file=makex_root / "local_explanations/output/icews/topk_rep_id_topk1.csv",
-        pairs_file=makex_root / "local_explanations/output/icews/test_sample_pairs.csv",
-        subgraph_file=makex_root / "local_explanations/output/icews/subgraph.csv",
-        output_file=makex_root
-        / "local_explanations/output/icews/prediction_report.txt",
+        topk_file=icews_output / "topk_rep_id_topk1.csv",
+        pairs_file=icews_output / "test_sample_pairs.csv",
+        subgraph_file=icews_output / "subgraph.csv",
+        output_file=icews_output / "prediction_report.txt",
     )
 
 
@@ -48,6 +49,13 @@ def resolve_relative(raw: str, base_dir: Path, root_dir: Path) -> Path:
     path = Path(raw)
     if path.is_absolute():
         return path
+
+    # 智能修复路径重复问题
+    clean_raw = str(raw).lstrip("./")
+    if "output/icews" in str(base_dir) and "output/icews" in clean_raw:
+        # 防止拼成 .../output/icews/output/icews/...
+        return (base_dir.parent.parent / clean_raw).resolve()
+
     if raw.startswith("./"):
         return (root_dir / raw[2:]).resolve()
     return (base_dir / raw).resolve()
@@ -103,18 +111,42 @@ def load_query_relations(subgraph_path: Path) -> Dict[int, int]:
 
 def load_topk(topk_path: Path) -> List[dict]:
     entries: List[dict] = []
+    seen_keys = set()  # 用于去重
+
     if not topk_path.exists():
         return entries
+
     with topk_path.open() as f:
         reader = csv.DictReader(f)
         for row in reader:
+            pair_id = int(row["pair_id"])
+            # 有些文件里列名叫 topk，有些叫 rank
+            rank_val = int(row.get("topk") or row.get("rank", 0))
+
+            # 唯一键：同一个 Pair 的同一个排名只保留一次
+            # 假设每次运行追加写入，那我们就只取第一次出现的（或者最后一次，这里简单起见取第一次）
+            unique_key = (pair_id, rank_val)
+            if unique_key in seen_keys:
+                continue
+            seen_keys.add(unique_key)
+
+            # 修复得分读取：优先读 explanation_score
+            raw_score = row.get("explanation_score") or row.get("score")
+
+            # 尝试格式化分数
+            try:
+                score_float = float(raw_score)
+                score_display = f"{score_float:.4f}"
+            except (ValueError, TypeError):
+                score_display = "N/A"
+
             entry = {
-                "pair_id": int(row["pair_id"]),
+                "pair_id": pair_id,
                 "pivot_x": int(row["pivot_x"]),
                 "pivot_y": int(row["pivot_y"]),
-                "rank": int(row.get("topk", row.get("rank", 0))) + 1,
+                "rank": rank_val + 1,  # 转为从1开始
                 "rep_id": int(row.get("rep_id", 0)),
-                "score": row.get("score", "N/A"),
+                "score": score_display,
             }
             entries.append(entry)
     return entries
@@ -183,23 +215,24 @@ def summarize_pattern(pattern: dict, rel_map: Dict[int, str]) -> Tuple[str, str]
 
 
 def explain_prediction(
-    pattern: dict,
-    rel_map: Dict[int, str],
-    user_name: str,
-    item_name: str,
+        pattern: dict,
+        rel_map: Dict[int, str],
+        user_name: str,
+        item_name: str,
 ) -> List[str]:
     user_edges, item_edges = split_stars(pattern["nodes"], pattern["edges"])
     user_rel = [describe_relation(edge[2], rel_map) for edge in user_edges if len(edge) >= 3]
     item_rel = [describe_relation(edge[2], rel_map) for edge in item_edges if len(edge) >= 3]
     lines: List[str] = []
+
+    # 使用单引号避免 f-string 嵌套错误
     if user_rel:
-        lines.append(
-            f"  因为 {user_name} 在用户星中近期涉及 {"、".join(user_rel)} 等互动"
-        )
+        rel_str = '、'.join(user_rel)
+        lines.append(f"  因为 {user_name} 在用户星中近期涉及 {rel_str} 等互动")
     if item_rel:
-        lines.append(
-            f"  同时 {item_name} 在物品星中关联 {"、".join(item_rel)} 等行为"
-        )
+        rel_str = '、'.join(item_rel)
+        lines.append(f"  同时 {item_name} 在物品星中关联 {rel_str} 等行为")
+
     if not lines:
         lines.append(
             "  该模式主要通过节点属性与结构约束解释本次预测"
@@ -209,15 +242,17 @@ def explain_prediction(
 
 
 def build_report(
-    entries: List[dict],
-    pairs: Dict[int, Tuple[int, int]],
-    relation_map: Dict[int, str],
-    query_relations: Dict[int, int],
-    vertex_names: Dict[int, str],
-    patterns: List[dict],
+        entries: List[dict],
+        pairs: Dict[int, Tuple[int, int]],
+        relation_map: Dict[int, str],
+        query_relations: Dict[int, int],
+        vertex_names: Dict[int, str],
+        patterns: List[dict],
 ) -> str:
     lines: List[str] = []
+    # 排序：先按 Query ID，再按排名
     entries.sort(key=lambda e: (e["pair_id"], e["rank"]))
+
     grouped: Dict[int, List[dict]] = {}
     for entry in entries:
         grouped.setdefault(entry["pair_id"], []).append(entry)
@@ -227,21 +262,28 @@ def build_report(
         if user_id is None or item_id is None:
             continue
         user_name = vertex_names.get(user_id, f"实体{user_id}")
-        item_name = vertex_names.get(item_id, f"实体{item_id}")
+        # 这里我们不知道 Target 是谁，因为这是 Test Set 里的 Ground Truth。
+        # 预测出来的 Target 是 entry["pivot_y"]
+
         relation_id = query_relations.get(pair_id)
         relation_desc = describe_relation(relation_id, relation_map) if relation_id is not None else "<未知关系>"
+
         lines.append("=" * 60)
         lines.append(
             f"查询事件: (User: {user_name}, Relation: {relation_desc}, Target: ?, Time: N/A)"
         )
         lines.append("=" * 60)
         lines.append("")
+
         for entry in grouped[pair_id]:
             rep_id = entry["rep_id"]
             pattern_idx = rep_id + 1
             pattern = patterns[rep_id] if 0 <= rep_id < len(patterns) else None
-            score = entry["score"] if entry["score"] not in (None, "", "N/A") else "N/A"
+            score = entry["score"]
+
+            # 预测出的目标实体
             pred_name = vertex_names.get(entry["pivot_y"], f"实体{entry['pivot_y']}")
+
             lines.append(
                 f"> 排名 {entry['rank']} 预测: {pred_name} (得分: {score})"
             )
@@ -261,6 +303,7 @@ def build_report(
                     )
                 )
             lines.append("")
+
     if not lines:
         lines.append("未找到任何预测记录。")
     return "\n".join(lines)
@@ -283,24 +326,34 @@ def main() -> None:
     makex_root = repo_root / "Makex-main"
     local_root = makex_root / "local_explanations"
 
+    # 处理路径参数
     log_params = parse_log_params(args.local_file)
     base_dir = args.local_file.parent if args.local_file else Path(".")
-    if log_params.get("topk_rep_id_file"):
+
+    # 如果参数没在命令行指定，尝试从日志文件推断路径
+    if args.topk_file == defaults.topk_file and log_params.get("topk_rep_id_file"):
         args.topk_file = resolve_relative(log_params["topk_rep_id_file"], base_dir, local_root)
-    if log_params.get("test_pairs_file"):
+
+    if args.pairs_file == defaults.pairs_file and log_params.get("test_pairs_file"):
         args.pairs_file = resolve_relative(log_params["test_pairs_file"], base_dir, local_root)
-    if log_params.get("subgraph_path"):
+
+    if args.subgraph_file == defaults.subgraph_file and log_params.get("subgraph_path"):
         args.subgraph_file = resolve_relative(log_params["subgraph_path"], base_dir, local_root)
 
     vertex_names = load_vertex_names(args.vertex_file)
     relation_map = load_relation_map(args.relation_file)
     pairs = load_pairs(args.pairs_file)
     query_relations = load_query_relations(args.subgraph_file)
+
+    # 加载并去重
     topk_entries = load_topk(args.topk_file)
     patterns = load_patterns(args.rep_file)
 
     if not topk_entries:
-        raise SystemExit(f"未找到 topk 预测文件：{args.topk_file}")
+        # 尝试打印调试信息
+        print(f"警告：在 {args.topk_file} 中未找到有效记录。")
+        print("请检查 run_local_explanation.sh 是否成功运行，以及 CSV 文件是否有内容。")
+        return
 
     report = build_report(
         topk_entries,
