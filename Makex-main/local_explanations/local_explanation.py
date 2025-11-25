@@ -427,7 +427,10 @@ def main(args):
 
 
                 final_topk = list(zip(topk_explanation, sorted_topk_explanation_rep_id))
-                for topk_index, (topk_entry, topk_rep_id) in enumerate(final_topk):
+                limit = min(len(topk_explanation), len(sorted_topk_explanation_rep_id))
+                for topk_index in range(limit):
+                    topk_entry = topk_explanation[topk_index]
+                    topk_rep_id = sorted_topk_explanation_rep_id[topk_index]
                     row_edge = []
                     row_edge.append(int(pair_id))
                     row_edge.append(int(user_id))
@@ -435,7 +438,10 @@ def main(args):
                     row_edge.append(int(topk_index))
                     row_edge.append(int(topk_rep_id))
                     # explanation tuple: [score, matched_edges,...]
-                    score_val = float(topk_entry[0]) if topk_entry else 0.0
+                    try:
+                        score_val = float(topk_entry[0])
+                    except (TypeError, ValueError, IndexError):
+                        score_val = 0.0
                     row_edge.append(score_val)
 
                     with open(topk_rep_id_file, 'a', newline='') as f:
