@@ -63,7 +63,8 @@ random_seeds=(1996)
 rep_num_ratios=(1.0)
 vary_topk=(1 5 10 15)
 
-rep_file="../global_explanations/rep.txt"
+# 使用 SARL 挖掘得到的规则文件
+rep_file="../global_explanations/rep_sarl.txt"
 output_dir="./output/icews/"
 reserve_rep_dir="./reserve_rep/icews/"
 test_pairs_file="./output/icews/test_sample_pairs.csv"

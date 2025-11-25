@@ -426,27 +426,28 @@ def main(args):
                         gnn_exp_model_input_explanation_each_pair_all_rep = sorted(gnn_exp_model_input_explanation_each_pair_all_rep, key=lambda x: x[0][0], reverse=True)
 
 
-                final_topk = list(zip(topk_explanation, sorted_topk_explanation_rep_id))
-                limit = min(len(topk_explanation), len(sorted_topk_explanation_rep_id))
-                for topk_index in range(limit):
-                    topk_entry = topk_explanation[topk_index]
-                    topk_rep_id = sorted_topk_explanation_rep_id[topk_index]
-                    row_edge = []
-                    row_edge.append(int(pair_id))
-                    row_edge.append(int(user_id))
-                    row_edge.append(int(item_id))
-                    row_edge.append(int(topk_index))
-                    row_edge.append(int(topk_rep_id))
-                    # explanation tuple: [score, matched_edges,...]
-                    try:
-                        score_val = float(topk_entry[0])
-                    except (TypeError, ValueError, IndexError):
-                        score_val = 0.0
-                    row_edge.append(score_val)
+                # DEBUG: ensure we actually have content before writing
+                print(f"[DEBUG] Pair {pair_id}: explanation_len={len(topk_explanation)}, rep_id_len={len(sorted_topk_explanation_rep_id)}")
 
-                    with open(topk_rep_id_file, 'a', newline='') as f:
-                        writer = csv.writer(f)
-                        writer.writerow(row_edge)
+                # robust zip iteration and score extraction
+                with open(topk_rep_id_file, 'a', newline='') as f_txt:
+                    writer = csv.writer(f_txt)
+                    for rank, (expl_data, rep_id) in enumerate(zip(topk_explanation, sorted_topk_explanation_rep_id)):
+                        try:
+                            current_score = float(expl_data[0])
+                        except (IndexError, ValueError, TypeError):
+                            current_score = -1.0  # mark extraction failure
+
+                        row_data = [
+                            int(pair_id),     # pair_id
+                            int(user_id),     # pivot_x
+                            int(item_id),     # pivot_y
+                            int(rank),        # topk rank
+                            int(rep_id),      # rep_id
+                            current_score,    # score
+                        ]
+                        writer.writerow(row_data)
+                    f_txt.flush()
 
                 makex_explanation_v = args.makex_explanation_v
                 makex_explanation_e = args.makex_explanation_e
