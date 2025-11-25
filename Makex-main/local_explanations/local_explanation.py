@@ -350,7 +350,7 @@ def main(args):
             if not os.path.exists(topk_rep_id_file):
                 with open(topk_rep_id_file, 'w', newline='') as f:
                     writer = csv.writer(f)
-                    columns_vertex = ['pair_id', 'pivot_x', 'pivot_y', 'topk', 'rep_id']
+                    columns_vertex = ['pair_id', 'pivot_x', 'pivot_y', 'topk', 'rep_id', 'score']
                     writer.writerow(columns_vertex)
 
 
@@ -426,13 +426,17 @@ def main(args):
                         gnn_exp_model_input_explanation_each_pair_all_rep = sorted(gnn_exp_model_input_explanation_each_pair_all_rep, key=lambda x: x[0][0], reverse=True)
 
 
-                for topk_index, topk_rep_id in enumerate(sorted_topk_explanation_rep_id):
+                final_topk = list(zip(topk_explanation, sorted_topk_explanation_rep_id))
+                for topk_index, (topk_entry, topk_rep_id) in enumerate(final_topk):
                     row_edge = []
                     row_edge.append(int(pair_id))
                     row_edge.append(int(user_id))
                     row_edge.append(int(item_id))
                     row_edge.append(int(topk_index))
                     row_edge.append(int(topk_rep_id))
+                    # explanation tuple: [score, matched_edges,...]
+                    score_val = float(topk_entry[0]) if topk_entry else 0.0
+                    row_edge.append(score_val)
 
                     with open(topk_rep_id_file, 'a', newline='') as f:
                         writer = csv.writer(f)

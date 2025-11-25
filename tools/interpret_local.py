@@ -132,13 +132,10 @@ def load_topk(topk_path: Path) -> List[dict]:
 
             # 修复得分读取：优先读 explanation_score
             raw_score = row.get("explanation_score") or row.get("score")
-
-            # 尝试格式化分数
             try:
                 score_float = float(raw_score)
-                score_display = f"{score_float:.4f}"
             except (ValueError, TypeError):
-                score_display = "N/A"
+                score_float = None
 
             entry = {
                 "pair_id": pair_id,
@@ -146,7 +143,7 @@ def load_topk(topk_path: Path) -> List[dict]:
                 "pivot_y": int(row["pivot_y"]),
                 "rank": rank_val + 1,  # 转为从1开始
                 "rep_id": int(row.get("rep_id", 0)),
-                "score": score_display,
+                "score": score_float,
             }
             entries.append(entry)
     return entries
@@ -275,11 +272,16 @@ def build_report(
         lines.append("=" * 60)
         lines.append("")
 
+        seen_rep = set()
         for entry in grouped[pair_id]:
             rep_id = entry["rep_id"]
+            if rep_id in seen_rep:
+                continue
+            seen_rep.add(rep_id)
             pattern_idx = rep_id + 1
             pattern = patterns[rep_id] if 0 <= rep_id < len(patterns) else None
-            score = entry["score"]
+            score_val = entry["score"]
+            score = f"{score_val:.4f}" if isinstance(score_val, float) else "N/A"
 
             # 预测出的目标实体
             pred_name = vertex_names.get(entry["pivot_y"], f"实体{entry['pivot_y']}")

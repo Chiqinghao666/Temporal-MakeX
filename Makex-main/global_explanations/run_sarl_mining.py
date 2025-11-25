@@ -116,6 +116,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--log_dir", type=Path, default=Path("./global_explanations"))
     parser.add_argument("--cuda", action="store_true")
     parser.add_argument("--seed", type=int, default=1996)
+    parser.add_argument("--verbose", action="store_true", help="print per-hop debug logs")
     return parser.parse_args()
 
 
@@ -149,6 +150,7 @@ def main() -> None:
         time_window=args.time_window,
         device=device,
         log_dir=args.log_dir,
+        verbose=args.verbose,
     )
     miner = SARLMiner(
         model=model,
@@ -163,13 +165,28 @@ def main() -> None:
 
     all_paths: List[TemporalPath] = []
     total_queries = len(queries)
+    start_time = torch.cuda.Event(enable_timing=True) if args.cuda and torch.cuda.is_available() else None
+    end_time = torch.cuda.Event(enable_timing=True) if args.cuda and torch.cuda.is_available() else None
+    t0 = torch.cuda.Event(enable_timing=True) if args.cuda and torch.cuda.is_available() else None
+    import time
+    wall_start = time.time()
+
     for idx, (head, relation, tail, ts) in enumerate(queries, 1):
-        if idx % 10 == 0 or idx == total_queries:
-            print(f"[Progress] Processed {idx}/{total_queries} queries...")
+        if start_time and end_time and t0:
+            t0.record()
         head_paths = miner.mine_paths(head, relation, ts, num_walks=args.walks_per_query)
         tail_paths = miner.mine_reverse_paths(tail, relation, ts, num_walks=args.walks_per_query)
         all_paths.extend(head_paths)
         all_paths.extend(tail_paths)
+        if start_time and end_time and t0:
+            end_time.record(); torch.cuda.synchronize()
+        elapsed = time.time() - wall_start
+        if idx % 10 == 0 or idx == total_queries:
+            avg_per_query = elapsed / idx
+            remaining = avg_per_query * (total_queries - idx)
+            print(
+                f"[Progress] {idx}/{total_queries} queries | elapsed {elapsed/60:.1f} min | ETA {remaining/60:.1f} min"
+            )
 
     miner.report_performance()
     if not all_paths:

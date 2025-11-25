@@ -45,6 +45,7 @@ class SARLOptions:
     min_timestamp: float = 0.0
     device: str = "cpu"
     log_dir: Path = Path(".")
+    verbose: bool = False
 
 
 class SARLMiner:
@@ -329,6 +330,8 @@ class SARLMiner:
         probs: torch.Tensor,
         selected: TemporalNeighbor,
     ) -> None:
+        if not self.options.verbose:
+            return
         entity_name = self._id_to_name(self.entity_inv, current)
         goal_name = self._id_to_name(self.relation_inv, goal_relation)
         current_time_str = self._format_ts(current_time)
