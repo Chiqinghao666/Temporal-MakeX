@@ -1,0 +1,2870 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+The content has been processed where security check has been disabled.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Security check has been disabled - content may contain sensitive information
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+.spec-workflow/
+  templates/
+    design-template.md/
+      design-template.md
+    product-template.md/
+      product-template.md
+    requirements-template.md/
+      requirements-template.md
+    structure-template.md/
+      structure-template.md
+    tasks-template.md/
+      tasks-template.md
+    tech-template.md/
+      tech-template.md
+  user-templates/
+    README.md/
+      README.md
+AGENTS.md/
+  AGENTS.md
+algo.py/
+  algo.py
+dataset.py/
+  dataset.py
+decoder/
+  dec_layers.py/
+    dec_layers.py
+  rule_decoder_layer.py/
+    rule_decoder_layer.py
+  rule_decoder.py/
+    rule_decoder.py
+encoder/
+  multihead_attention.py/
+    multihead_attention.py
+  sa_graph_encoder_layer.py/
+    sa_graph_encoder_layer.py
+  sa_graph_encoder_model.py/
+    sa_graph_encoder_model.py
+  sa_graph_encoder.py/
+    sa_graph_encoder.py
+  sa_layers.py/
+    sa_layers.py
+main.py/
+  main.py
+model.py/
+  model.py
+optimizer.py/
+  optimizer.py
+README.md/
+  README.md
+rule_translator.py/
+  rule_translator.py
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path=".spec-workflow/templates/design-template.md/design-template.md">
+# Design Document
+
+## Overview
+
+[High-level description of the feature and its place in the overall system]
+
+## Steering Document Alignment
+
+### Technical Standards (tech.md)
+[How the design follows documented technical patterns and standards]
+
+### Project Structure (structure.md)
+[How the implementation will follow project organization conventions]
+
+## Code Reuse Analysis
+[What existing code will be leveraged, extended, or integrated with this feature]
+
+### Existing Components to Leverage
+- **[Component/Utility Name]**: [How it will be used]
+- **[Service/Helper Name]**: [How it will be extended]
+
+### Integration Points
+- **[Existing System/API]**: [How the new feature will integrate]
+- **[Database/Storage]**: [How data will connect to existing schemas]
+
+## Architecture
+
+[Describe the overall architecture and design patterns used]
+
+### Modular Design Principles
+- **Single File Responsibility**: Each file should handle one specific concern or domain
+- **Component Isolation**: Create small, focused components rather than large monolithic files
+- **Service Layer Separation**: Separate data access, business logic, and presentation layers
+- **Utility Modularity**: Break utilities into focused, single-purpose modules
+
+```mermaid
+graph TD
+    A[Component A] --> B[Component B]
+    B --> C[Component C]
+```
+
+## Components and Interfaces
+
+### Component 1
+- **Purpose:** [What this component does]
+- **Interfaces:** [Public methods/APIs]
+- **Dependencies:** [What it depends on]
+- **Reuses:** [Existing components/utilities it builds upon]
+
+### Component 2
+- **Purpose:** [What this component does]
+- **Interfaces:** [Public methods/APIs]
+- **Dependencies:** [What it depends on]
+- **Reuses:** [Existing components/utilities it builds upon]
+
+## Data Models
+
+### Model 1
+```
+[Define the structure of Model1 in your language]
+- id: [unique identifier type]
+- name: [string/text type]
+- [Additional properties as needed]
+```
+
+### Model 2
+```
+[Define the structure of Model2 in your language]
+- id: [unique identifier type]
+- [Additional properties as needed]
+```
+
+## Error Handling
+
+### Error Scenarios
+1. **Scenario 1:** [Description]
+   - **Handling:** [How to handle]
+   - **User Impact:** [What user sees]
+
+2. **Scenario 2:** [Description]
+   - **Handling:** [How to handle]
+   - **User Impact:** [What user sees]
+
+## Testing Strategy
+
+### Unit Testing
+- [Unit testing approach]
+- [Key components to test]
+
+### Integration Testing
+- [Integration testing approach]
+- [Key flows to test]
+
+### End-to-End Testing
+- [E2E testing approach]
+- [User scenarios to test]
+</file>
+
+<file path=".spec-workflow/templates/product-template.md/product-template.md">
+# Product Overview
+
+## Product Purpose
+[Describe the core purpose of this product/project. What problem does it solve?]
+
+## Target Users
+[Who are the primary users of this product? What are their needs and pain points?]
+
+## Key Features
+[List the main features that deliver value to users]
+
+1. **Feature 1**: [Description]
+2. **Feature 2**: [Description]
+3. **Feature 3**: [Description]
+
+## Business Objectives
+[What are the business goals this product aims to achieve?]
+
+- [Objective 1]
+- [Objective 2]
+- [Objective 3]
+
+## Success Metrics
+[How will we measure the success of this product?]
+
+- [Metric 1]: [Target]
+- [Metric 2]: [Target]
+- [Metric 3]: [Target]
+
+## Product Principles
+[Core principles that guide product decisions]
+
+1. **[Principle 1]**: [Explanation]
+2. **[Principle 2]**: [Explanation]
+3. **[Principle 3]**: [Explanation]
+
+## Monitoring & Visibility (if applicable)
+[How do users track progress and monitor the system?]
+
+- **Dashboard Type**: [e.g., Web-based, CLI, Desktop app]
+- **Real-time Updates**: [e.g., WebSocket, polling, push notifications]
+- **Key Metrics Displayed**: [What information is most important to surface]
+- **Sharing Capabilities**: [e.g., read-only links, exports, reports]
+
+## Future Vision
+[Where do we see this product evolving in the future?]
+
+### Potential Enhancements
+- **Remote Access**: [e.g., Tunnel features for sharing dashboards with stakeholders]
+- **Analytics**: [e.g., Historical trends, performance metrics]
+- **Collaboration**: [e.g., Multi-user support, commenting]
+</file>
+
+<file path=".spec-workflow/templates/requirements-template.md/requirements-template.md">
+# Requirements Document
+
+## Introduction
+
+[Provide a brief overview of the feature, its purpose, and its value to users]
+
+## Alignment with Product Vision
+
+[Explain how this feature supports the goals outlined in product.md]
+
+## Requirements
+
+### Requirement 1
+
+**User Story:** As a [role], I want [feature], so that [benefit]
+
+#### Acceptance Criteria
+
+1. WHEN [event] THEN [system] SHALL [response]
+2. IF [precondition] THEN [system] SHALL [response]
+3. WHEN [event] AND [condition] THEN [system] SHALL [response]
+
+### Requirement 2
+
+**User Story:** As a [role], I want [feature], so that [benefit]
+
+#### Acceptance Criteria
+
+1. WHEN [event] THEN [system] SHALL [response]
+2. IF [precondition] THEN [system] SHALL [response]
+
+## Non-Functional Requirements
+
+### Code Architecture and Modularity
+- **Single Responsibility Principle**: Each file should have a single, well-defined purpose
+- **Modular Design**: Components, utilities, and services should be isolated and reusable
+- **Dependency Management**: Minimize interdependencies between modules
+- **Clear Interfaces**: Define clean contracts between components and layers
+
+### Performance
+- [Performance requirements]
+
+### Security
+- [Security requirements]
+
+### Reliability
+- [Reliability requirements]
+
+### Usability
+- [Usability requirements]
+</file>
+
+<file path=".spec-workflow/templates/structure-template.md/structure-template.md">
+# Project Structure
+
+## Directory Organization
+
+```
+[Define your project's directory structure. Examples below - adapt to your project type]
+
+Example for a library/package:
+project-root/
+├── src/                    # Source code
+├── tests/                  # Test files  
+├── docs/                   # Documentation
+├── examples/               # Usage examples
+└── [build/dist/out]        # Build output
+
+Example for an application:
+project-root/
+├── [src/app/lib]           # Main source code
+├── [assets/resources]      # Static resources
+├── [config/settings]       # Configuration
+├── [scripts/tools]         # Build/utility scripts
+└── [tests/spec]            # Test files
+
+Common patterns:
+- Group by feature/module
+- Group by layer (UI, business logic, data)
+- Group by type (models, controllers, views)
+- Flat structure for simple projects
+```
+
+## Naming Conventions
+
+### Files
+- **Components/Modules**: [e.g., `PascalCase`, `snake_case`, `kebab-case`]
+- **Services/Handlers**: [e.g., `UserService`, `user_service`, `user-service`]
+- **Utilities/Helpers**: [e.g., `dateUtils`, `date_utils`, `date-utils`]
+- **Tests**: [e.g., `[filename]_test`, `[filename].test`, `[filename]Test`]
+
+### Code
+- **Classes/Types**: [e.g., `PascalCase`, `CamelCase`, `snake_case`]
+- **Functions/Methods**: [e.g., `camelCase`, `snake_case`, `PascalCase`]
+- **Constants**: [e.g., `UPPER_SNAKE_CASE`, `SCREAMING_CASE`, `PascalCase`]
+- **Variables**: [e.g., `camelCase`, `snake_case`, `lowercase`]
+
+## Import Patterns
+
+### Import Order
+1. External dependencies
+2. Internal modules
+3. Relative imports
+4. Style imports
+
+### Module/Package Organization
+```
+[Describe your project's import/include patterns]
+Examples:
+- Absolute imports from project root
+- Relative imports within modules
+- Package/namespace organization
+- Dependency management approach
+```
+
+## Code Structure Patterns
+
+[Define common patterns for organizing code within files. Below are examples - choose what applies to your project]
+
+### Module/Class Organization
+```
+Example patterns:
+1. Imports/includes/dependencies
+2. Constants and configuration
+3. Type/interface definitions
+4. Main implementation
+5. Helper/utility functions
+6. Exports/public API
+```
+
+### Function/Method Organization
+```
+Example patterns:
+- Input validation first
+- Core logic in the middle
+- Error handling throughout
+- Clear return points
+```
+
+### File Organization Principles
+```
+Choose what works for your project:
+- One class/module per file
+- Related functionality grouped together
+- Public API at the top/bottom
+- Implementation details hidden
+```
+
+## Code Organization Principles
+
+1. **Single Responsibility**: Each file should have one clear purpose
+2. **Modularity**: Code should be organized into reusable modules
+3. **Testability**: Structure code to be easily testable
+4. **Consistency**: Follow patterns established in the codebase
+
+## Module Boundaries
+[Define how different parts of your project interact and maintain separation of concerns]
+
+Examples of boundary patterns:
+- **Core vs Plugins**: Core functionality vs extensible plugins
+- **Public API vs Internal**: What's exposed vs implementation details  
+- **Platform-specific vs Cross-platform**: OS-specific code isolation
+- **Stable vs Experimental**: Production code vs experimental features
+- **Dependencies direction**: Which modules can depend on which
+
+## Code Size Guidelines
+[Define your project's guidelines for file and function sizes]
+
+Suggested guidelines:
+- **File size**: [Define maximum lines per file]
+- **Function/Method size**: [Define maximum lines per function]
+- **Class/Module complexity**: [Define complexity limits]
+- **Nesting depth**: [Maximum nesting levels]
+
+## Dashboard/Monitoring Structure (if applicable)
+[How dashboard or monitoring components are organized]
+
+### Example Structure:
+```
+src/
+└── dashboard/          # Self-contained dashboard subsystem
+    ├── server/        # Backend server components
+    ├── client/        # Frontend assets
+    ├── shared/        # Shared types/utilities
+    └── public/        # Static assets
+```
+
+### Separation of Concerns
+- Dashboard isolated from core business logic
+- Own CLI entry point for independent operation
+- Minimal dependencies on main application
+- Can be disabled without affecting core functionality
+
+## Documentation Standards
+- All public APIs must have documentation
+- Complex logic should include inline comments
+- README files for major modules
+- Follow language-specific documentation conventions
+</file>
+
+<file path=".spec-workflow/templates/tasks-template.md/tasks-template.md">
+# Tasks Document
+
+- [ ] 1. Create core interfaces in src/types/feature.ts
+  - File: src/types/feature.ts
+  - Define TypeScript interfaces for feature data structures
+  - Extend existing base interfaces from base.ts
+  - Purpose: Establish type safety for feature implementation
+  - _Leverage: src/types/base.ts_
+  - _Requirements: 1.1_
+  - _Prompt: Role: TypeScript Developer specializing in type systems and interfaces | Task: Create comprehensive TypeScript interfaces for the feature data structures following requirements 1.1, extending existing base interfaces from src/types/base.ts | Restrictions: Do not modify existing base interfaces, maintain backward compatibility, follow project naming conventions | Success: All interfaces compile without errors, proper inheritance from base types, full type coverage for feature requirements_
+
+- [ ] 2. Create base model class in src/models/FeatureModel.ts
+  - File: src/models/FeatureModel.ts
+  - Implement base model extending BaseModel class
+  - Add validation methods using existing validation utilities
+  - Purpose: Provide data layer foundation for feature
+  - _Leverage: src/models/BaseModel.ts, src/utils/validation.ts_
+  - _Requirements: 2.1_
+  - _Prompt: Role: Backend Developer with expertise in Node.js and data modeling | Task: Create a base model class extending BaseModel and implementing validation following requirement 2.1, leveraging existing patterns from src/models/BaseModel.ts and src/utils/validation.ts | Restrictions: Must follow existing model patterns, do not bypass validation utilities, maintain consistent error handling | Success: Model extends BaseModel correctly, validation methods implemented and tested, follows project architecture patterns_
+
+- [ ] 3. Add specific model methods to FeatureModel.ts
+  - File: src/models/FeatureModel.ts (continue from task 2)
+  - Implement create, update, delete methods
+  - Add relationship handling for foreign keys
+  - Purpose: Complete model functionality for CRUD operations
+  - _Leverage: src/models/BaseModel.ts_
+  - _Requirements: 2.2, 2.3_
+  - _Prompt: Role: Backend Developer with expertise in ORM and database operations | Task: Implement CRUD methods and relationship handling in FeatureModel.ts following requirements 2.2 and 2.3, extending patterns from src/models/BaseModel.ts | Restrictions: Must maintain transaction integrity, follow existing relationship patterns, do not duplicate base model functionality | Success: All CRUD operations work correctly, relationships are properly handled, database operations are atomic and efficient_
+
+- [ ] 4. Create model unit tests in tests/models/FeatureModel.test.ts
+  - File: tests/models/FeatureModel.test.ts
+  - Write tests for model validation and CRUD methods
+  - Use existing test utilities and fixtures
+  - Purpose: Ensure model reliability and catch regressions
+  - _Leverage: tests/helpers/testUtils.ts, tests/fixtures/data.ts_
+  - _Requirements: 2.1, 2.2_
+  - _Prompt: Role: QA Engineer with expertise in unit testing and Jest/Mocha frameworks | Task: Create comprehensive unit tests for FeatureModel validation and CRUD methods covering requirements 2.1 and 2.2, using existing test utilities from tests/helpers/testUtils.ts and fixtures from tests/fixtures/data.ts | Restrictions: Must test both success and failure scenarios, do not test external dependencies directly, maintain test isolation | Success: All model methods are tested with good coverage, edge cases covered, tests run independently and consistently_
+
+- [ ] 5. Create service interface in src/services/IFeatureService.ts
+  - File: src/services/IFeatureService.ts
+  - Define service contract with method signatures
+  - Extend base service interface patterns
+  - Purpose: Establish service layer contract for dependency injection
+  - _Leverage: src/services/IBaseService.ts_
+  - _Requirements: 3.1_
+  - _Prompt: Role: Software Architect specializing in service-oriented architecture and TypeScript interfaces | Task: Design service interface contract following requirement 3.1, extending base service patterns from src/services/IBaseService.ts for dependency injection | Restrictions: Must maintain interface segregation principle, do not expose internal implementation details, ensure contract compatibility with DI container | Success: Interface is well-defined with clear method signatures, extends base service appropriately, supports all required service operations_
+
+- [ ] 6. Implement feature service in src/services/FeatureService.ts
+  - File: src/services/FeatureService.ts
+  - Create concrete service implementation using FeatureModel
+  - Add error handling with existing error utilities
+  - Purpose: Provide business logic layer for feature operations
+  - _Leverage: src/services/BaseService.ts, src/utils/errorHandler.ts, src/models/FeatureModel.ts_
+  - _Requirements: 3.2_
+  - _Prompt: Role: Backend Developer with expertise in service layer architecture and business logic | Task: Implement concrete FeatureService following requirement 3.2, using FeatureModel and extending BaseService patterns with proper error handling from src/utils/errorHandler.ts | Restrictions: Must implement interface contract exactly, do not bypass model validation, maintain separation of concerns from data layer | Success: Service implements all interface methods correctly, robust error handling implemented, business logic is well-encapsulated and testable_
+
+- [ ] 7. Add service dependency injection in src/utils/di.ts
+  - File: src/utils/di.ts (modify existing)
+  - Register FeatureService in dependency injection container
+  - Configure service lifetime and dependencies
+  - Purpose: Enable service injection throughout application
+  - _Leverage: existing DI configuration in src/utils/di.ts_
+  - _Requirements: 3.1_
+  - _Prompt: Role: DevOps Engineer with expertise in dependency injection and IoC containers | Task: Register FeatureService in DI container following requirement 3.1, configuring appropriate lifetime and dependencies using existing patterns from src/utils/di.ts | Restrictions: Must follow existing DI container patterns, do not create circular dependencies, maintain service resolution efficiency | Success: FeatureService is properly registered and resolvable, dependencies are correctly configured, service lifetime is appropriate for use case_
+
+- [ ] 8. Create service unit tests in tests/services/FeatureService.test.ts
+  - File: tests/services/FeatureService.test.ts
+  - Write tests for service methods with mocked dependencies
+  - Test error handling scenarios
+  - Purpose: Ensure service reliability and proper error handling
+  - _Leverage: tests/helpers/testUtils.ts, tests/mocks/modelMocks.ts_
+  - _Requirements: 3.2, 3.3_
+  - _Prompt: Role: QA Engineer with expertise in service testing and mocking frameworks | Task: Create comprehensive unit tests for FeatureService methods covering requirements 3.2 and 3.3, using mocked dependencies from tests/mocks/modelMocks.ts and test utilities | Restrictions: Must mock all external dependencies, test business logic in isolation, do not test framework code | Success: All service methods tested with proper mocking, error scenarios covered, tests verify business logic correctness and error handling_
+
+- [ ] 4. Create API endpoints
+  - Design API structure
+  - _Leverage: src/api/baseApi.ts, src/utils/apiUtils.ts_
+  - _Requirements: 4.0_
+  - _Prompt: Role: API Architect specializing in RESTful design and Express.js | Task: Design comprehensive API structure following requirement 4.0, leveraging existing patterns from src/api/baseApi.ts and utilities from src/utils/apiUtils.ts | Restrictions: Must follow REST conventions, maintain API versioning compatibility, do not expose internal data structures directly | Success: API structure is well-designed and documented, follows existing patterns, supports all required operations with proper HTTP methods and status codes_
+
+- [ ] 4.1 Set up routing and middleware
+  - Configure application routes
+  - Add authentication middleware
+  - Set up error handling middleware
+  - _Leverage: src/middleware/auth.ts, src/middleware/errorHandler.ts_
+  - _Requirements: 4.1_
+  - _Prompt: Role: Backend Developer with expertise in Express.js middleware and routing | Task: Configure application routes and middleware following requirement 4.1, integrating authentication from src/middleware/auth.ts and error handling from src/middleware/errorHandler.ts | Restrictions: Must maintain middleware order, do not bypass security middleware, ensure proper error propagation | Success: Routes are properly configured with correct middleware chain, authentication works correctly, errors are handled gracefully throughout the request lifecycle_
+
+- [ ] 4.2 Implement CRUD endpoints
+  - Create API endpoints
+  - Add request validation
+  - Write API integration tests
+  - _Leverage: src/controllers/BaseController.ts, src/utils/validation.ts_
+  - _Requirements: 4.2, 4.3_
+  - _Prompt: Role: Full-stack Developer with expertise in API development and validation | Task: Implement CRUD endpoints following requirements 4.2 and 4.3, extending BaseController patterns and using validation utilities from src/utils/validation.ts | Restrictions: Must validate all inputs, follow existing controller patterns, ensure proper HTTP status codes and responses | Success: All CRUD operations work correctly, request validation prevents invalid data, integration tests pass and cover all endpoints_
+
+- [ ] 5. Add frontend components
+  - Plan component architecture
+  - _Leverage: src/components/BaseComponent.tsx, src/styles/theme.ts_
+  - _Requirements: 5.0_
+  - _Prompt: Role: Frontend Architect with expertise in React component design and architecture | Task: Plan comprehensive component architecture following requirement 5.0, leveraging base patterns from src/components/BaseComponent.tsx and theme system from src/styles/theme.ts | Restrictions: Must follow existing component patterns, maintain design system consistency, ensure component reusability | Success: Architecture is well-planned and documented, components are properly organized, follows existing patterns and theme system_
+
+- [ ] 5.1 Create base UI components
+  - Set up component structure
+  - Implement reusable components
+  - Add styling and theming
+  - _Leverage: src/components/BaseComponent.tsx, src/styles/theme.ts_
+  - _Requirements: 5.1_
+  - _Prompt: Role: Frontend Developer specializing in React and component architecture | Task: Create reusable UI components following requirement 5.1, extending BaseComponent patterns and using existing theme system from src/styles/theme.ts | Restrictions: Must use existing theme variables, follow component composition patterns, ensure accessibility compliance | Success: Components are reusable and properly themed, follow existing architecture, accessible and responsive_
+
+- [ ] 5.2 Implement feature-specific components
+  - Create feature components
+  - Add state management
+  - Connect to API endpoints
+  - _Leverage: src/hooks/useApi.ts, src/components/BaseComponent.tsx_
+  - _Requirements: 5.2, 5.3_
+  - _Prompt: Role: React Developer with expertise in state management and API integration | Task: Implement feature-specific components following requirements 5.2 and 5.3, using API hooks from src/hooks/useApi.ts and extending BaseComponent patterns | Restrictions: Must use existing state management patterns, handle loading and error states properly, maintain component performance | Success: Components are fully functional with proper state management, API integration works smoothly, user experience is responsive and intuitive_
+
+- [ ] 6. Integration and testing
+  - Plan integration approach
+  - _Leverage: src/utils/integrationUtils.ts, tests/helpers/testUtils.ts_
+  - _Requirements: 6.0_
+  - _Prompt: Role: Integration Engineer with expertise in system integration and testing strategies | Task: Plan comprehensive integration approach following requirement 6.0, leveraging integration utilities from src/utils/integrationUtils.ts and test helpers | Restrictions: Must consider all system components, ensure proper test coverage, maintain integration test reliability | Success: Integration plan is comprehensive and feasible, all system components work together correctly, integration points are well-tested_
+
+- [ ] 6.1 Write end-to-end tests
+  - Set up E2E testing framework
+  - Write user journey tests
+  - Add test automation
+  - _Leverage: tests/helpers/testUtils.ts, tests/fixtures/data.ts_
+  - _Requirements: All_
+  - _Prompt: Role: QA Automation Engineer with expertise in E2E testing and test frameworks like Cypress or Playwright | Task: Implement comprehensive end-to-end tests covering all requirements, setting up testing framework and user journey tests using test utilities and fixtures | Restrictions: Must test real user workflows, ensure tests are maintainable and reliable, do not test implementation details | Success: E2E tests cover all critical user journeys, tests run reliably in CI/CD pipeline, user experience is validated from end-to-end_
+
+- [ ] 6.2 Final integration and cleanup
+  - Integrate all components
+  - Fix any integration issues
+  - Clean up code and documentation
+  - _Leverage: src/utils/cleanup.ts, docs/templates/_
+  - _Requirements: All_
+  - _Prompt: Role: Senior Developer with expertise in code quality and system integration | Task: Complete final integration of all components and perform comprehensive cleanup covering all requirements, using cleanup utilities and documentation templates | Restrictions: Must not break existing functionality, ensure code quality standards are met, maintain documentation consistency | Success: All components are fully integrated and working together, code is clean and well-documented, system meets all requirements and quality standards_
+</file>
+
+<file path=".spec-workflow/templates/tech-template.md/tech-template.md">
+# Technology Stack
+
+## Project Type
+[Describe what kind of project this is: web application, CLI tool, desktop application, mobile app, library, API service, embedded system, game, etc.]
+
+## Core Technologies
+
+### Primary Language(s)
+- **Language**: [e.g., Python 3.11, Go 1.21, TypeScript, Rust, C++]
+- **Runtime/Compiler**: [if applicable]
+- **Language-specific tools**: [package managers, build tools, etc.]
+
+### Key Dependencies/Libraries
+[List the main libraries and frameworks your project depends on]
+- **[Library/Framework name]**: [Purpose and version]
+- **[Library/Framework name]**: [Purpose and version]
+
+### Application Architecture
+[Describe how your application is structured - this could be MVC, event-driven, plugin-based, client-server, standalone, microservices, monolithic, etc.]
+
+### Data Storage (if applicable)
+- **Primary storage**: [e.g., PostgreSQL, files, in-memory, cloud storage]
+- **Caching**: [e.g., Redis, in-memory, disk cache]
+- **Data formats**: [e.g., JSON, Protocol Buffers, XML, binary]
+
+### External Integrations (if applicable)
+- **APIs**: [External services you integrate with]
+- **Protocols**: [e.g., HTTP/REST, gRPC, WebSocket, TCP/IP]
+- **Authentication**: [e.g., OAuth, API keys, certificates]
+
+### Monitoring & Dashboard Technologies (if applicable)
+- **Dashboard Framework**: [e.g., React, Vue, vanilla JS, terminal UI]
+- **Real-time Communication**: [e.g., WebSocket, Server-Sent Events, polling]
+- **Visualization Libraries**: [e.g., Chart.js, D3, terminal graphs]
+- **State Management**: [e.g., Redux, Vuex, file system as source of truth]
+
+## Development Environment
+
+### Build & Development Tools
+- **Build System**: [e.g., Make, CMake, Gradle, npm scripts, cargo]
+- **Package Management**: [e.g., pip, npm, cargo, go mod, apt, brew]
+- **Development workflow**: [e.g., hot reload, watch mode, REPL]
+
+### Code Quality Tools
+- **Static Analysis**: [Tools for code quality and correctness]
+- **Formatting**: [Code style enforcement tools]
+- **Testing Framework**: [Unit, integration, and/or end-to-end testing tools]
+- **Documentation**: [Documentation generation tools]
+
+### Version Control & Collaboration
+- **VCS**: [e.g., Git, Mercurial, SVN]
+- **Branching Strategy**: [e.g., Git Flow, GitHub Flow, trunk-based]
+- **Code Review Process**: [How code reviews are conducted]
+
+### Dashboard Development (if applicable)
+- **Live Reload**: [e.g., Hot module replacement, file watchers]
+- **Port Management**: [e.g., Dynamic allocation, configurable ports]
+- **Multi-Instance Support**: [e.g., Running multiple dashboards simultaneously]
+
+## Deployment & Distribution (if applicable)
+- **Target Platform(s)**: [Where/how the project runs: cloud, on-premise, desktop, mobile, embedded]
+- **Distribution Method**: [How users get your software: download, package manager, app store, SaaS]
+- **Installation Requirements**: [Prerequisites, system requirements]
+- **Update Mechanism**: [How updates are delivered]
+
+## Technical Requirements & Constraints
+
+### Performance Requirements
+- [e.g., response time, throughput, memory usage, startup time]
+- [Specific benchmarks or targets]
+
+### Compatibility Requirements  
+- **Platform Support**: [Operating systems, architectures, versions]
+- **Dependency Versions**: [Minimum/maximum versions of dependencies]
+- **Standards Compliance**: [Industry standards, protocols, specifications]
+
+### Security & Compliance
+- **Security Requirements**: [Authentication, encryption, data protection]
+- **Compliance Standards**: [GDPR, HIPAA, SOC2, etc. if applicable]
+- **Threat Model**: [Key security considerations]
+
+### Scalability & Reliability
+- **Expected Load**: [Users, requests, data volume]
+- **Availability Requirements**: [Uptime targets, disaster recovery]
+- **Growth Projections**: [How the system needs to scale]
+
+## Technical Decisions & Rationale
+[Document key architectural and technology choices]
+
+### Decision Log
+1. **[Technology/Pattern Choice]**: [Why this was chosen, alternatives considered]
+2. **[Architecture Decision]**: [Rationale, trade-offs accepted]
+3. **[Tool/Library Selection]**: [Reasoning, evaluation criteria]
+
+## Known Limitations
+[Document any technical debt, limitations, or areas for improvement]
+
+- [Limitation 1]: [Impact and potential future solutions]
+- [Limitation 2]: [Why it exists and when it might be addressed]
+</file>
+
+<file path=".spec-workflow/user-templates/README.md/README.md">
+# User Templates
+
+This directory allows you to create custom templates that override the default Spec Workflow templates.
+
+## How to Use Custom Templates
+
+1. **Create your custom template file** in this directory with the exact same name as the default template you want to override:
+   - `requirements-template.md` - Override requirements document template
+   - `design-template.md` - Override design document template
+   - `tasks-template.md` - Override tasks document template
+   - `product-template.md` - Override product steering template
+   - `tech-template.md` - Override tech steering template
+   - `structure-template.md` - Override structure steering template
+
+2. **Template Loading Priority**:
+   - The system first checks this `user-templates/` directory
+   - If a matching template is found here, it will be used
+   - Otherwise, the default template from `templates/` will be used
+
+## Example Custom Template
+
+To create a custom requirements template:
+
+1. Create a file named `requirements-template.md` in this directory
+2. Add your custom structure, for example:
+
+```markdown
+# Requirements Document
+
+## Executive Summary
+[Your custom section]
+
+## Business Requirements
+[Your custom structure]
+
+## Technical Requirements
+[Your custom fields]
+
+## Custom Sections
+[Add any sections specific to your workflow]
+```
+
+## Template Variables
+
+Templates can include placeholders that will be replaced when documents are created:
+- `{{projectName}}` - The name of your project
+- `{{featureName}}` - The name of the feature being specified
+- `{{date}}` - The current date
+- `{{author}}` - The document author
+
+## Best Practices
+
+1. **Start from defaults**: Copy a default template from `../templates/` as a starting point
+2. **Keep structure consistent**: Maintain similar section headers for tool compatibility
+3. **Document changes**: Add comments explaining why sections were added/modified
+4. **Version control**: Track your custom templates in version control
+5. **Test thoroughly**: Ensure custom templates work with the spec workflow tools
+
+## Notes
+
+- Custom templates are project-specific and not included in the package distribution
+- The `templates/` directory contains the default templates which are updated with each version
+- Your custom templates in this directory are preserved during updates
+- If a custom template has errors, the system will fall back to the default template
+</file>
+
+<file path="AGENTS.md/AGENTS.md">
+# Repository Guidelines
+
+## 项目结构与模块组织
+- 根目录存放脚本型入口：`main.py` 负责训练与推理，`dataset.py` 生成子图样本，`algo.py` 汇集训练循环所需的图算法工具；`model.py`、`optimizer.py`、`rule_translator.py` 则分别定义结构感知变换器、调度优化器与规则后处理。
+- `encoder/` 与 `decoder/` 目录包含多层结构感知编码器、解码器实现，修改注意保持 `sa_graph_encoder_model.py` 与 `rule_decoder.py` 的接口兼容；实验资产（例如 `results/` 日志）和原始数据默认放在 `DATASET/数据集名/` 下，提交前不要上传体积巨大的中间文件。
+
+## 构建、测试与开发命令
+- 预处理：`python dataset.py -data=FB15k-237 -maxN=32 -padding=8 -jump=1` 会在 `DATASET/FB15k-237/` 产生子图缓存（pickle）；调整 `-jump/-padding` 以配合目标关系阶数。
+- 训练：`python main.py -data=DATASET/FB15k-237 -jump=1 -padding=8 -batch_size=16 -desc=fb237_run` 将在 `results/fb237_run.log` 写入 hit@k 与 MRR 指标，同时保存检查点到 `exps/`。
+- 解码规则或快速验证：`python main.py ... -ckpt=exps/fb237_run/best.pt -decode_rule` 输出候选规则；建议把命令添加到 PR 描述便于复现实验。
+
+## 编码风格与命名约定
+- 统一使用 Python 3.8+ 与 PyTorch/Fairseq API，遵循 PEP8、四空格缩进、行宽 100 字符；新增模块务必写明 `__all__` 或导出函数，便于 `StructureAwareGraphTransformer` 组合。
+- 变量名以蛇形命名（`tail_indexs`）、类使用帕斯卡命名（`RuleTranslator`），保持参数名与 CLI 选项一致，便于 argparse 自动映射；必要时补充最小 docstring 说明张量形状。
+- 引入外部依赖前确认 requirements，优先使用现有工具函数（例如 `ScheduledOptim`）避免重复实现学习率调度。
+
+## 测试指南
+- 仓库暂无独立单元测试框架，贡献者需构建最小子图集（例如 FB15k 子集 500 条）并运行 `python main.py ... -epoch=1 --n_warmup_steps=50` 以验证前向、反向可运行。
+- 对规则质量的 regression 测试请比较 `results/*.log` 中的 hit@10/MRR 差异，若变化超过 ±0.01，需在 PR 中解释原因与改动。
+- 建议在本地 GPU 上固定随机种子（`-seed=31`）并记录显存占用；所有测试命令、指标与日志片段应附在 PR 描述或注释。
+
+## 提交与 Pull Request 规范
+- Git 历史以简洁祈使句为主，如 `train: tune sa_graph_encoder_layer dropout`；若同时修改数据与模型，请拆分提交突出单一主题，提交说明中附加最关键的 CLI。
+- PR 描述必须包含：变更摘要、受影响的数据集/配置、复现实验命令、关键指标表，以及如有 UI/日志的截屏或文本片段；若引入新文件夹，说明其与 `encoder/decoder` 的依赖关系。
+- 在合并前确保 `results/`、`exps/` 仅保留必要的示例配置；对于大文件请改用外部下载链接并在 README 的预处理部分补充说明。
+
+## 数据与配置提示
+- 训练依赖 `.pth` 或 `.pt` 检查点，请通过 `-exps` 指定隔离目录避免覆盖历史模型；长时间训练建议每 `-savestep` 轮写一次增量日志。
+- `.env` 或敏感凭据不得入库，如需手动设置 GPU 排布，使用 `CUDA_VISIBLE_DEVICES=... python main.py ...` 并在文档中说明。
+- 任何涉及新关系 schema 的改动都应更新 `dataset.py` 中的解析逻辑，并给出示例行格式（`head<TAB>relation<TAB>tail`）以便其他贡献者生成一致的子图。
+</file>
+
+<file path="algo.py/algo.py">
+from collections import defaultdict
+
+import numpy as np
+
+inf = 0x3f3f3f3f
+
+
+def floyd(adjs):
+    n = adjs.shape[0]
+    dist = np.full((n, n), inf)
+    path = np.full((n, n), -1)
+    for i in range(n):
+        for j in range(n):
+            if i == j:
+                dist[i, j] = 0
+            elif adjs[i, j] != 0:
+                dist[i, j] = adjs[i, j]
+                path[i, j] = i
+
+    all_path_result = defaultdict(dict)
+    for k in range(n):
+        for i in range(n):
+            for j in range(n):
+                if dist[i, k] + dist[k, j] < dist[i, j]:
+                    dist[i, j] = dist[i, k] + dist[k, j]
+                    path[i, j] = k
+
+    for i in range(n):
+        for j in range(n):
+            all_path_result[i][j] = get_single_path(i, j, path)
+
+    return dist, all_path_result
+
+
+def get_single_path(u, v, path):
+    k = path[u, v]
+    if k == -1 or path[u, v] == u:
+        return []
+    else:
+        return get_single_path(u, k, path) + [k] + get_single_path(k, v, path)
+
+
+if __name__ == "__main__":
+    A = np.array([[0, 0, 0, 0, 1],
+                  [0, 0, 0, 1, 0],
+                  [0, 0, 0, 0, 0],
+                  [0, 1, 0, 0, 0],
+                  [1, 0, 0, 0, 0]])
+    floyd(A)
+</file>
+
+<file path="dataset.py/dataset.py">
+import torch, numpy as np, pickle, random, time, argparse
+from collections import defaultdict
+
+import algo
+
+
+def pad_1d_unsqueeze(x, padlen):
+    # x = x + 1  # pad id = 0
+    xlen = x.size(0)
+    if xlen < padlen:
+        new_x = x.new_zeros([padlen], dtype=x.dtype)
+        new_x[:xlen] = x
+        x = new_x
+    return x.unsqueeze(0)
+
+
+def pad_sub_unsqueeze(x, padlen):
+    # x = x + 1  # pad id = 0
+    x = x.unsqueeze(-1)
+    xlen, xdim = x.size()
+    if xlen < padlen:
+        new_x = x.new_zeros([padlen, xdim], dtype=x.dtype)
+        new_x[:xlen, :] = x
+        x = new_x
+    return x.unsqueeze(0)
+
+
+def pad_deg_unsqueeze(x, padlen):
+    x = x + 1  # pad id = 0
+    xlen = x.size(0)
+    if xlen < padlen:
+        new_x = x.new_zeros([padlen], dtype=x.dtype)
+        new_x[:xlen] = x
+        x = new_x
+    return x.unsqueeze(0)
+
+
+def pad_path_unsqueeze(x, padlen1, padlen2, padlen3, rels_len):
+    xlen1, xlen2, xlen3, xlen4 = x.size()
+    if xlen1 < padlen1 or xlen2 < padlen2 or xlen3 < padlen3:
+        new_x = torch.full((padlen1, padlen2, padlen3, xlen4), rels_len, dtype=x.dtype)
+        # new_x = x.new_zeros([padlen1, padlen2, padlen3, xlen4], dtype=x.dtype)
+        new_x[:xlen1, :xlen2, :xlen3, :] = x
+        x = new_x
+    return x.unsqueeze(0)
+
+
+def pad_spatial_pos_unsqueeze(x, padlen):
+    x = x + 1
+    xlen = x.size(0)
+    if xlen < padlen:
+        new_x = x.new_zeros([padlen, padlen], dtype=x.dtype)
+        new_x[:xlen, :xlen] = x
+        x = new_x
+    return x.unsqueeze(0)
+
+
+def pad_attn_bias_unsqueeze(x, padlen):
+    xlen = x.size(0)
+    if xlen < padlen:
+        new_x = x.new_zeros([padlen, padlen], dtype=x.dtype).fill_(float("-inf"))
+        new_x[:xlen, :xlen] = x
+        new_x[xlen:, :xlen] = 0
+        x = new_x
+    return x.unsqueeze(0)
+
+
+class DataBase():
+    def __init__(self, data_path, rel_pad=0, subgraph='') -> None:
+        with open(f'{data_path}/entities.txt') as e, open(f'{data_path}/relations.txt') as r:
+            self.ents = ['<pad>'] + [x.strip() for x in e.readlines()]
+            self.rels = [x.strip() for x in r.readlines()]
+            self.pos_rels = len(self.rels)
+            self.rels += ['inv_' + x for x in self.rels] + ['<slf>']
+            self.e2id = {self.ents[i]: i for i in range(len(self.ents))}
+            self.r2id = {self.rels[i]: i for i in range(len(self.rels))}
+            self.id2r = {i: self.rels[i] for i in range(len(self.rels))}
+            self.id2e = {i: self.ents[i] for i in range(len(self.ents))}
+        self.data = {}
+        with open(f'{data_path}/train.txt') as f:
+            train = [item.strip().split('\t') for item in f.readlines()]
+            self.data['train'] = list({(self.e2id[h], self.r2id[r], self.e2id[t]) for h, r, t in train})
+        with open(f'{data_path}/test.txt') as f:
+            test = [item.strip().split('\t') for item in f.readlines()]
+            self.data['test'] = list({(self.e2id[h], self.r2id[r], self.e2id[t]) for h, r, t in test})
+        with open(f'{data_path}/valid.txt') as f:
+            valid = [item.strip().split('\t') for item in f.readlines()]
+            self.data['valid'] = list({(self.e2id[h], self.r2id[r], self.e2id[t]) for h, r, t in valid})
+
+        indices = [[] for _ in range(self.pos_rels)]
+        values = [[] for _ in range(self.pos_rels)]
+        for h, r, t in self.data['train']:
+            indices[r].append((h, t))
+            values[r].append(1)
+        indices = [torch.LongTensor(x).T for x in
+                   indices]
+        values = [torch.FloatTensor(x) for x in values]
+        size = torch.Size([len(self.ents), len(self.ents)])
+        self.relations = [torch.sparse.FloatTensor(indices[i], values[i], size).coalesce() for i in
+                          range(self.pos_rels)]
+
+        self.filtered_dict = defaultdict(set)
+        triplets = self.data['train'] + self.data['valid'] + self.data['test']
+        for triplet in triplets:
+            self.filtered_dict[(triplet[0], triplet[1])].add(triplet[2])
+            self.filtered_dict[(triplet[2], triplet[1] + self.pos_rels)].add(triplet[0])
+
+        self.neighbors = defaultdict(dict)
+        for h, r, t in self.data['train']:
+            try:
+                self.neighbors[h][r].add(t)
+            except KeyError:
+                self.neighbors[h][r] = set([t])
+            try:
+                self.neighbors[t][r + self.pos_rels].add(h)
+            except KeyError:
+                self.neighbors[t][r + self.pos_rels] = set([h])
+        for h in self.neighbors:
+            self.neighbors[h] = {r: list(ts) for r, ts in self.neighbors[h].items()}
+
+        self.nebor_relation = torch.ones(len(self.e2id), len(self.r2id))
+        for h, r, t in self.data['train']:
+            self.nebor_relation[h][r] += 1
+            self.nebor_relation[t][r + self.pos_rels] += 1
+        for e in self.e2id.values():
+            if e not in self.neighbors.keys():
+                self.nebor_relation[e][2 * self.pos_rels] += 1
+        self.nebor_relation = torch.log(self.nebor_relation)
+        self.nebor_relation /= self.nebor_relation.sum(1).unsqueeze(1)
+
+        if subgraph:
+            with open(subgraph, 'rb') as db:
+                self.subgraph = pickle.load(db)
+
+    def getinfo(self):
+        return len(self.ents), len(self.rels)
+
+    def extract_without_token(self, head, JUMP, MAXN, PADDING):
+        subgraph = [head]
+        relation = []
+        length = [0]
+        for jump in range(JUMP):
+            length.append(len(subgraph))
+            for parent in range(length[jump], length[jump + 1]):
+                for r in self.neighbors[subgraph[parent]]:
+                    if len(self.neighbors[subgraph[parent]][r]) > MAXN:
+                        print(f'J{subgraph[parent]}-{r}-{len(self.neighbors[subgraph[parent]][r])}', end=' ')
+                        # continue
+                        random.shuffle(self.neighbors[subgraph[parent]][r])
+                    for t in self.neighbors[subgraph[parent]][r][:MAXN]:
+                        try:
+                            pos = subgraph.index(t)
+                            relation.append((parent, pos, r))
+                        except ValueError:
+                            subgraph.append(t)
+                            pos = subgraph.index(t)
+                            relation.append((parent, pos, r))
+        length.append(len(subgraph))
+        if length[-1] > PADDING or not relation:  # subgraph is too big
+            subgraph = subgraph[:PADDING]
+            length[-1] = len(subgraph)
+        RELA = set()
+        rel_dict = defaultdict(dict)
+        for i, j, r in relation:
+            if i < PADDING and j < PADDING:
+                rel_dict[i][j] = r
+                RELA.add((i, j, r))
+                inv_r = r + self.pos_rels * ((r < self.pos_rels) * 2 - 1)
+                rel_dict[j][i] = inv_r
+                RELA.add((j, i, inv_r))
+
+        # get indegree / outdegree / shortest path
+        adjacent = np.zeros((len(subgraph), len(subgraph)))
+        indeg = np.zeros(len(subgraph))
+        outdeg = np.zeros(len(subgraph))
+        for i, j, r in RELA:
+            # i -> j with r
+            adjacent[i, j] = 1
+            outdeg[i] += 1
+            indeg[j] += 1
+
+        dist, all_path_result = algo.floyd(adjacent)
+        if (np.max(dist) == 0x3f3f3f3f):
+            m = 10
+        else:
+            m = np.max(dist)
+        shortest_path = np.full((len(subgraph), len(subgraph), m, 1), len(self.rels))
+        for i in range(len(subgraph)):
+            for j in range(len(subgraph)):
+                for k in range(len(all_path_result[i][j])):
+                    # all_path_result[i][j][k - 1] -> all_path_result[i][j][k]
+                    if k == 0:
+                        shortest_path[i][j][k] = rel_dict[i][all_path_result[i][j][k]]
+                    elif k == len(all_path_result[i][j]) - 1:
+                        shortest_path[i][j][k] = rel_dict[all_path_result[i][j][k]][j]
+                    else:
+                        shortest_path[i][j][k] = rel_dict[all_path_result[i][j][k - 1]][all_path_result[i][j][k]]
+
+        attn_bias = np.zeros((len(subgraph) + 1, len(subgraph) + 1), dtype=float)
+
+        return subgraph, np.array(list(RELA)).T, length, indeg, outdeg, dist, shortest_path, attn_bias
+
+
+class pickleDataset(torch.utils.data.Dataset):
+    def __init__(self, database, opt, mode='train'):
+        super().__init__()
+        self.triples = database.data[mode]
+        self.neighbors = database.neighbors
+        self.nrels = len(database.rels)
+        self.pos_rels = self.nrels // 2
+        self.padding = opt.padding
+        self.subgraph = database.subgraph
+
+    def __getitem__(self, index):
+        H, R, T = self.triples[index]
+        sub1, rela1, trg1, tails1, leng1, indeg1, outdeg1, dist1, shortest_path1, attn_bias1 = self.getsubgraph(H, R, T)
+        sub2, rela2, trg2, tails2, leng2, indeg2, outdeg2, dist2, shortest_path2, attn_bias2 = self.getsubgraph(T,
+                                                                                                                R + self.pos_rels,
+                                                                                                                H)
+        return sub1, rela1, trg1, tails1, leng1, indeg1, outdeg1, dist1, shortest_path1, attn_bias1, sub2, rela2, trg2, tails2, leng2, indeg2, outdeg2, dist2, shortest_path2, attn_bias2
+
+    def getsubgraph(self, H, R, T):
+        subgraph, relations, length, indeg, outdeg, dist, shortest_path, attn_bias = self.subgraph[H]
+        assert (subgraph.index(H) == 0)
+        rela_mat = torch.zeros(self.padding, self.padding, self.nrels)
+        rela_mat[relations] = 1
+
+        try:
+            t = subgraph.index(T)
+            inv_r = R + self.pos_rels * ((R < self.pos_rels) * 2 - 1)
+            rela_mat[subgraph.index(H), t, R] = 0
+            rela_mat[t, subgraph.index(H), inv_r] = 0
+        except ValueError:
+            pass
+
+        return (torch.LongTensor(subgraph), torch.FloatTensor(rela_mat), torch.tensor([H, R, T]), torch.LongTensor([0]),
+                torch.LongTensor(length)
+                , torch.LongTensor(indeg), torch.LongTensor(outdeg), torch.LongTensor(dist),
+                torch.LongTensor(shortest_path), torch.FloatTensor(attn_bias))
+
+    def __len__(self) -> int:
+        return len(self.triples)
+
+    @staticmethod
+    def collate_fn(data):
+        # todo make max_node_num configurable
+        max_node_num = 40
+        rels_len = 93
+        subs_1 = torch.cat([pad_sub_unsqueeze(i, max_node_num) for i in [d[0] for d in data]])
+        subs_2 = torch.cat([pad_sub_unsqueeze(i, max_node_num) for i in [d[10] for d in data]])
+        subs = torch.cat([subs_1, subs_2], dim=0)
+        relas = torch.stack([d[1] for d in data] + [d[11] for d in data], dim=0)
+        trgs = torch.stack([d[2] for d in data] + [d[12] for d in data], dim=0)
+        tails = torch.stack([d[3] for d in data] + [d[13] for d in data], dim=0)
+        lengs = torch.stack([d[4] for d in data] + [d[14] for d in data], dim=0)
+
+        indeg_1 = torch.cat([pad_deg_unsqueeze(i, max_node_num) for i in [d[5] for d in data]])
+        indeg_2 = torch.cat([pad_deg_unsqueeze(i, max_node_num) for i in [d[15] for d in data]])
+        indeg = torch.cat([indeg_1, indeg_2], dim=0)
+
+        outdeg_1 = torch.cat([pad_deg_unsqueeze(i, max_node_num) for i in [d[6] for d in data]])
+        outdeg_2 = torch.cat([pad_deg_unsqueeze(i, max_node_num) for i in [d[16] for d in data]])
+        outdeg = torch.cat([outdeg_1, outdeg_2], dim=0)
+
+        dist_1 = torch.cat([pad_spatial_pos_unsqueeze(i, max_node_num) for i in [d[7] for d in data]])
+        dist_2 = torch.cat([pad_spatial_pos_unsqueeze(i, max_node_num) for i in [d[17] for d in data]])
+        dist = torch.cat([dist_1, dist_2], dim=0)
+
+        shortest_path_unpad_1 = [d[8] for d in data]
+        shortest_path_unpad_2 = [d[18] for d in data]
+        max_dist = max(
+            [tens.size(2) for tens in shortest_path_unpad_1] + [tens.size(2) for tens in shortest_path_unpad_2])
+        shortest_path_1 = torch.cat(
+            [pad_path_unsqueeze(i, max_node_num, max_node_num, max_dist, rels_len) for i in shortest_path_unpad_1]
+        )
+        shortest_path_2 = torch.cat(
+            [pad_path_unsqueeze(i, max_node_num, max_node_num, max_dist, rels_len) for i in shortest_path_unpad_1]
+        )
+        shortest_path = torch.cat([shortest_path_1, shortest_path_2], dim=0)
+
+        attn_bias_1 = torch.cat([pad_attn_bias_unsqueeze(i, max_node_num + 1) for i in [d[9] for d in data]])
+        attn_bias_2 = torch.cat([pad_attn_bias_unsqueeze(i, max_node_num + 1) for i in [d[19] for d in data]])
+        attn_bias = torch.cat([attn_bias_1, attn_bias_2], dim=0)
+        return subs, relas, trgs, tails, lengs, indeg, outdeg, dist, shortest_path, attn_bias
+
+
+def main(jump, base_data, path, maxn, padding):
+    subgraph = dict()
+    cnt = []
+    false = []
+    for head in range(1, len(base_data.ents)):  # 0 for <pad>
+        res = base_data.extract_without_token(head, jump, maxn, padding)  # head, JUMP, MAXN, PADDING
+        try:
+            print(f'{head}\tlen:{res[2]}')
+            subgraph[head] = res
+            cnt.append(res[2][-1])
+        except Exception:
+            false.append(base_data.ents[head])
+    print(len(false), false)
+    with open(f'{path}/subgraph{jump}_{padding}_{maxn}', 'wb') as db:
+        pickle.dump(subgraph, db)
+        print(sum(cnt) / len(cnt))
+    lis = {i: 0 for i in range(padding + 1)}
+    for item in cnt:
+        lis[item] += 1
+    print({k: v for k, v in lis.items() if v})
+
+
+if __name__ == '__main__':
+    """
+    Make sure to change the 'max_node_num' and 'rels_len' in collate_fn when you have generated different subgraphs.
+    For example: for fb15k-237, we extract the subgraph with padding = 100 and fb15k-237 has 435 relations in total, 
+    so we should change the 'max_node_num' and 'rels_len' to 100 and 435 respectively.
+    
+    We haven't made these parameters configurable at this time and we will finish it in the future.
+    """
+    parser = argparse.ArgumentParser(description='translate.py')
+    parser.add_argument('-data', type=str, required=True)
+    parser.add_argument('-maxN', type=int, required=True)
+    parser.add_argument('-jump', type=int, required=True)
+    parser.add_argument('-padding', type=int, required=True)
+    opt = parser.parse_args()
+    # wn18rr MAXN=10
+    # umls   MAXN=40
+    # 237    MAXN=70
+    # 237    MaxN=40
+    path = opt.data
+    base_data = DataBase(path)
+    # main(1, base_data, path, 100, 40)
+    main(opt.jump, base_data, path, opt.maxN, opt.padding)
+    # main(3, base_data, path, 10, 100)
+    # main(3, base_data)
+</file>
+
+<file path="decoder/dec_layers.py/dec_layers.py">
+import numpy as np
+import torch.nn as nn
+
+
+class PositionalEncoding(nn.Module):
+
+    def __init__(self, d_hid, n_position=200):
+        super(PositionalEncoding, self).__init__()
+        # Not a parameter
+        self.register_buffer('pos_table', self._get_sinusoid_encoding_table(n_position, d_hid))
+
+    def _get_sinusoid_encoding_table(self, n_position, d_hid):
+        """ Sinusoid position encoding table """
+
+        def get_position_angle_vec(position):
+            return [position / np.power(10000, 2 * (hid_j // 2) / d_hid) for hid_j in range(d_hid)]
+
+        sinusoid_table = np.array([get_position_angle_vec(pos_i) for pos_i in range(n_position)])
+        sinusoid_table[:, 0::2] = np.sin(sinusoid_table[:, 0::2])  # dim 2i
+        sinusoid_table[:, 1::2] = np.cos(sinusoid_table[:, 1::2])  # dim 2i+1
+
+        return torch.FloatTensor(sinusoid_table).unsqueeze(0)
+
+    def forward(self, x, length=None):
+        if length is None:
+            x = x + self.pos_table[:, :x.size(1)].clone().detach()
+            return x
+
+        for b in range(length.size(0)):
+            tmp = length[b].tolist()
+            for i in range(1, len(tmp)):
+                x[b, tmp[i - 1]:tmp[i]] = x[b, tmp[i - 1]:tmp[i]] + self.pos_table[0, i, :].unsqueeze(
+                    0).clone().detach()
+        return x
+
+
+class MultiHeadAttention(nn.Module):
+    """ Decoder Attention module """
+
+    def __init__(self, n_head, d_model, d_k, d_v, dropout=0.1, rela_num=0, relationE=None):
+        super().__init__()
+
+        self.n_head = n_head
+        self.d_k = d_k
+        self.d_v = d_v
+        self.rela_num = rela_num
+
+        self.w_qs = nn.Linear(d_model, n_head * d_k, bias=False)
+        self.w_ks = nn.Linear(d_model, n_head * d_k, bias=False)
+        self.w_vs = nn.Linear(d_model, n_head * d_v, bias=False)
+        self.fc = nn.Linear(n_head * d_v, d_model, bias=False)
+
+        self.attention = ScaledDotProductAttention(temperature=d_k ** 0.5)
+
+        if self.rela_num != 0:
+            self.w_rs = nn.Linear(d_model, n_head * d_k, bias=False)
+            self.w_vvs = nn.Linear(d_model, n_head * d_v, bias=False)
+            self.relationE = relationE
+            self.atta_dropout = nn.Dropout(0.1)
+
+        self.dropout = nn.Dropout(dropout)
+        self.layer_norm = nn.LayerNorm(d_model, eps=1e-6)
+
+    def forward(self, q, k, v, mask=None, link=None):
+        residual = q
+        d_k, d_v, n_head = self.d_k, self.d_v, self.n_head
+        sz_b, len_q, len_k, len_v = q.size(0), q.size(1), k.size(1), v.size(1)
+        if mask is not None:
+            mask = mask.unsqueeze(1)  # For head axis broadcasting.
+        # Decode
+        # Pass through the pre-attention projection: b x lq x (n*dv)
+        # Separate different heads: b x lq x n x dv
+        q = self.w_qs(q).reshape(sz_b, len_q, n_head, d_k)
+        k = self.w_ks(k).reshape(sz_b, len_k, n_head, d_k)
+        v = self.w_vs(v).reshape(sz_b, len_v, n_head, d_v)
+
+        # Transpose for attention dot product: b x n x lq x dv
+        q, k, v = q.transpose(1, 2), k.transpose(1, 2), v.transpose(1, 2)
+        q, attn = self.attention(q, k, v, mask=mask)
+
+        # Transpose to move the head dimension back: b x lq x n x dv
+        # Combine the last two dimensions to concatenate all the heads together: b x lq x (n*dv)
+        q = q.transpose(1, 2).contiguous().reshape(sz_b, len_q, -1)
+        q = self.dropout(self.fc(q))
+        q += residual
+
+        q = self.layer_norm(q)
+
+        return q, attn
+
+
+class PositionwiseFeedForward(nn.Module):
+    """ A two-feed-forward-layer module """
+
+    def __init__(self, d_in, d_hid, dropout=0.1):
+        super().__init__()
+        self.w_1 = nn.Linear(d_in, d_hid)  # position-wise
+        self.w_2 = nn.Linear(d_hid, d_in)  # position-wise
+        self.layer_norm = nn.LayerNorm(d_in, eps=1e-6)
+        self.dropout = nn.Dropout(dropout)
+
+    def forward(self, x):
+        residual = x
+
+        x = self.w_2(F.relu(self.w_1(x)))
+        x = self.dropout(x)
+        x += residual
+
+        x = self.layer_norm(x)
+
+        return x
+
+
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+
+class ScaledDotProductAttention(nn.Module):
+    """ Scaled Dot-Product Attention """
+
+    def __init__(self, temperature, attn_dropout=0.1):
+        super().__init__()
+        self.temperature = temperature
+        self.dropout = nn.Dropout(attn_dropout)
+
+    def forward(self, q, k, v, mask=None):
+        attn = torch.matmul(q / self.temperature, k.transpose(2, 3))
+
+        if mask is not None:
+            attn = attn.masked_fill(mask == 0, -1e9)
+        attn = self.dropout(F.softmax(attn, dim=-1))
+
+        output = torch.matmul(attn, v)
+
+        return output, attn
+</file>
+
+<file path="decoder/rule_decoder_layer.py/rule_decoder_layer.py">
+from torch import nn
+
+from decoder.dec_layers import MultiHeadAttention, PositionwiseFeedForward
+
+
+class DecoderLayer(nn.Module):
+
+    def __init__(self, d_model, d_inner, n_head, d_k, d_v, dropout=0.1, relationE=None):
+        super(DecoderLayer, self).__init__()
+        self.slf_attn = MultiHeadAttention(n_head, d_model, d_k, d_v, dropout=dropout)
+        self.enc_attn = MultiHeadAttention(n_head, d_model, d_k, d_v, dropout=dropout)
+        self.pos_ffn = PositionwiseFeedForward(d_model, d_inner, dropout=dropout)
+
+    def forward(self, dec_input, enc_output, slf_attn_mask=None, dec_enc_attn_mask=None):
+        dec_enc_attn = None
+        dec_output, dec_slf_attn = self.slf_attn(dec_input, dec_input, dec_input, mask=slf_attn_mask)
+        dec_output, dec_enc_attn = self.enc_attn(dec_output, enc_output, enc_output, mask=dec_enc_attn_mask)
+        dec_output = self.pos_ffn(dec_output)
+        return dec_output, dec_slf_attn, dec_enc_attn
+</file>
+
+<file path="decoder/rule_decoder.py/rule_decoder.py">
+from torch import nn
+
+from decoder.dec_layers import PositionalEncoding
+from decoder.rule_decoder_layer import DecoderLayer
+
+
+class RuleDecoder(nn.Module):
+    """ a rule decoder model which generates rule paths """
+
+    def __init__(
+            self, n_trg_vocab, d_word_vec, n_layers, n_head, d_k, d_v,
+            d_model, d_inner, pad_idx, n_position=200, dropout=0.1, scale_emb=False, relationE=None, data=None):
+
+        super().__init__()
+
+        self.trg_word_emb = relationE
+        self.position_enc = PositionalEncoding(d_word_vec, n_position=n_position)
+        self.dropout = nn.Dropout(p=dropout)
+        self.layer_stack = nn.ModuleList([
+            DecoderLayer(d_model, d_inner, n_head, d_k, d_v, dropout=dropout, relationE=relationE)
+            for _ in range(n_layers)])
+        self.layer_norm = nn.LayerNorm(d_model, eps=1e-6)
+        self.scale_emb = scale_emb
+        self.d_model = d_model
+
+    def forward(self, trg_seq, trg_mask, enc_output, src_mask, return_attns=False):
+
+        dec_slf_attn_list, dec_enc_attn_list = [], []
+
+        # -- Forward
+        dec_output = self.trg_word_emb(trg_seq)
+        if self.scale_emb:
+            dec_output *= self.d_model ** 0.5
+        dec_output = self.dropout(self.position_enc(dec_output))
+        dec_output = self.layer_norm(dec_output)
+
+        for dec_layer in self.layer_stack:
+            dec_output, dec_slf_attn, dec_enc_attn = dec_layer(
+                dec_output, enc_output, slf_attn_mask=trg_mask, dec_enc_attn_mask=src_mask)
+            dec_slf_attn_list += [dec_slf_attn] if return_attns else []
+            dec_enc_attn_list += [dec_enc_attn] if return_attns else []
+
+        if return_attns:
+            return dec_output, dec_slf_attn_list, dec_enc_attn_list
+        return dec_output,
+</file>
+
+<file path="encoder/multihead_attention.py/multihead_attention.py">
+import math
+from typing import Optional, Tuple
+
+import torch
+from fairseq import utils
+from fairseq.modules import FairseqDropout
+from fairseq.modules.quant_noise import quant_noise
+from torch import nn, Tensor
+
+
+class MultiheadAttention(nn.Module):
+    """
+    Multi-head attention.
+    See "Attention Is All You Need" for more details.
+    """
+
+    def __init__(
+        self,
+        embed_dim,
+        num_heads,
+        kdim=None,
+        vdim=None,
+        dropout=0.0,
+        bias=True,
+        self_attention=False,
+        q_noise=0.0,
+        qn_block_size=8,
+    ):
+        super().__init__()
+        self.embed_dim = embed_dim
+        self.kdim = kdim if kdim is not None else embed_dim
+        self.vdim = vdim if vdim is not None else embed_dim
+        self.qkv_same_dim = self.kdim == embed_dim and self.vdim == embed_dim
+
+        self.num_heads = num_heads
+        self.dropout_module = FairseqDropout(
+            dropout, module_name=self.__class__.__name__
+        )
+
+        self.head_dim = embed_dim // num_heads
+        assert (
+            self.head_dim * num_heads == self.embed_dim
+        ), "embed_dim must be divisible by num_heads"
+        self.scaling = self.head_dim ** -0.5
+
+        self.self_attention = self_attention
+
+        assert self.self_attention, "Only support self attention"
+
+        assert not self.self_attention or self.qkv_same_dim, (
+            "Self-attention requires query, key and " "value to be of the same size"
+        )
+
+        self.k_proj = quant_noise(
+            nn.Linear(self.kdim, embed_dim, bias=bias), q_noise, qn_block_size
+        )
+        self.v_proj = quant_noise(
+            nn.Linear(self.vdim, embed_dim, bias=bias), q_noise, qn_block_size
+        )
+        self.q_proj = quant_noise(
+            nn.Linear(embed_dim, embed_dim, bias=bias), q_noise, qn_block_size
+        )
+
+        self.out_proj = quant_noise(
+            nn.Linear(embed_dim, embed_dim, bias=bias), q_noise, qn_block_size
+        )
+
+        self.reset_parameters()
+        self.onnx_trace = False
+
+    def reset_parameters(self):
+        if self.qkv_same_dim:
+            # Empirically observed the convergence to be much better with
+            # the scaled initialization
+            nn.init.xavier_uniform_(self.k_proj.weight, gain=1 / math.sqrt(2))
+            nn.init.xavier_uniform_(self.v_proj.weight, gain=1 / math.sqrt(2))
+            nn.init.xavier_uniform_(self.q_proj.weight, gain=1 / math.sqrt(2))
+        else:
+            nn.init.xavier_uniform_(self.k_proj.weight)
+            nn.init.xavier_uniform_(self.v_proj.weight)
+            nn.init.xavier_uniform_(self.q_proj.weight)
+
+        nn.init.xavier_uniform_(self.out_proj.weight)
+        if self.out_proj.bias is not None:
+            nn.init.constant_(self.out_proj.bias, 0.0)
+
+    def forward(
+        self,
+        query,
+        key: Optional[Tensor],
+        value: Optional[Tensor],
+        attn_bias: Optional[Tensor],
+        key_padding_mask: Optional[Tensor] = None,
+        need_weights: bool = True,
+        attn_mask: Optional[Tensor] = None,
+        before_softmax: bool = False,
+        need_head_weights: bool = False,
+    ) -> Tuple[Tensor, Optional[Tensor]]:
+        """Input shape: Time x Batch x Channel
+
+        Args:
+            key_padding_mask (ByteTensor, optional): mask to exclude
+                keys that are pads, of shape `(batch, src_len)`, where
+                padding elements are indicated by 1s.
+            need_weights (bool, optional): return the attention weights,
+                averaged over heads (default: False).
+            attn_mask (ByteTensor, optional): typically used to
+                implement causal attention, where the mask prevents the
+                attention from looking forward in time (default: None).
+            before_softmax (bool, optional): return the raw attention
+                weights and values before the attention softmax.
+            need_head_weights (bool, optional): return the attention
+                weights for each head. Implies *need_weights*. Default:
+                return the average attention weights over all heads.
+        """
+        if need_head_weights:
+            need_weights = True
+
+        tgt_len, bsz, embed_dim = query.size()
+        src_len = tgt_len
+        assert embed_dim == self.embed_dim, f"query dim {embed_dim} != {self.embed_dim}"
+        assert list(query.size()) == [tgt_len, bsz, embed_dim]
+        if key is not None:
+            src_len, key_bsz, _ = key.size()
+            if not torch.jit.is_scripting():
+                assert key_bsz == bsz
+                assert value is not None
+                assert src_len, bsz == value.shape[:2]
+
+        q = self.q_proj(query)
+        k = self.k_proj(query)
+        v = self.v_proj(query)
+        q *= self.scaling
+
+        q = (
+            q.contiguous()
+            .view(tgt_len, bsz * self.num_heads, self.head_dim)
+            .transpose(0, 1)
+        )
+        if k is not None:
+            k = (
+                k.contiguous()
+                .view(-1, bsz * self.num_heads, self.head_dim)
+                .transpose(0, 1)
+            )
+        if v is not None:
+            v = (
+                v.contiguous()
+                .view(-1, bsz * self.num_heads, self.head_dim)
+                .transpose(0, 1)
+            )
+
+        assert k is not None
+        assert k.size(1) == src_len
+
+        # This is part of a workaround to get around fork/join parallelism
+        # not supporting Optional types.
+        if key_padding_mask is not None and key_padding_mask.dim() == 0:
+            key_padding_mask = None
+
+        if key_padding_mask is not None:
+            assert key_padding_mask.size(0) == bsz
+            assert key_padding_mask.size(1) == src_len
+        attn_weights = torch.bmm(q, k.transpose(1, 2))
+        attn_weights = self.apply_sparse_mask(attn_weights, tgt_len, src_len, bsz)
+
+        assert list(attn_weights.size()) == [bsz * self.num_heads, tgt_len, src_len]
+
+        if attn_bias is not None:
+            attn_weights += attn_bias.view(bsz * self.num_heads, tgt_len, src_len)
+
+        if attn_mask is not None:
+            attn_mask = attn_mask.unsqueeze(0)
+            attn_weights += attn_mask
+
+        if key_padding_mask is not None:
+            # don't attend to padding symbols
+            attn_weights = attn_weights.view(bsz, self.num_heads, tgt_len, src_len)
+            attn_weights = attn_weights.masked_fill(
+                key_padding_mask.unsqueeze(1).unsqueeze(2).to(torch.bool),
+                float("-inf"),
+            )
+            attn_weights = attn_weights.view(bsz * self.num_heads, tgt_len, src_len)
+
+        if before_softmax:
+            return attn_weights, v
+
+        attn_weights_float = utils.softmax(
+            attn_weights, dim=-1, onnx_trace=self.onnx_trace
+        )
+        attn_weights = attn_weights_float.type_as(attn_weights)
+        attn_probs = self.dropout_module(attn_weights)
+
+        assert v is not None
+        attn = torch.bmm(attn_probs, v)
+        assert list(attn.size()) == [bsz * self.num_heads, tgt_len, self.head_dim]
+
+        attn = attn.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
+        attn = self.out_proj(attn)
+
+        attn_weights: Optional[Tensor] = None
+        if need_weights:
+            attn_weights = attn_weights_float.view(
+                bsz, self.num_heads, tgt_len, src_len
+            ).transpose(1, 0)
+            if not need_head_weights:
+                # average attention weights over heads
+                attn_weights = attn_weights.mean(dim=0)
+
+        return attn, attn_weights
+
+    def apply_sparse_mask(self, attn_weights, tgt_len: int, src_len: int, bsz: int):
+        return attn_weights
+
+    def upgrade_state_dict_named(self, state_dict, name):
+        prefix = name + "." if name != "" else ""
+        items_to_add = {}
+        keys_to_remove = []
+        for k in state_dict.keys():
+            if k.endswith(prefix + "in_proj_weight"):
+                # in_proj_weight used to be q + k + v with same dimensions
+                dim = int(state_dict[k].shape[0] / 3)
+                items_to_add[prefix + "q_proj.weight"] = state_dict[k][:dim]
+                items_to_add[prefix + "k_proj.weight"] = state_dict[k][dim : 2 * dim]
+                items_to_add[prefix + "v_proj.weight"] = state_dict[k][2 * dim :]
+
+                keys_to_remove.append(k)
+
+                k_bias = prefix + "in_proj_bias"
+                if k_bias in state_dict.keys():
+                    dim = int(state_dict[k].shape[0] / 3)
+                    items_to_add[prefix + "q_proj.bias"] = state_dict[k_bias][:dim]
+                    items_to_add[prefix + "k_proj.bias"] = state_dict[k_bias][
+                        dim : 2 * dim
+                    ]
+                    items_to_add[prefix + "v_proj.bias"] = state_dict[k_bias][2 * dim :]
+
+                    keys_to_remove.append(prefix + "in_proj_bias")
+
+        for k in keys_to_remove:
+            del state_dict[k]
+
+        for key, value in items_to_add.items():
+            state_dict[key] = value
+</file>
+
+<file path="encoder/sa_graph_encoder_layer.py/sa_graph_encoder_layer.py">
+from typing import Optional
+
+import torch
+from fairseq import utils
+from fairseq.modules import FairseqDropout, LayerNorm
+from fairseq.modules.quant_noise import quant_noise
+from torch import nn
+
+from encoder.multihead_attention import MultiheadAttention
+
+
+class StructureAwareEncoderLayer(nn.Module):
+    def __init__(
+            self,
+            embedding_dim: int = 768,
+            ffn_embedding_dim: int = 3072,
+            num_attention_heads: int = 8,
+            dropout: float = 0.1,
+            attention_dropout: float = 0.1,
+            activation_dropout: float = 0.1,
+            activation_fn: str = "relu",
+            export: bool = False,
+            q_noise: float = 0.0,
+            qn_block_size: int = 8,
+            pre_layernorm: bool = False,
+    ) -> None:
+        super().__init__()
+
+        # Initialize parameters
+        self.embedding_dim = embedding_dim
+        self.num_attention_heads = num_attention_heads
+        self.attention_dropout = attention_dropout
+        self.q_noise = q_noise
+        self.qn_block_size = qn_block_size
+        self.pre_layernorm = pre_layernorm
+        self.dropout_module = FairseqDropout(
+            dropout, module_name=self.__class__.__name__
+        )
+        self.activation_dropout_module = FairseqDropout(
+            activation_dropout, module_name=self.__class__.__name__
+        )
+
+        # Initialize blocks
+        self.activation_fn = utils.get_activation_fn(activation_fn)
+        self.self_attn = self.build_self_attention(
+            self.embedding_dim,
+            num_attention_heads,
+            dropout=attention_dropout,
+            self_attention=True,
+            q_noise=q_noise,
+            qn_block_size=qn_block_size,
+        )
+
+        # layer norm associated with the self attention layer
+        self.self_attn_layer_norm = LayerNorm(self.embedding_dim, export=export)
+        self.fc1 = self.build_fc1(
+            self.embedding_dim,
+            ffn_embedding_dim,
+            q_noise=q_noise,
+            qn_block_size=qn_block_size,
+        )
+        self.fc2 = self.build_fc2(
+            ffn_embedding_dim,
+            self.embedding_dim,
+            q_noise=q_noise,
+            qn_block_size=qn_block_size,
+        )
+
+        # layer norm associated with the position wise FFN
+        self.final_layer_norm = LayerNorm(self.embedding_dim, export=export)
+
+    def build_fc1(self, input_dim, output_dim, q_noise, qn_block_size):
+        return quant_noise(nn.Linear(input_dim, output_dim), q_noise, qn_block_size)
+
+    def build_fc2(self, input_dim, output_dim, q_noise, qn_block_size):
+        return quant_noise(nn.Linear(input_dim, output_dim), q_noise, qn_block_size)
+
+    def build_self_attention(
+        self,
+        embed_dim,
+        num_attention_heads,
+        dropout,
+        self_attention,
+        q_noise,
+        qn_block_size,
+    ):
+        return MultiheadAttention(
+            embed_dim,
+            num_attention_heads,
+            dropout=dropout,
+            self_attention=True,
+            q_noise=q_noise,
+            qn_block_size=qn_block_size,
+        )
+
+    def forward(
+        self,
+        x: torch.Tensor,
+        self_attn_bias: Optional[torch.Tensor] = None,
+        self_attn_mask: Optional[torch.Tensor] = None,
+        self_attn_padding_mask: Optional[torch.Tensor] = None,
+    ):
+        """
+        LayerNorm is applied either before or after the self-attention/ffn
+        modules similar to the original Transformer implementation.
+        """
+        # x: T x B x C
+        residual = x
+        if self.pre_layernorm:
+            x = self.self_attn_layer_norm(x)
+        x, attn = self.self_attn(
+            query=x,
+            key=x,
+            value=x,
+            attn_bias=self_attn_bias,
+            key_padding_mask=self_attn_padding_mask,
+            need_weights=False,
+            attn_mask=self_attn_mask,
+        )
+        x = self.dropout_module(x)
+        x = residual + x
+        if not self.pre_layernorm:
+            x = self.self_attn_layer_norm(x)
+
+        residual = x
+        if self.pre_layernorm:
+            x = self.final_layer_norm(x)
+        x = self.activation_fn(self.fc1(x))
+        x = self.activation_dropout_module(x)
+        x = self.fc2(x)
+        x = self.dropout_module(x)
+        x = residual + x
+        if not self.pre_layernorm:
+            x = self.final_layer_norm(x)
+        return x, attn
+</file>
+
+<file path="encoder/sa_graph_encoder_model.py/sa_graph_encoder_model.py">
+import torch
+from fairseq import utils
+from fairseq.modules import LayerNorm
+from torch import nn
+
+from encoder.sa_graph_encoder import StructureAwareGraphEncoder
+
+
+class StructureAwareGraphEncoderModel(nn.Module):
+
+    def __init__(self, args):
+        super().__init__()
+        self.graph_encoder = StructureAwareGraphEncoder(
+            num_entities=args.num_entities,
+            num_in_degree=args.num_in_degree,
+            num_out_degree=args.num_out_degree,
+            num_edges=args.num_edges,
+            num_spatial=args.num_spatial,
+            num_edge_dis=args.num_edge_dis,
+            edge_type=args.edge_type,
+            multi_hop_max_dist=args.multi_hop_max_dist,
+            # >
+            num_encoder_layers=args.encoder_layers,
+            embedding_dim=args.encoder_embed_dim,
+            ffn_embedding_dim=args.encoder_ffn_embed_dim,
+            num_attention_heads=args.encoder_attention_heads,
+            dropout=args.dropout,
+            attention_dropout=args.attention_dropout,
+            activation_dropout=args.act_dropout,
+            encoder_normalize_before=args.encoder_normalize_before,
+            pre_layernorm=args.pre_layernorm,
+            apply_init=args.apply_init,
+            activation_fn=args.activation_fn,
+            edge_padding_idx=args.edge_padding_idx
+        )
+
+    def forward(self, data_x, indeg, outdeg, spatial_pos, attn_bias, edge_input, link, length, perturb=None,
+                masked_tokens=None, **unused):
+        inner_states, graph_rep = self.graph_encoder(
+            data_x, indeg, outdeg, spatial_pos, attn_bias, edge_input, link, length,
+            perturb=perturb,
+        )
+        x = inner_states[-1].transpose(0, 1)
+        return x[:, :-1, :]
+</file>
+
+<file path="encoder/sa_graph_encoder.py/sa_graph_encoder.py">
+from typing import Optional, Tuple
+
+import torch
+from fairseq.modules import FairseqDropout, LayerNorm, LayerDropModuleList
+from torch import nn
+
+from encoder.multihead_attention import MultiheadAttention
+from encoder.sa_graph_encoder_layer import StructureAwareEncoderLayer
+from encoder.sa_layers import LocalLevelEncoding, GlobalLevelEncoding
+from fairseq.modules.quant_noise import quant_noise as apply_quant_noise_
+
+
+def init_params(module):
+    """
+    Initialize the weights to the Structure-Aware Graph Encoder.
+    """
+
+    def normal_(data):
+        # with FSDP, module params will be on CUDA, so we cast them back to CPU
+        # so that the RNG is consistent with and without FSDP
+        data.copy_(data.cpu().normal_(mean=0.0, std=0.02).to(data.device))
+
+    if isinstance(module, nn.Linear):
+        normal_(module.weight.data)
+        if module.bias is not None:
+            module.bias.data.zero_()
+    if isinstance(module, nn.Embedding):
+        normal_(module.weight.data)
+        if module.padding_idx is not None:
+            module.weight.data[module.padding_idx].zero_()
+    if isinstance(module, MultiheadAttention):
+        normal_(module.q_proj.weight.data)
+        normal_(module.k_proj.weight.data)
+        normal_(module.v_proj.weight.data)
+
+
+class StructureAwareGraphEncoder(nn.Module):
+
+    def __init__(
+            self,
+            num_entities: int,
+            num_in_degree: int,
+            num_out_degree: int,
+            num_edges: int,
+            num_spatial: int,
+            num_edge_dis: int,
+            edge_type: str,
+            multi_hop_max_dist: int,
+            num_encoder_layers: int = 12,
+            embedding_dim: int = 768,
+            ffn_embedding_dim: int = 768,
+            num_attention_heads: int = 32,
+            dropout: float = 0.1,
+            attention_dropout: float = 0.1,
+            activation_dropout: float = 0.1,
+            layerdrop: float = 0.0,
+            encoder_normalize_before: bool = False,
+            pre_layernorm: bool = False,
+            apply_init: bool = False,
+            activation_fn: str = "gelu",
+            embed_scale: float = None,
+            freeze_embeddings: bool = False,
+            n_trans_layers_to_freeze: int = 0,
+            export: bool = False,
+            traceable: bool = False,
+            q_noise: float = 0.0,
+            qn_block_size: int = 8,
+            edge_padding_idx: int = 0,
+    ) -> None:
+
+        super().__init__()
+        self.dropout_module = FairseqDropout(
+            dropout, module_name=self.__class__.__name__
+        )
+        self.layerdrop = layerdrop
+        self.embedding_dim = embedding_dim
+        self.apply_init = apply_init
+        self.traceable = traceable
+
+        self.graph_entities_feature = LocalLevelEncoding(
+            num_heads=num_attention_heads,
+            num_entities=num_entities,
+            num_in_degree=num_in_degree,
+            num_out_degree=num_out_degree,
+            hidden_dim=embedding_dim,
+            n_layers=num_encoder_layers,
+            num_edges=num_edges,
+            dropout=dropout
+        )
+
+        self.graph_attn_bias = GlobalLevelEncoding(
+            num_heads=num_attention_heads,
+            num_entities=num_entities,
+            num_edges=num_edges,
+            num_spatial=num_spatial,
+            num_edge_dis=num_edge_dis,
+            edge_type=edge_type,
+            multi_hop_max_dist=multi_hop_max_dist,
+            hidden_dim=embedding_dim,
+            n_layers=num_encoder_layers,
+            edge_padding_idx=edge_padding_idx
+        )
+
+        self.embed_scale = embed_scale
+
+        if q_noise > 0:
+            self.quant_noise = apply_quant_noise_(
+                nn.Linear(self.embedding_dim, self.embedding_dim, bias=False),
+                q_noise,
+                qn_block_size,
+            )
+        else:
+            self.quant_noise = None
+
+        if encoder_normalize_before:
+            self.emb_layer_norm = LayerNorm(self.embedding_dim, export=export)
+        else:
+            self.emb_layer_norm = None
+
+        if pre_layernorm:
+            self.final_layer_norm = LayerNorm(self.embedding_dim, export=export)
+
+        if self.layerdrop > 0.0:
+            self.layers = LayerDropModuleList(p=self.layerdrop)
+        else:
+            self.layers = nn.ModuleList([])
+        self.layers.extend(
+            [
+                self.build_sa_graph_encoder_layer(
+                    embedding_dim=self.embedding_dim,
+                    ffn_embedding_dim=ffn_embedding_dim,
+                    num_attention_heads=num_attention_heads,
+                    dropout=self.dropout_module.p,
+                    attention_dropout=attention_dropout,
+                    activation_dropout=activation_dropout,
+                    activation_fn=activation_fn,
+                    export=export,
+                    q_noise=q_noise,
+                    qn_block_size=qn_block_size,
+                    pre_layernorm=pre_layernorm,
+                )
+                for _ in range(num_encoder_layers)
+            ]
+        )
+
+        # Apply initialization of model params after building the model
+        if self.apply_init:
+            self.apply(init_params)
+
+        def freeze_module_params(m):
+            if m is not None:
+                for p in m.parameters():
+                    p.requires_grad = False
+
+        if freeze_embeddings:
+            raise NotImplementedError("Freezing embeddings is not implemented yet.")
+
+        for layer in range(n_trans_layers_to_freeze):
+            freeze_module_params(self.layers[layer])
+
+    def build_sa_graph_encoder_layer(
+        self,
+        embedding_dim,
+        ffn_embedding_dim,
+        num_attention_heads,
+        dropout,
+        attention_dropout,
+        activation_dropout,
+        activation_fn,
+        export,
+        q_noise,
+        qn_block_size,
+        pre_layernorm,
+    ):
+        return StructureAwareEncoderLayer(
+            embedding_dim=embedding_dim,
+            ffn_embedding_dim=ffn_embedding_dim,
+            num_attention_heads=num_attention_heads,
+            dropout=dropout,
+            attention_dropout=attention_dropout,
+            activation_dropout=activation_dropout,
+            activation_fn=activation_fn,
+            export=export,
+            q_noise=q_noise,
+            qn_block_size=qn_block_size,
+            pre_layernorm=pre_layernorm,
+        )
+
+    def forward(
+        self,
+        data_x, indeg, outdeg, spatial_pos, attn_bias, edge_input, link, length,
+        perturb=None,
+        last_state_only: bool = False,
+        attn_mask: Optional[torch.Tensor] = None,
+    ) -> Tuple[torch.Tensor, torch.Tensor]:
+        n_graph, n_entities = data_x.size()[:2]
+        padding_mask = (data_x[:, :, 0]).eq(0)  # B x T x 1
+        padding_mask_cls = torch.zeros(n_graph, 1, device=padding_mask.device, dtype=padding_mask.dtype )
+        padding_mask = torch.cat((padding_mask_cls, padding_mask), dim=1)
+        # local-level encoding prepared for generalized attention mechanism
+        x = self.graph_entities_feature(data_x, indeg, outdeg, link, length)
+        if perturb is not None:
+            x[:, 1:, :] += perturb
+        # x: B x T x C
+        # global-level encoding
+        attn_bias = self.graph_attn_bias(data_x, attn_bias, spatial_pos, edge_input)
+        if self.embed_scale is not None:
+            x = x * self.embed_scale
+        if self.quant_noise is not None:
+            x = self.quant_noise(x)
+        if self.emb_layer_norm is not None:
+            x = self.emb_layer_norm(x)
+        x = self.dropout_module(x)
+        # account for padding while computing the representation
+        # B x T x C -> T x B x C
+        x = x.transpose(0, 1)
+        inner_states = []
+        if not last_state_only:
+            inner_states.append(x)
+        for layer in self.layers:
+            x, _ = layer(
+                x,
+                self_attn_padding_mask=padding_mask,
+                self_attn_mask=attn_mask,
+                self_attn_bias=attn_bias,
+            )
+            if not last_state_only:
+                inner_states.append(x)
+        graph_rep = x[0, :, :]
+        if last_state_only:
+            inner_states = [x]
+        if self.traceable:
+            return torch.stack(inner_states), graph_rep
+        else:
+            return inner_states, graph_rep
+</file>
+
+<file path="encoder/sa_layers.py/sa_layers.py">
+import math
+import torch
+from torch import nn
+
+
+def init_params(module, n_layers):
+    if isinstance(module, nn.Linear):
+        module.weight.data.normal_(mean=0.0, std=0.02 / math.sqrt(n_layers))
+        if module.bias is not None:
+            module.bias.data.zero_()
+    if isinstance(module, nn.Embedding):
+        module.weight.data.normal_(mean=0.0, std=0.02)
+
+
+class LocalLevelEncoding(nn.Module):
+    """
+        Compute Local-level Encoding for each entity in the graph.
+        This module includes two feature extractors, which can be specified by the parameter extractor_type
+        1. local-degree extractor
+        2. local-relation extractor
+    """
+
+    def __init__(
+            self, num_heads, num_entities, num_in_degree, num_out_degree, num_edges, hidden_dim, n_layers, dropout,
+            extractor_type='relation'
+    ):
+        super(LocalLevelEncoding, self).__init__()
+        self.num_heads = num_heads
+        self.num_entities = num_entities
+
+        # 1 for graph token
+        self.entity_encoder = nn.Embedding(num_entities + 1, hidden_dim, padding_idx=0)
+        self.in_degree_encoder = nn.Embedding(num_in_degree, hidden_dim, padding_idx=0)
+        self.out_degree_encoder = nn.Embedding(
+            num_out_degree, hidden_dim, padding_idx=0
+        )
+
+        self.relation_encoder = nn.Embedding(num_edges, hidden_dim)
+        self.relation_ffn = nn.Linear(hidden_dim, hidden_dim, bias=False)
+
+        self.extractor_type = extractor_type
+        self.dropout = nn.Dropout(p=dropout)
+        self.layer_norm = nn.LayerNorm(hidden_dim, eps=1e-6)
+        self.graph_token = nn.Embedding(1, hidden_dim)
+        self.apply(lambda module: init_params(module, n_layers=n_layers))
+
+    def forward(self, x, in_degree, out_degree, link, length):
+
+        n_graph, n_entity = x.size()[:2]
+
+        # entity feature + graph token
+        entity_feature = self.entity_encoder(x).sum(dim=-2)  # [n_graph, n_entity, n_hidden]
+
+        # feature extractor
+        if self.extractor_type == 'relation':
+            relation_feature = torch.matmul(torch.matmul(link, self.relation_encoder.weight), self.relation_ffn.weight)
+            entity_feature = entity_feature + relation_feature.sum(dim=-2)
+            entity_feature = self.layer_norm(entity_feature)
+        elif self.extractor_type == 'degree':
+            entity_feature = (
+                    entity_feature
+                    + self.in_degree_encoder(in_degree)
+                    + self.out_degree_encoder(out_degree)
+            )
+        graph_token_feature = self.graph_token.weight.unsqueeze(0).repeat(n_graph, 1, 1)
+        graph_entity_feature = torch.cat([graph_token_feature, entity_feature], dim=1)
+        return graph_entity_feature
+
+
+class GlobalLevelEncoding(nn.Module):
+    """
+        Compute Global-level Encoding for each entity in the graph.
+        This module includes structural encoding and relational encoding.
+    """
+
+    def __init__(
+        self,
+        num_heads,
+        num_entities,
+        num_edges,
+        num_spatial,
+        num_edge_dis,
+        hidden_dim,
+        edge_type,
+        multi_hop_max_dist,
+        n_layers,
+        edge_padding_idx = 0
+    ):
+        super(GlobalLevelEncoding, self).__init__()
+        self.num_heads = num_heads
+        self.multi_hop_max_dist = multi_hop_max_dist
+        self.edge_encoder = nn.Embedding(num_edges + 1, num_heads, padding_idx=edge_padding_idx)
+        self.edge_type = edge_type
+        if self.edge_type == "multi_hop":
+            self.edge_dis_encoder = nn.Embedding(
+                num_edge_dis * num_heads * num_heads, 1
+            )
+        self.structural_encoder = nn.Embedding(num_spatial, num_heads, padding_idx=0)
+
+        self.graph_token_virtual_distance = nn.Embedding(1, num_heads)
+
+        self.apply(lambda module: init_params(module, n_layers=n_layers))
+
+    def forward(self, x, attn_bias, spatial_pos, edge_input):
+
+        n_graph, n_entity = x.size()[:2]
+        graph_attn_bias = attn_bias.clone()
+        graph_attn_bias = graph_attn_bias.unsqueeze(1).repeat(
+            1, self.num_heads, 1, 1
+        )  # [n_graph, n_head, n_entity+1, n_entity+1]
+
+        # structural encoding
+        # [n_graph, n_entity, n_entity, n_head] -> [n_graph, n_head, n_entity, n_entity]
+        spatial_pos_bias = self.structural_encoder(spatial_pos).permute(0, 3, 1, 2)
+        graph_attn_bias[:, :, 1:, 1:] = graph_attn_bias[:, :, 1:, 1:] + spatial_pos_bias
+
+        # reset structural pos here
+        t = self.graph_token_virtual_distance.weight.view(1, self.num_heads, 1)
+        graph_attn_bias[:, :, 1:, 0] = graph_attn_bias[:, :, 1:, 0] + t
+        graph_attn_bias[:, :, 0, :] = graph_attn_bias[:, :, 0, :] + t
+
+        # edge feature
+        if self.edge_type == "multi_hop":
+            spatial_pos_ = spatial_pos.clone()
+            spatial_pos_[spatial_pos_ == 0] = 1  # set pad to 1
+            # set 1 to 1, x > 1 to x - 1
+            spatial_pos_ = torch.where(spatial_pos_ > 1, spatial_pos_ - 1, spatial_pos_)
+            if self.multi_hop_max_dist > 0:
+                spatial_pos_ = spatial_pos_.clamp(0, self.multi_hop_max_dist)
+                edge_input = edge_input[:, :, :, : self.multi_hop_max_dist, :]
+            # [n_graph, n_node, n_node, max_dist, n_head]
+            edge_input = self.edge_encoder(edge_input).mean(-2)
+            max_dist = edge_input.size(-2)
+            edge_input_flat = edge_input.permute(3, 0, 1, 2, 4).reshape(
+                max_dist, -1, self.num_heads
+            )
+            edge_input_flat = torch.bmm(
+                edge_input_flat,
+                self.edge_dis_encoder.weight.reshape(
+                    -1, self.num_heads, self.num_heads
+                )[:max_dist, :, :],
+            )
+            edge_input = edge_input_flat.reshape(
+                max_dist, n_graph, n_entity, n_entity, self.num_heads
+            ).permute(1, 2, 3, 0, 4)
+            edge_input = (
+                edge_input.sum(-2) / (spatial_pos_.float().unsqueeze(-1))
+            ).permute(0, 3, 1, 2)
+
+        graph_attn_bias[:, :, 1:, 1:] = graph_attn_bias[:, :, 1:, 1:] + edge_input
+        graph_attn_bias = graph_attn_bias + attn_bias.unsqueeze(1)  # reset
+
+        return graph_attn_bias
+</file>
+
+<file path="main.py/main.py">
+import argparse
+import os
+import random
+import time
+
+import numpy as np
+import torch
+from fairseq import utils
+from torch import optim
+
+from dataset import DataBase, pickleDataset
+from model import StructureAwareGraphTransformer
+from optimizer import ScheduledOptim
+from rule_translator import RuleTranslator
+
+
+def slim_architecture(args):
+    args.encoder_embed_dim = 300  # 300 [100,200,300,400,500]
+    args.encoder_layers = 12
+    args.encoder_attention_heads = 6  # 6 , emded_dim / 50
+    args.encoder_ffn_embed_dim = 300  # 300 [100,200,300,400,500]
+    args.activation_fn = "gelu"
+    args.encoder_normalize_before = True
+    args.apply_init = True
+    args.share_encoder_input_output_embed = False
+    args.no_token_positional_embeddings = False
+    args.pre_layernorm = False
+    args.dropout = 0.1
+    args.attention_dropout = 0.1
+    args.act_dropout = 0.0
+
+
+def load_model(opt, device, nebor_relation):
+    model = StructureAwareGraphTransformer(
+        opt.src_vocab_size,
+        opt.trg_vocab_size,
+        opt.src_pad_idx,
+        -1,
+        trg_emb_prj_weight_sharing=opt.proj_share_weight,
+        emb_src_trg_weight_sharing=opt.embs_share_weight,
+        d_k=opt.d_k,
+        d_v=opt.d_v,
+        d_model=opt.d_model,
+        d_word_vec=opt.d_word_vec,
+        d_inner=opt.d_inner_hid,
+        n_layers=opt.n_layers,
+        n_head=opt.n_head,
+        dropout=opt.dropout,
+        scale_emb_or_prj=opt.scale_emb_or_prj,
+        n_position=opt.padding,
+        data=opt.data,
+        opt=opt,
+        nebor_relation=nebor_relation.to(device),
+    ).to(device)
+    return model
+
+
+def hit_mrr(hits, starttime):
+    return 'MRR:{:.5f} @1:{:.5f} @3:{:.5f} @10:{:.5f} LOS:{:.5f} Time:{:.1f}secs'.format(hits[10] / hits[12],
+                                                                                         hits[0] / hits[12],
+                                                                                         hits[0:3].sum() / hits[12],
+                                                                                         hits[0:10].sum() / hits[12],
+                                                                                         hits[11] / hits[12],
+                                                                                         time.time() - starttime)
+
+
+def run(translator, data_loader, id2r, mode, optimizer, device, padding, epoch, logfile, starttime, decode):
+    pred_line = []
+    hits = np.zeros(13)  # [0:10] for hit, [10] for mrr, [11] for loss, [12] for cnt
+    for i, (subgraph, link, target, tailIndexs, length, indeg, outdeg, dist, shortest_path, attn_bias) in enumerate(
+            data_loader):
+        pred_seq, loss, indexL = translator(subgraph.to(device), target.to(device), tailIndexs.to(device),
+                                            link.to(device), padding, mode, length.to(device),
+                                            indeg.to(device), outdeg.to(device), dist.to(device),
+                                            shortest_path.to(device), attn_bias.to(device))
+        if decode == True:
+            continue
+        print(f'\r {mode} {epoch}-{i}/{len(data_loader)}', end='    ')
+        for j, index in enumerate(indexL):
+            if index < 10:
+                hits[index] += 1
+            hits[10] += 1 / (index + 1)
+            hits[12] += 1
+        hits[11] += loss.item()
+        if mode == 'train':
+            loss.backward()
+            optimizer.step_and_update_lr()
+            optimizer.zero_grad()
+        print(hit_mrr(hits, starttime), end='       ')
+    print(f'\r         {mode}-{epoch}  ' + hit_mrr(hits, starttime) + '     ')
+    with open(logfile, 'a') as log:
+        log.write(f'{mode}-{epoch}  ' + hit_mrr(hits, starttime) + '\n')
+    return pred_line
+
+
+def main(tofetch):
+    parser = argparse.ArgumentParser(description='translate.py')
+    parser.add_argument('-data', type=str, required=True)
+    parser.add_argument('-jump', type=int, default=0, required=True)
+    parser.add_argument('-padding', type=int, default=0, required=True)
+    parser.add_argument('-maxN', type=int, default=0, required=True)
+    parser.add_argument('-ckpt', type=str, default='')
+    parser.add_argument('-desc', type=str, required=True)
+    parser.add_argument('-exps', type=str, default='results/')
+    parser.add_argument('-subgraph', type=str, default='')
+    parser.add_argument('-savestep', type=int)
+
+    parser.add_argument('-epoch', type=int, default=20)
+
+    parser.add_argument('-d_v', type=int, default=50)
+
+    parser.add_argument('-n_head', type=int, default=6)  # 6
+    parser.add_argument('-n_layers', type=int, default=3)  # 3
+
+    parser.add_argument('-warmup', '--n_warmup_steps', type=int, default=400)
+    parser.add_argument('-lr_mul', type=float, default=2.0)
+    parser.add_argument('-seed', type=int, default=31)
+
+    parser.add_argument('-dropout', type=float, default=0.1)
+    parser.add_argument('-embs_share_weight', action='store_true')
+    parser.add_argument('-proj_share_weight', action='store_true')
+    parser.add_argument('-scale_emb_or_prj', type=str, default='prj')
+
+    parser.add_argument('-label_smoothing', action='store_true')
+
+    parser.add_argument('-output', default='pred.txt',
+                        help="""Path to output the predictions (each line will be the decoded sequence""")
+    parser.add_argument('-batch_size', type=int, default=5)
+
+    # get rule
+    parser.add_argument('-decode_rule', default=False, action="store_true", help='whether decode the rule')
+    parser.add_argument('-the_rel', default=0.6, type=float, help='relative threshold of the next relation')
+    parser.add_argument('-the_rel_min', default=0.3, type=float, help='absolute threshold of the next relation')
+    parser.add_argument('-the_all', default=0.1, type=float, help='absolute threshold of the whole rule')
+
+    # structure-aware graph encoder
+    parser.add_argument("--dropout", type=float, metavar="D", help="dropout probability")
+    parser.add_argument("--attention-dropout", type=float, metavar="D",
+                        help="dropout probability for" " attention weights", )
+    parser.add_argument(
+        "--act-dropout",
+        type=float,
+        metavar="D",
+        help="dropout probability after" " activation in FFN",
+    )
+    # Arguments related to hidden states and self-attention
+    parser.add_argument(
+        "--encoder-ffn-embed-dim",
+        type=int,
+        metavar="N",
+        help="encoder embedding dimension for FFN",
+    )
+    parser.add_argument(
+        "--encoder-layers", type=int, metavar="N", help="num encoder layers"
+    )
+    parser.add_argument(
+        "--encoder-attention-heads",
+        type=int,
+        metavar="N",
+        help="num encoder attention heads",
+    )
+    # Arguments related to input and output embeddings
+    parser.add_argument(
+        "--encoder-embed-dim",
+        type=int,
+        metavar="N",
+        help="encoder embedding dimension",
+    )
+    parser.add_argument(
+        "--share-encoder-input-output-embed",
+        action="store_true",
+        help="share encoder input" " and output embeddings",
+    )
+    parser.add_argument(
+        "--encoder-learned-pos",
+        action="store_true",
+        help="use learned positional embeddings in the encoder",
+    )
+    parser.add_argument(
+        "--no-token-positional-embeddings",
+        action="store_true",
+        help="if set, disables positional embeddings" " (outside self attention)",
+    )
+    parser.add_argument(
+        "--max-positions", type=int, help="number of positional embeddings to learn"
+    )
+    # Arguments related to parameter initialization
+    parser.add_argument(
+        "--apply-init",
+        action="store_true",
+        help="use custom param initialization",
+    )
+    # misc params
+    parser.add_argument(
+        "--activation-fn",
+        choices=utils.get_available_activation_fns(),
+        help="activation function to use",
+    )
+    parser.add_argument(
+        "--encoder-normalize-before",
+        action="store_true",
+        help="apply layernorm before each encoder block",
+    )
+    parser.add_argument(
+        "--pre-layernorm",
+        action="store_true",
+        help="apply layernorm before self-attention and ffn. Without this, post layernorm will used",
+    )
+    parser.add_argument(
+        "--arch", type=str, default="slim", help="num_atoms"
+    )
+    parser.add_argument(
+        "--max_nodes",
+        type=int,
+        default=100,
+        help="Max nodes per graph"
+    )
+    parser.add_argument(
+        "--num_atoms",
+        type=int,
+        default=512 * 9,
+        help="Number of atom types in the graph"
+    )
+    parser.add_argument(
+        "--num_edges",
+        type=int,
+        default=512 * 3,
+        help="Number of edge types in the graph"
+    )
+    parser.add_argument(
+        "--num_in_degree",
+        type=int,
+        default=512,
+        help="Number of in degree types in the graph"
+    )
+    parser.add_argument(
+        "--num_out_degree",
+        type=int,
+        default=512,
+        help="Number of out degree types in the graph"
+    )
+    parser.add_argument(
+        "--num_spatial",
+        type=int,
+        default=512,
+        help="Number of spatial types in the graph"
+    )
+    parser.add_argument(
+        "--num_edge_dis",
+        type=int,
+        default=128,
+        help="Number of edge dis types in the graph"
+    )
+    parser.add_argument(
+        "--multi_hop_max_dist",
+        type=int,
+        default=5,
+        help="Max distance of multi-hop edges"
+    )
+    parser.add_argument(
+        "--spatial_pos_max",
+        type=int,
+        default=1024,
+        help="Max distance of multi-hop edges"
+    )
+    parser.add_argument(
+        "--edge_type",
+        type=str,
+        default="multi_hop",
+        help="Edge type in the graph"
+    )
+
+    opt = parser.parse_args()
+    slim_architecture(opt)
+    opt.d_k = opt.d_v
+    opt.d_inner_hid = opt.d_model = opt.d_k * opt.n_head
+    opt.desc += f'_jump{opt.jump}_maxN{opt.maxN}_padding{opt.padding}'
+    opt.desc += time.strftime("_%Y%m%d_%H:%M:%S", time.localtime())
+    opt.exps = os.path.join(opt.exps, opt.desc)
+    opt.subgraph = opt.data + f'/subgraph{opt.jump}_{opt.padding}_{opt.maxN}' if opt.subgraph == '' else opt.data + f'/subgraph{opt.subgraph}'
+    if opt.decode_rule:
+        assert (opt.ckpt)
+        opt.epoch = 1
+        opt.savestep = 0
+    print(f'save at:{opt.exps}')
+    os.mkdir(opt.exps)
+    with open(opt.exps + '/options.txt', 'w') as option:
+        for k, v in sorted(opt.__dict__.items(), key=lambda x: x[0]):
+            option.write(f'{k} = {v}\n')
+    logfile = opt.exps + '/log.txt'
+    if opt.seed is not None:
+        torch.manual_seed(opt.seed)
+        np.random.seed(opt.seed)
+        random.seed(opt.seed)
+        torch.cuda.manual_seed_all(opt.seed)
+    opt.d_word_vec = opt.d_model
+    base_data = DataBase(opt.data, subgraph=opt.subgraph)
+    opt.src_vocab_size, opt.trg_vocab_size = base_data.getinfo()
+    opt.num_entities, opt.num_edges = base_data.getinfo()
+    opt.edge_padding_idx = opt.num_edges
+    train_data = pickleDataset(base_data, opt, mode='train')
+    valid_data = pickleDataset(base_data, opt, mode='valid')
+    test_data = pickleDataset(base_data, opt, mode='test')
+    train_loader = torch.utils.data.DataLoader(dataset=train_data, batch_size=opt.batch_size, shuffle=True,
+                                               collate_fn=pickleDataset.collate_fn)  # , num_workers=16
+    valid_loader = torch.utils.data.DataLoader(dataset=valid_data, batch_size=opt.batch_size, shuffle=False,
+                                               collate_fn=pickleDataset.collate_fn)
+    test_loader = torch.utils.data.DataLoader(dataset=test_data, batch_size=opt.batch_size, shuffle=False,
+                                              collate_fn=pickleDataset.collate_fn)
+
+    opt.src_pad_idx = base_data.e2id['<pad>']
+
+    device = torch.device('cuda:1')
+
+    translator = RuleTranslator(
+        model=load_model(opt, device, base_data.nebor_relation),
+        opt=opt,
+        device=device,
+        base_data=base_data).to(device)
+
+    if opt.ckpt:
+        translator.load_state_dict(torch.load(opt.ckpt))
+
+    tofetch['decode'] = opt.decode_rule
+    if opt.decode_rule:
+        tofetch['rules'] = translator.rules
+        tofetch['dir'] = opt.exps
+
+    optimizer = ScheduledOptim(
+        optim.Adam(translator.parameters(), betas=(0.9, 0.98), eps=1e-09),
+        opt.lr_mul, opt.d_model, opt.n_warmup_steps)
+    starttime = time.time()
+    for epoch in range(opt.epoch):
+        if not opt.decode_rule:
+            run(translator, train_loader, base_data.id2r, 'train', optimizer, device, opt.padding, epoch + 1, logfile,
+                starttime, opt.decode_rule)
+        if opt.savestep and (epoch + 1) % opt.savestep == 0:
+            torch.save(translator.state_dict(), f'{opt.exps}/Translator{epoch + 1}.ckpt')
+        if opt.decode_rule or (epoch + 1) % 5 == 0:
+            with torch.no_grad():
+                if opt.decode_rule:
+                    run(translator, train_loader, base_data.id2r, 'train', optimizer, device, opt.padding, epoch + 1,
+                        logfile, starttime, opt.decode_rule)
+                run(translator, valid_loader, base_data.id2r, 'valid', optimizer, device, opt.padding, epoch + 1,
+                    logfile, starttime, opt.decode_rule)
+                run(translator, test_loader, base_data.id2r, 'test', optimizer, device, opt.padding, epoch + 1, logfile,
+                    starttime, opt.decode_rule)
+
+    print('[Info] Finished.')
+
+
+if __name__ == "__main__":
+    try:
+        tofetch = {}
+        main(tofetch)
+    except KeyboardInterrupt:
+        print('\nExited')
+    if tofetch['decode']:
+        print('Writing Rules...')
+        with open(tofetch['dir'] + '/rules.txt', 'w') as rr:
+            for head_rel in tofetch['rules']:
+                for rel_body in tofetch['rules'][head_rel]:
+                    wei = tofetch['rules'][head_rel][rel_body]
+                    rr.write(f'{len(wei)}-{sum(wei) / len(wei)} {head_rel} <- {rel_body}\n')
+</file>
+
+<file path="model.py/model.py">
+from torch import nn
+
+from decoder.rule_decoder import RuleDecoder
+from encoder.sa_graph_encoder_model import StructureAwareGraphEncoderModel
+
+
+class StructureAwareGraphTransformer(nn.Module):
+    def __init__(
+            self, n_src_vocab, n_trg_vocab, src_pad_idx, trg_pad_idx,
+            d_word_vec=512, d_model=512, d_inner=2048,
+            n_layers=6, n_head=8, d_k=64, d_v=64, dropout=0.1, n_position=200,
+            trg_emb_prj_weight_sharing=True, emb_src_trg_weight_sharing=True,
+            scale_emb_or_prj='prj', data=None, kge_model=None, opt=None, nebor_relation=None):
+
+        super().__init__()
+        self.relationE = nn.Embedding(n_trg_vocab, d_model)
+        self.relation_type_E = nn.Embedding(n_trg_vocab, d_model)
+        self.entityE = nn.Embedding(n_src_vocab, d_model)
+        self.n_trg_vocab = n_trg_vocab
+        self.src_pad_idx, self.trg_pad_idx = src_pad_idx, trg_pad_idx
+
+        assert scale_emb_or_prj in ['emb', 'prj', 'none']
+        scale_emb = (scale_emb_or_prj == 'emb') if trg_emb_prj_weight_sharing else False
+        self.scale_prj = (scale_emb_or_prj == 'prj') if trg_emb_prj_weight_sharing else False
+        self.d_model = d_model
+
+        self.encoder = StructureAwareGraphEncoderModel(opt)
+
+        self.decoder = RuleDecoder(
+            n_trg_vocab=n_trg_vocab, n_position=n_position,
+            d_word_vec=d_word_vec, d_model=d_model, d_inner=d_inner,
+            n_layers=n_layers, n_head=n_head, d_k=d_k, d_v=d_v,
+            pad_idx=trg_pad_idx, dropout=dropout, scale_emb=scale_emb, relationE=self.relationE, data=data)
+
+        self.trg_word_prj = nn.Linear(d_model, n_trg_vocab, bias=False)
+
+        for n, p in self.named_parameters():
+            if p.dim() > 1 and 'entityE' not in n and 'relationE' not in n:
+                nn.init.xavier_uniform_(p)
+
+        assert d_model == d_word_vec, \
+            'To facilitate the residual connections, \
+         the dimensions of all module outputs shall be the same.'
+
+    def forward(self, src_seq, trg_seq):
+        raise NotImplementedError
+</file>
+
+<file path="optimizer.py/optimizer.py">
+class ScheduledOptim:
+    """A simple wrapper class for learning rate scheduling"""
+
+    def __init__(self, optimizer, lr_mul, d_model, n_warmup_steps):
+        self._optimizer = optimizer
+        self.lr_mul = lr_mul
+        self.d_model = d_model
+        self.n_warmup_steps = n_warmup_steps
+        self.n_steps = 0
+
+    def step_and_update_lr(self):
+        """Step with the inner optimizer"""
+        self._update_learning_rate()
+        self._optimizer.step()
+
+    def zero_grad(self):
+        """Zero out the gradients with the inner optimizer"""
+        self._optimizer.zero_grad()
+
+    def _get_lr_scale(self):
+        d_model = self.d_model
+        n_steps, n_warmup_steps = self.n_steps, self.n_warmup_steps
+        return (d_model ** -0.5) * min(n_steps ** (-0.5), n_steps * n_warmup_steps ** (-1.5))
+
+    def _update_learning_rate(self):
+        """ Learning rate scheduling per step """
+        self.n_steps += 1
+        lr = 1e-4
+        for param_group in self._optimizer.param_groups:
+            param_group['lr'] = lr
+</file>
+
+<file path="README.md/README.md">
+## Code implementation for paper: ```Advancing Rule Learning in Knowledge Graphs with Structure-Aware Graph Transformer``` 
+
+## Preprocess
+
+Run the following command to generate subgraph on your dataset:
+```shell
+python dataset.py -data=DATA -maxN=MAXN -padding=PADDING -jump=JUMP
+```
+
+## Train the model
+```shell
+python main.py -data=DATASET/DATA -jump=JUMP -padding=PADDING -batch_size=BATCH_SIZE -desc=DESC
+```
+
+## Decode the rules
+```bash
+python main.py -data=DATASET/DATA -jump=JUMP -padding=PADDING -batch_size=BATCH_SIZE -desc=DESC -ckpt=CKPT -decode_rule
+```
+</file>
+
+<file path="rule_translator.py/rule_translator.py">
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from collections import defaultdict
+
+
+def get_pad_mask(seq, pad_idx):
+    return (seq != pad_idx).unsqueeze(-2)
+
+
+class RuleTranslator(nn.Module):
+    """ Load a trained model and translate in beam search fashion. """
+
+    def __init__(self, model, opt=None, device=None, base_data=None):
+
+        super(RuleTranslator, self).__init__()
+
+        self.alpha = 0.7
+        self.max_seq_len = opt.jump + 1
+        self.src_pad_idx = opt.src_pad_idx
+        self.n_trg_vocab = opt.trg_vocab_size
+        self.n_src_vocab = opt.src_vocab_size
+
+        self.device = device
+
+        self.model = model
+        self.model.train()
+        self.database = [x.to(device) for x in base_data.relations]
+        self.filter_dict = base_data.filtered_dict
+
+        self.decode = opt.decode_rule
+        if opt.decode_rule:
+            self.decode_rule_num = 0
+            self.decode_rule_num_filter = 0
+            self.the_rel = opt.the_rel
+            self.the_rel_min = opt.the_rel_min
+            self.the_all = opt.the_all
+            self.graph = base_data.neighbors
+            self.id2r = base_data.id2r
+            self.id2e = base_data.id2e
+            self.rules = defaultdict(dict)
+            self.decode_file = opt.exps + '/decode_rule.txt'
+
+        self.register_buffer('thr', torch.FloatTensor([1e-20]))
+
+    def _model_decode(self, trg_seq, enc_output, src_mask):
+        trg_mask = None
+        dec_output, *_ = self.model.decoder(trg_seq, trg_mask, enc_output, src_mask)
+        return F.softmax(self.model.trg_word_prj(dec_output), dim=-1)
+
+    def _get_init_state(self, src_seq, src_mask, indeg=None, outdeg=None, dist=None, shortest_path=None, attn_bias=None,
+                        link=None, length=None):
+        enc_output = None
+        enc_output = self.model.encoder(src_seq, indeg, outdeg, dist, attn_bias, shortest_path, link, length)
+        dec_output = self._model_decode(self.init_seq, enc_output, src_mask)
+
+        best_k_probs, best_k_idx = dec_output[:, -1, :].topk(1)
+
+        scores = torch.log(best_k_probs).view(self.batch_size)
+        gen_seq = self.blank_seqs.clone().detach()
+        gen_seq[:, 1] = best_k_idx.squeeze()
+        return enc_output, gen_seq, scores, dec_output
+
+    def _get_the_best_score_and_idx(self, gen_seq, dec_output, scores, step, link=None):
+        # Get k candidates for each beam, k^2 candidates in total.
+        best_k2_probs, best_k2_idx = dec_output[:, -1, :].topk(1)
+        assert dec_output.size(1) == step
+
+        gen_seq[:, step] = best_k2_idx.squeeze()
+
+        return gen_seq, scores, dec_output
+
+    def forwardAllNLP(self, triples, attention, mode):
+        num_pos_rel = self.n_trg_vocab // 2
+        batch_size = triples.size(0)
+        database = [x.clone().detach() for x in self.database]
+        for (h, r, t) in triples:
+            if r >= num_pos_rel:
+                continue
+            idxs = torch.where((h == database[r].indices()[0]) & (t == database[r].indices()[1]))
+            database[r].values()[idxs] = 0
+
+        memories = F.one_hot(triples[:, 0], num_classes=self.n_src_vocab).float().to_sparse()
+        for step in range(self.max_seq_len - 1):
+            added_results = torch.zeros(batch_size, self.n_src_vocab).to(self.device)
+            for r in range(num_pos_rel):
+                for links, atta in zip([database[r], database[r].transpose(0, 1)],
+                                       [attention[:, step, r], attention[:, step, r + num_pos_rel]]):
+                    added_results = added_results + torch.sparse.mm(memories, links).to_dense() * atta.unsqueeze(1)
+            added_results = added_results + memories.to_dense() * attention[:, step, -1].unsqueeze(1)
+            added_results = added_results / torch.max(self.thr, torch.sum(added_results, dim=1).unsqueeze(1))
+            memories = added_results.to_sparse()
+        memories = memories.to_dense()
+        targets = F.one_hot(triples[:, 2], num_classes=self.n_src_vocab).float()
+        final_loss = - torch.sum(targets * torch.log(torch.max(self.thr, memories)), dim=1)
+        batch_loss = torch.mean(final_loss)
+        if mode != 'train':
+            for i in range(batch_size):
+                for idx in self.filter_dict[(triples[i, 0].item(), triples[i, 1].item())]:
+                    if idx != triples[i, 2].item():
+                        memories[i, idx] = 0
+        idxs = torch.argsort(memories, descending=True)
+        indexs = torch.where(idxs == triples[:, 2].unsqueeze(-1))[1].tolist()
+        return batch_loss, indexs
+
+    def forward(self, src_seq, trg=None, tailIndexs=None, link=None, padding=300, mode='train', length=None, indeg=None,
+                outdeg=None, dist=None, shortest_path=None, attn_bias=None):
+        batch_size = trg.size(0)
+        self.batch_size = batch_size
+        self.init_seq = trg[:, 1].unsqueeze(-1).clone().detach()
+        self.blank_seqs = trg[:, 1].unsqueeze(-1).repeat(1, self.max_seq_len).clone().detach()
+        src_mask = get_pad_mask(src_seq.squeeze(-1), self.src_pad_idx)
+        enc_output, gen_seq, scores, dec_output = self._get_init_state(src_seq, src_mask, indeg=indeg, outdeg=outdeg,
+                                                                       dist=dist, shortest_path=shortest_path,
+                                                                       attn_bias=attn_bias, link=link)
+        for step in range(2, self.max_seq_len):
+            dec_output = self._model_decode(gen_seq[:, :step].clone().detach(), enc_output, src_mask)
+            gen_seq, scores, dec_output = self._get_the_best_score_and_idx(gen_seq, dec_output, scores, step,
+                                                                           link=link)
+
+        if self.decode:
+            self.decode_rule(dec_output, trg)
+            loss, index = 0, [0]
+        else:
+            loss, index = self.forwardAllNLP(trg, dec_output, mode)
+
+        return gen_seq, loss, index
+
+    def decode_rule(self, dec_output, trg):
+        relation_attention_list = dec_output
+        batch_size = trg.size(0)
+        num_step = self.max_seq_len - 1
+        for batch in range(batch_size):
+            paths = {t + 1: [] for t in range(num_step)}
+            # paths at hop 0, in the format of ([rel1,..],[ent1,..],weight)
+            paths[0] = [([-1], [trg[batch, 0].item()], 1.)]
+            relation_attentions = relation_attention_list[batch]
+            for step in range(num_step):
+                if not paths[step]:
+                    break
+                relation_attention_ori = relation_attentions[step]
+                for rels, pths, wei in paths[step]:
+                    if pths[-1] not in self.graph:
+                        continue
+                    # select relations(including self-loop) connected to the tail of each path
+                    sel = torch.LongTensor(list(self.graph[pths[-1]].keys()) + [self.n_trg_vocab - 1])
+                    relation_attention = torch.zeros(self.n_trg_vocab).to(self.device)
+                    relation_attention[sel] = relation_attention_ori[sel].clone()
+                    rel_att_max = torch.max(relation_attention).item()
+                    relation_attention /= rel_att_max
+
+                    for rr in torch.nonzero(relation_attention > max(self.the_rel,
+                                                                     self.the_rel_min / rel_att_max)):  # relations which exceed threshold
+                        rr = rr.item()
+                        if rr == self.n_trg_vocab - 1:  # <slf>
+                            paths[step + 1].append(
+                                (rels + [rr], pths + [pths[-1]], wei * relation_attention[rr].item()))
+                        elif rr in self.graph[pths[-1]].keys():
+                            for tail in self.graph[pths[-1]][rr]:
+                                paths[step + 1].append(
+                                    (rels + [rr], pths + [tail], wei * relation_attention[rr].item()))
+
+            for path in paths[step + 1]:
+                rels, pths, wei = path
+                if path[2] > self.the_all:
+                    self.decode_rule_num += 1
+                    print('\rWrite {}-{} Rule(s)'.format(self.decode_rule_num, self.decode_rule_num_filter), end='')
+                    head_rule = self.id2r[trg[batch, 1].item()]
+                    rule_body = '^'.join([self.id2r[r] for r in rels[1:]])
+                    try:
+                        self.rules[head_rule][rule_body].append(wei)
+                    except KeyError:
+                        self.rules[head_rule][rule_body] = [wei]
+                        self.decode_rule_num_filter += 1
+                        with open(self.decode_file, 'a') as f:
+                            f.write(head_rule + '<-' + rule_body + '\n')
+</file>
+
+</files>

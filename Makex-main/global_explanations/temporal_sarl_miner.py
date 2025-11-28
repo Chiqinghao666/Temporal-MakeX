@@ -64,6 +64,7 @@ class SARLOptions:
     device: str = "cpu"  # 运行设备
     log_dir: Path = Path(".")  # 日志保存路径
     verbose: bool = False  # 是否打印详细的每一步日志
+    use_amp: bool = False  # 是否开启混合精度推理（仅 GPU 下有效）
 
 
 class SARLMiner:
@@ -82,6 +83,7 @@ class SARLMiner:
             rev_edge_store: Dict[int, List[TemporalNeighbor]],  # 反向边索引 Tail -> Head
     ) -> None:
         self.model = model.to(options.device)
+        self.model.eval()  # 挖掘阶段仅推理，无需反向传播
         self.options = options
         self.graph_ptr = graph_ptr
         self.edge_store = edge_store
@@ -337,16 +339,22 @@ class SARLMiner:
         # 3. 模型推理 (Forward)
         self.model.eval()
         with torch.no_grad():
-            scores = self.model(
-                hist_entities,
-                hist_relations,
-                hist_deltas,
-                current_tensor,
-                relation_tensor,
-                cand_entities,
-                cand_relations,
-                cand_deltas,
-            )
+            if self.options.use_amp and torch.cuda.is_available():
+                autocast_ctx = torch.cuda.amp.autocast()
+            else:
+                from contextlib import nullcontext
+                autocast_ctx = nullcontext()
+            with autocast_ctx:
+                scores = self.model(
+                    hist_entities,
+                    hist_relations,
+                    hist_deltas,
+                    current_tensor,
+                    relation_tensor,
+                    cand_entities,
+                    cand_relations,
+                    cand_deltas,
+                )
 
         # 4. 计算概率分布 (Softmax)
         probs = torch.softmax(scores.squeeze(0), dim=-1)

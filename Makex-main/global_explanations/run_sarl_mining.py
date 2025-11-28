@@ -163,8 +163,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--num_queries", type=int, default=200, help="采样多少个查询进行挖掘")
     parser.add_argument("--walks_per_query", type=int, default=50, help="每个查询采样多少条路径")
     parser.add_argument("--max_hops", type=int, default=3, help="最大路径长度")
-    parser.add_argument("--beam_size", type=int, default=8, help="集束搜索的宽度")
-    parser.add_argument("--history_size", type=int, default=5, help="模型输入的历史序列长度")
+    parser.add_argument("--beam_size", type=int, default=16, help="集束搜索的宽度")
+    parser.add_argument("--history_size", type=int, default=8, help="模型输入的历史序列长度")
+    parser.add_argument("--progress_interval", type=int, default=20, help="每多少个查询打印一次 ETA")
 
     # 时间相关参数
     parser.add_argument("--time_window", type=float, default=30 * 86400.0, help="回溯历史的时间窗口（秒）")
@@ -218,6 +219,8 @@ def main() -> None:
         graph_ptr = 0
 
     device = "cuda" if args.cuda and torch.cuda.is_available() else "cpu"
+    if device == "cuda":
+        torch.backends.cudnn.benchmark = True
     options = SARLOptions(
         max_hops=args.max_hops,
         history_size=args.history_size,
@@ -226,6 +229,7 @@ def main() -> None:
         device=device,
         log_dir=args.log_dir,
         verbose=args.verbose,
+        use_amp=True if device == "cuda" else False,
     )
 
     miner = SARLMiner(
@@ -247,6 +251,8 @@ def main() -> None:
     import time
     wall_start = time.time()
 
+    progress_interval = max(1, args.progress_interval)
+
     for idx, (head, relation, tail, ts) in enumerate(queries, 1):
         # --- 双向挖掘核心 ---
         # A. 从 Head 出发挖掘（User Star）
@@ -261,11 +267,12 @@ def main() -> None:
 
         # 打印进度和预计剩余时间 (ETA)
         elapsed = time.time() - wall_start
-        if idx % 10 == 0 or idx == total_queries:
+        if idx % progress_interval == 0 or idx == total_queries:
             avg_per_query = elapsed / idx
             remaining = avg_per_query * (total_queries - idx)
+            qps = idx / max(1e-6, elapsed)
             print(
-                f"[Progress] {idx}/{total_queries} queries | elapsed {elapsed / 60:.1f} min | ETA {remaining / 60:.1f} min"
+                f"[Progress] {idx}/{total_queries} | {elapsed/60:.1f}m elapsed | ETA {remaining/60:.1f}m | {qps:.2f} q/s"
             )
 
     miner.report_performance()
