@@ -1,0 +1,53 @@
+running install
+/opt/conda/envs/envd/lib/python3.9/site-packages/setuptools/_distutils/cmd.py:90: SetuptoolsDeprecationWarning: setup.py install is deprecated.
+!!
+
+        ********************************************************************************
+        Please avoid running ``setup.py`` directly.
+        Instead, use pypa/build, pypa/installer or other
+        standards-based tools.
+
+        See https://blog.ganssle.io/articles/2021/10/setup-py-deprecated.html for details.
+        ********************************************************************************
+
+!!
+  self.initialize_options()
+/opt/conda/envs/envd/lib/python3.9/site-packages/setuptools/_distutils/cmd.py:90: EasyInstallDeprecationWarning: easy_install command is deprecated.
+!!
+
+        ********************************************************************************
+        Please avoid running ``setup.py`` and ``easy_install``.
+        Instead, use pypa/build, pypa/installer or other
+        standards-based tools.
+
+        See https://github.com/pypa/setuptools/issues/917 for details.
+        ********************************************************************************
+
+!!
+  self.initialize_options()
+error: can't create or remove files in install directory
+
+The following error occurred while trying to add or remove files in the
+installation directory:
+
+    [Errno 13] Permission denied: '/opt/conda/envs/envd/lib/python3.9/site-packages/test-easy-install-302.write-test'
+
+The installation directory you specified (via --install-dir, --prefix, or
+the distutils default setting) was:
+
+    /opt/conda/envs/envd/lib/python3.9/site-packages/
+
+Perhaps your account does not have write access to this directory?  If the
+installation directory is a system-owned directory, you may need to sign in
+as the administrator or "root" account.  If you do not have administrative
+access to this machine, you may wish to choose a different installation
+directory, preferably one that is listed in your PYTHONPATH environment
+variable.
+
+For information on other options, you may wish to consult the
+documentation at:
+
+  https://setuptools.pypa.io/en/latest/deprecated/easy_install.html
+
+Please make the appropriate changes for your system and try again.
+

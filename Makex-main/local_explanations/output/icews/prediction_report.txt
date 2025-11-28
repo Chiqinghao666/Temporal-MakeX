@@ -1,0 +1,95 @@
+============================================================
+查询事件: (User: Boko_Haram, Relation: <222: Use conventional military force>, Target: ?, Time: N/A)
+============================================================
+
+> 排名 1 预测: Citizen_(Nigeria) (得分: N/A)
+  [解释依据 - 匹配模式 #1]
+  结构特征：<53: Consult> → <53: Consult> → <53: Consult>
+  语义：两端实体通过上述互动形成时序闭环。
+  因为 Boko_Haram 在用户星中近期涉及 <53: Consult>、<53: Consult> 等互动
+  同时 Citizen_(Nigeria) 在物品星中关联 <53: Consult> 等行为
+  两者共同满足该模式的多跳结构，从而获得较高置信度。
+
+============================================================
+查询事件: (User: Islamic_Militant_(Cameroon), Relation: <0: Abduct, hijack, or take hostage>, Target: ?, Time: N/A)
+============================================================
+
+> 排名 1 预测: Catholic_Priest_(France) (得分: N/A)
+  [解释依据 - 匹配模式 #1]
+  结构特征：<53: Consult> → <53: Consult> → <53: Consult>
+  语义：两端实体通过上述互动形成时序闭环。
+  因为 Islamic_Militant_(Cameroon) 在用户星中近期涉及 <53: Consult>、<53: Consult> 等互动
+  同时 Catholic_Priest_(France) 在物品星中关联 <53: Consult> 等行为
+  两者共同满足该模式的多跳结构，从而获得较高置信度。
+
+============================================================
+查询事件: (User: Islamic_Militant_(Cameroon), Relation: <0: Abduct, hijack, or take hostage>, Target: ?, Time: N/A)
+============================================================
+
+> 排名 1 预测: Cleric_(Cameroon) (得分: N/A)
+  [解释依据 - 匹配模式 #1]
+  结构特征：<53: Consult> → <53: Consult> → <53: Consult>
+  语义：两端实体通过上述互动形成时序闭环。
+  因为 Islamic_Militant_(Cameroon) 在用户星中近期涉及 <53: Consult>、<53: Consult> 等互动
+  同时 Cleric_(Cameroon) 在物品星中关联 <53: Consult> 等行为
+  两者共同满足该模式的多跳结构，从而获得较高置信度。
+
+============================================================
+查询事件: (User: Legislature_(Iraq), Relation: <2: Accede to demands for change in leadership>, Target: ?, Time: N/A)
+============================================================
+
+> 排名 1 预测: Iraq (得分: N/A)
+  [解释依据 - 匹配模式 #3]
+  结构特征：<142: Host a visit> → <155: Make a visit> → <142: Host a visit>
+  语义：两端实体通过上述互动形成时序闭环。
+  因为 Legislature_(Iraq) 在用户星中近期涉及 <142: Host a visit>、<142: Host a visit> 等互动
+  同时 Iraq 在物品星中关联 <155: Make a visit> 等行为
+  两者共同满足该模式的多跳结构，从而获得较高置信度。
+
+============================================================
+查询事件: (User: Police_(Australia), Relation: <38: Arrest, detain, or charge with legal action>, Target: ?, Time: N/A)
+============================================================
+
+> 排名 1 预测: Citizen_(Australia) (得分: N/A)
+  [解释依据 - 匹配模式 #1]
+  结构特征：<53: Consult> → <53: Consult> → <53: Consult>
+  语义：两端实体通过上述互动形成时序闭环。
+  因为 Police_(Australia) 在用户星中近期涉及 <53: Consult>、<53: Consult> 等互动
+  同时 Citizen_(Australia) 在物品星中关联 <53: Consult> 等行为
+  两者共同满足该模式的多跳结构，从而获得较高置信度。
+
+============================================================
+查询事件: (User: Police_(Australia), Relation: <38: Arrest, detain, or charge with legal action>, Target: ?, Time: N/A)
+============================================================
+
+> 排名 1 预测: Women_(Australia) (得分: N/A)
+  [解释依据 - 匹配模式 #1]
+  结构特征：<53: Consult> → <53: Consult> → <53: Consult>
+  语义：两端实体通过上述互动形成时序闭环。
+  因为 Police_(Australia) 在用户星中近期涉及 <53: Consult>、<53: Consult> 等互动
+  同时 Women_(Australia) 在物品星中关联 <53: Consult> 等行为
+  两者共同满足该模式的多跳结构，从而获得较高置信度。
+
+============================================================
+查询事件: (User: Police_(Australia), Relation: <150: Investigate>, Target: ?, Time: N/A)
+============================================================
+
+> 排名 1 预测: Citizen_(Australia) (得分: N/A)
+  [解释依据 - 匹配模式 #1]
+  结构特征：<53: Consult> → <53: Consult> → <53: Consult>
+  语义：两端实体通过上述互动形成时序闭环。
+  因为 Police_(Australia) 在用户星中近期涉及 <53: Consult>、<53: Consult> 等互动
+  同时 Citizen_(Australia) 在物品星中关联 <53: Consult> 等行为
+  两者共同满足该模式的多跳结构，从而获得较高置信度。
+
+============================================================
+查询事件: (User: Police_(Australia), Relation: <173: Provide humanitarian aid>, Target: ?, Time: N/A)
+============================================================
+
+> 排名 1 预测: Citizen_(Australia) (得分: N/A)
+  [解释依据 - 匹配模式 #1]
+  结构特征：<53: Consult> → <53: Consult> → <53: Consult>
+  语义：两端实体通过上述互动形成时序闭环。
+  因为 Police_(Australia) 在用户星中近期涉及 <53: Consult>、<53: Consult> 等互动
+  同时 Citizen_(Australia) 在物品星中关联 <53: Consult> 等行为
+  两者共同满足该模式的多跳结构，从而获得较高置信度。

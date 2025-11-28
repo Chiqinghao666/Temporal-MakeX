@@ -1,0 +1,1904 @@
+[模式 ID: 1]
+统计: 支持度 60 | 置信度 100.0%
+意图: 专门用于预测关系 <53: Consult>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点1)
+语义:
+  此模式捕捉了 “<53: Consult> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 2]
+统计: 支持度 60 | 置信度 100.0%
+意图: 专门用于预测关系 <53: Consult>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点1)
+语义:
+  此模式捕捉了 “<53: Consult> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 3]
+统计: 支持度 60 | 置信度 100.0%
+意图: 专门用于预测关系 <142: Host a visit>
+结构:
+  (User节点1) --[<142: Host a visit>]--> (节点2)
+  (User节点1) --[<142: Host a visit>]--> (节点2)
+  (Item节点2) --[<155: Make a visit>]--> (节点1)
+语义:
+  此模式捕捉了 “<142: Host a visit> → <155: Make a visit> → <142: Host a visit>” 的时序互动。
+
+[模式 ID: 4]
+统计: 支持度 60 | 置信度 100.0%
+意图: 专门用于预测关系 <224: Use unconventional violence>
+结构:
+  (User节点1) --[<224: Use unconventional violence>]--> (节点2)
+  (User节点1) --[<224: Use unconventional violence>]--> (节点2)
+  (Item节点2) --[<222: Use conventional military force>]--> (节点1)
+语义:
+  此模式捕捉了 “<224: Use unconventional violence> → <222: Use conventional military force> → <224: Use unconventional violence>” 的时序互动。
+
+[模式 ID: 5]
+统计: 支持度 60 | 置信度 100.0%
+意图: 专门用于预测关系 <103: Engage in negotiation>
+结构:
+  (User节点1) --[<103: Engage in negotiation>]--> (节点2)
+  (User节点1) --[<103: Engage in negotiation>]--> (节点2)
+  (Item节点2) --[<103: Engage in negotiation>]--> (节点1)
+语义:
+  此模式捕捉了 “<103: Engage in negotiation> → <103: Engage in negotiation> → <103: Engage in negotiation>” 的时序互动。
+
+[模式 ID: 6]
+统计: 支持度 60 | 置信度 100.0%
+意图: 专门用于预测关系 <115: Express intent to cooperate>
+结构:
+  (User节点1) --[<115: Express intent to cooperate>]--> (节点2)
+  (User节点1) --[<115: Express intent to cooperate>]--> (节点2)
+  (Item节点2) --[<115: Express intent to cooperate>]--> (节点1)
+语义:
+  此模式捕捉了 “<115: Express intent to cooperate> → <115: Express intent to cooperate> → <115: Express intent to cooperate>” 的时序互动。
+
+[模式 ID: 7]
+统计: 支持度 60 | 置信度 100.0%
+意图: 专门用于预测关系 <222: Use conventional military force>
+结构:
+  (User节点1) --[<222: Use conventional military force>]--> (节点2)
+  (User节点1) --[<222: Use conventional military force>]--> (节点2)
+  (Item节点2) --[<224: Use unconventional violence>]--> (节点1)
+语义:
+  此模式捕捉了 “<222: Use conventional military force> → <224: Use unconventional violence> → <222: Use conventional military force>” 的时序互动。
+
+[模式 ID: 8]
+统计: 支持度 60 | 置信度 100.0%
+意图: 专门用于预测关系 <53: Consult>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点1)
+语义:
+  此模式捕捉了 “<53: Consult> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 9]
+统计: 支持度 60 | 置信度 100.0%
+意图: 专门用于预测关系 <53: Consult>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点1)
+语义:
+  此模式捕捉了 “<53: Consult> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 10]
+统计: 支持度 42 | 置信度 100.0%
+意图: 专门用于预测关系 <160: Make statement>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<142: Host a visit>]--> (节点3)
+语义:
+  此模式捕捉了 “<160: Make statement> → <142: Host a visit> → <191: Reject>” 的时序互动。
+
+[模式 ID: 11]
+统计: 支持度 37 | 置信度 100.0%
+意图: 专门用于预测关系 <160: Make statement>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<205: Sexually assault>]--> (节点3)
+语义:
+  此模式捕捉了 “<160: Make statement> → <205: Sexually assault> → <6: Accuse>” 的时序互动。
+
+[模式 ID: 12]
+统计: 支持度 36 | 置信度 100.0%
+意图: 专门用于预测关系 <53: Consult>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<127: Express intent to meet or negotiate>]--> (节点3)
+语义:
+  此模式捕捉了 “<53: Consult> → <127: Express intent to meet or negotiate> → <142: Host a visit>” 的时序互动。
+
+[模式 ID: 13]
+统计: 支持度 35 | 置信度 100.0%
+意图: 专门用于预测关系 <0: Abduct, hijack, or take hostage>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点1)
+语义:
+  此模式捕捉了 “<53: Consult> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 14]
+统计: 支持度 32 | 置信度 100.0%
+意图: 专门用于预测关系 <160: Make statement>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点1)
+语义:
+  此模式捕捉了 “<53: Consult> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 15]
+统计: 支持度 32 | 置信度 100.0%
+意图: 专门用于预测关系 <53: Consult>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点1)
+语义:
+  此模式捕捉了 “<53: Consult> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 16]
+统计: 支持度 28 | 置信度 100.0%
+意图: 专门用于预测关系 <160: Make statement>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+  (Item节点3) --[<53: Consult>]--> (节点2)
+语义:
+  此模式捕捉了 “<160: Make statement> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 17]
+统计: 支持度 26 | 置信度 100.0%
+意图: 专门用于预测关系 <107: Expel or deport individuals>
+结构:
+  (User节点1) --[<108: Expel or withdraw>]--> (节点2)
+  (Item节点2) --[<156: Make an appeal or request>]--> (节点3)
+语义:
+  此模式捕捉了 “<108: Expel or withdraw> → <156: Make an appeal or request> → <169: Praise or endorse>” 的时序互动。
+
+[模式 ID: 18]
+统计: 支持度 26 | 置信度 100.0%
+意图: 专门用于预测关系 <18: Appeal for diplomatic cooperation (such as policy support)>
+结构:
+  (User节点1) --[<18: Appeal for diplomatic cooperation (such as policy support)>]--> (节点2)
+  (Item节点2) --[<160: Make statement>]--> (节点3)
+语义:
+  此模式捕捉了 “<18: Appeal for diplomatic cooperation (such as policy support)> → <160: Make statement> → <38: Arrest, detain, or charge with legal action>” 的时序互动。
+
+[模式 ID: 19]
+统计: 支持度 24 | 置信度 100.0%
+意图: 专门用于预测关系 <222: Use conventional military force>
+结构:
+  (User节点1) --[<222: Use conventional military force>]--> (节点2)
+  (User节点1) --[<222: Use conventional military force>]--> (节点2)
+  (Item节点2) --[<224: Use unconventional violence>]--> (节点1)
+语义:
+  此模式捕捉了 “<222: Use conventional military force> → <224: Use unconventional violence> → <222: Use conventional military force>” 的时序互动。
+
+[模式 ID: 20]
+统计: 支持度 24 | 置信度 100.0%
+意图: 专门用于预测关系 <53: Consult>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点1)
+语义:
+  此模式捕捉了 “<53: Consult> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 21]
+统计: 支持度 24 | 置信度 100.0%
+意图: 专门用于预测关系 <208: Threaten>
+结构:
+  (User节点1) --[<208: Threaten>]--> (节点2)
+  (Item节点2) --[<127: Express intent to meet or negotiate>]--> (节点3)
+语义:
+  此模式捕捉了 “<208: Threaten> → <127: Express intent to meet or negotiate> → <103: Engage in negotiation>” 的时序互动。
+
+[模式 ID: 22]
+统计: 支持度 23 | 置信度 100.0%
+意图: 专门用于预测关系 <208: Threaten>
+结构:
+  (User节点1) --[<208: Threaten>]--> (节点2)
+  (Item节点2) --[<127: Express intent to meet or negotiate>]--> (节点3)
+语义:
+  此模式捕捉了 “<208: Threaten> → <127: Express intent to meet or negotiate> → <53: Consult>” 的时序互动。
+
+[模式 ID: 23]
+统计: 支持度 22 | 置信度 100.0%
+意图: 专门用于预测关系 <224: Use unconventional violence>
+结构:
+  (User节点1) --[<224: Use unconventional violence>]--> (节点2)
+  (User节点1) --[<224: Use unconventional violence>]--> (节点2)
+  (Item节点2) --[<222: Use conventional military force>]--> (节点1)
+语义:
+  此模式捕捉了 “<224: Use unconventional violence> → <222: Use conventional military force> → <224: Use unconventional violence>” 的时序互动。
+
+[模式 ID: 24]
+统计: 支持度 22 | 置信度 100.0%
+意图: 专门用于预测关系 <61: Demand>
+结构:
+  (User节点1) --[<61: Demand>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+  (Item节点3) --[<53: Consult>]--> (节点2)
+语义:
+  此模式捕捉了 “<61: Demand> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 25]
+统计: 支持度 22 | 置信度 100.0%
+意图: 专门用于预测关系 <160: Make statement>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+语义:
+  此模式捕捉了 “<160: Make statement> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 26]
+统计: 支持度 22 | 置信度 100.0%
+意图: 专门用于预测关系 <160: Make statement>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<6: Accuse>]--> (节点3)
+语义:
+  此模式捕捉了 “<160: Make statement> → <6: Accuse> → <205: Sexually assault>” 的时序互动。
+
+[模式 ID: 27]
+统计: 支持度 21 | 置信度 100.0%
+意图: 专门用于预测关系 <142: Host a visit>
+结构:
+  (User节点1) --[<142: Host a visit>]--> (节点2)
+  (User节点1) --[<142: Host a visit>]--> (节点2)
+  (Item节点2) --[<155: Make a visit>]--> (节点1)
+语义:
+  此模式捕捉了 “<142: Host a visit> → <155: Make a visit> → <142: Host a visit>” 的时序互动。
+
+[模式 ID: 28]
+统计: 支持度 21 | 置信度 100.0%
+意图: 专门用于预测关系 <156: Make an appeal or request>
+结构:
+  (User节点1) --[<156: Make an appeal or request>]--> (节点2)
+  (Item节点2) --[<160: Make statement>]--> (节点3)
+  (Item节点3) --[<191: Reject>]--> (节点2)
+语义:
+  此模式捕捉了 “<156: Make an appeal or request> → <160: Make statement> → <191: Reject>” 的时序互动。
+
+[模式 ID: 29]
+统计: 支持度 20 | 置信度 100.0%
+意图: 专门用于预测关系 <157: Make empathetic comment>
+结构:
+  (User节点1) --[<224: Use unconventional violence>]--> (节点2)
+  (Item节点2) --[<38: Arrest, detain, or charge with legal action>]--> (节点3)
+语义:
+  此模式捕捉了 “<224: Use unconventional violence> → <38: Arrest, detain, or charge with legal action> → <160: Make statement>” 的时序互动。
+
+[模式 ID: 30]
+统计: 支持度 20 | 置信度 100.0%
+意图: 专门用于预测关系 <53: Consult>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+  (Item节点3) --[<53: Consult>]--> (节点2)
+语义:
+  此模式捕捉了 “<53: Consult> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 31]
+统计: 支持度 20 | 置信度 100.0%
+意图: 专门用于预测关系 <103: Engage in negotiation>
+结构:
+  (User节点1) --[<103: Engage in negotiation>]--> (节点2)
+  (User节点1) --[<160: Make statement>]--> (节点3)
+  (Item节点2) --[<103: Engage in negotiation>]--> (节点1)
+语义:
+  此模式捕捉了 “<103: Engage in negotiation> → <103: Engage in negotiation> → <160: Make statement>” 的时序互动。
+
+[模式 ID: 32]
+统计: 支持度 19 | 置信度 100.0%
+意图: 专门用于预测关系 <156: Make an appeal or request>
+结构:
+  (User节点1) --[<156: Make an appeal or request>]--> (节点2)
+  (Item节点2) --[<160: Make statement>]--> (节点3)
+语义:
+  此模式捕捉了 “<156: Make an appeal or request> → <160: Make statement> → <191: Reject>” 的时序互动。
+
+[模式 ID: 33]
+统计: 支持度 19 | 置信度 100.0%
+意图: 专门用于预测关系 <150: Investigate>
+结构:
+  (User节点1) --[<150: Investigate>]--> (节点2)
+  (Item节点2) --[<160: Make statement>]--> (节点3)
+语义:
+  此模式捕捉了 “<150: Investigate> → <160: Make statement> → <156: Make an appeal or request>” 的时序互动。
+
+[模式 ID: 34]
+统计: 支持度 19 | 置信度 100.0%
+意图: 专门用于预测关系 <18: Appeal for diplomatic cooperation (such as policy support)>
+结构:
+  (User节点1) --[<18: Appeal for diplomatic cooperation (such as policy support)>]--> (节点2)
+  (Item节点2) --[<160: Make statement>]--> (节点3)
+语义:
+  此模式捕捉了 “<18: Appeal for diplomatic cooperation (such as policy support)> → <160: Make statement> → <6: Accuse>” 的时序互动。
+
+[模式 ID: 35]
+统计: 支持度 18 | 置信度 100.0%
+意图: 专门用于预测关系 <160: Make statement>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<90: Discuss by telephone>]--> (节点3)
+语义:
+  此模式捕捉了 “<160: Make statement> → <90: Discuss by telephone> → <160: Make statement>” 的时序互动。
+
+[模式 ID: 36]
+统计: 支持度 18 | 置信度 100.0%
+意图: 专门用于预测关系 <160: Make statement>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<142: Host a visit>]--> (节点3)
+  (Item节点3) --[<155: Make a visit>]--> (节点2)
+语义:
+  此模式捕捉了 “<160: Make statement> → <142: Host a visit> → <155: Make a visit>” 的时序互动。
+
+[模式 ID: 37]
+统计: 支持度 18 | 置信度 100.0%
+意图: 专门用于预测关系 <53: Consult>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<208: Threaten>]--> (节点3)
+  (Item节点3) --[<6: Accuse>]--> (节点2)
+语义:
+  此模式捕捉了 “<53: Consult> → <208: Threaten> → <6: Accuse>” 的时序互动。
+
+[模式 ID: 38]
+统计: 支持度 18 | 置信度 100.0%
+意图: 专门用于预测关系 <142: Host a visit>
+结构:
+  (User节点1) --[<142: Host a visit>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+语义:
+  此模式捕捉了 “<142: Host a visit> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 39]
+统计: 支持度 18 | 置信度 100.0%
+意图: 专门用于预测关系 <53: Consult>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点1)
+语义:
+  此模式捕捉了 “<53: Consult> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 40]
+统计: 支持度 17 | 置信度 100.0%
+意图: 专门用于预测关系 <103: Engage in negotiation>
+结构:
+  (User节点1) --[<127: Express intent to meet or negotiate>]--> (节点2)
+  (Item节点2) --[<127: Express intent to meet or negotiate>]--> (节点3)
+语义:
+  此模式捕捉了 “<127: Express intent to meet or negotiate> → <127: Express intent to meet or negotiate> → <127: Express intent to meet or negotiate>” 的时序互动。
+
+[模式 ID: 41]
+统计: 支持度 17 | 置信度 100.0%
+意图: 专门用于预测关系 <58: Decline comment>
+结构:
+  (User节点1) --[<58: Decline comment>]--> (节点2)
+  (Item节点2) --[<143: Impose administrative sanctions>]--> (节点3)
+  (Item节点3) --[<224: Use unconventional violence>]--> (节点2)
+语义:
+  此模式捕捉了 “<58: Decline comment> → <143: Impose administrative sanctions> → <224: Use unconventional violence>” 的时序互动。
+
+[模式 ID: 42]
+统计: 支持度 17 | 置信度 100.0%
+意图: 专门用于预测关系 <208: Threaten>
+结构:
+  (User节点1) --[<208: Threaten>]--> (节点2)
+  (Item节点2) --[<156: Make an appeal or request>]--> (节点3)
+语义:
+  此模式捕捉了 “<208: Threaten> → <156: Make an appeal or request> → <127: Express intent to meet or negotiate>” 的时序互动。
+
+[模式 ID: 43]
+统计: 支持度 17 | 置信度 100.0%
+意图: 专门用于预测关系 <160: Make statement>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+  (Item节点3) --[<53: Consult>]--> (节点2)
+语义:
+  此模式捕捉了 “<160: Make statement> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 44]
+统计: 支持度 17 | 置信度 100.0%
+意图: 专门用于预测关系 <115: Express intent to cooperate>
+结构:
+  (User节点1) --[<115: Express intent to cooperate>]--> (节点2)
+  (User节点1) --[<222: Use conventional military force>]--> (节点3)
+  (Item节点2) --[<115: Express intent to cooperate>]--> (节点1)
+语义:
+  此模式捕捉了 “<115: Express intent to cooperate> → <115: Express intent to cooperate> → <222: Use conventional military force>” 的时序互动。
+
+[模式 ID: 45]
+统计: 支持度 17 | 置信度 100.0%
+意图: 专门用于预测关系 <107: Expel or deport individuals>
+结构:
+  (User节点1) --[<108: Expel or withdraw>]--> (节点2)
+  (Item节点2) --[<156: Make an appeal or request>]--> (节点3)
+语义:
+  此模式捕捉了 “<108: Expel or withdraw> → <156: Make an appeal or request> → <128: Express intent to provide economic aid>” 的时序互动。
+
+[模式 ID: 46]
+统计: 支持度 16 | 置信度 100.0%
+意图: 专门用于预测关系 <169: Praise or endorse>
+结构:
+  (User节点1) --[<169: Praise or endorse>]--> (节点2)
+  (Item节点2) --[<191: Reject>]--> (节点3)
+  (Item节点3) --[<56: Criticize or denounce>]--> (节点2)
+语义:
+  此模式捕捉了 “<169: Praise or endorse> → <191: Reject> → <56: Criticize or denounce>” 的时序互动。
+
+[模式 ID: 47]
+统计: 支持度 16 | 置信度 100.0%
+意图: 专门用于预测关系 <98: Engage in diplomatic cooperation>
+结构:
+  (User节点1) --[<123: Express intent to engage in diplomatic cooperation (such as policy support)>]--> (节点2)
+  (Item节点2) --[<159: Make pessimistic comment>]--> (节点3)
+语义:
+  此模式捕捉了 “<123: Express intent to engage in diplomatic cooperation (such as policy support)> → <159: Make pessimistic comment> → <142: Host a visit>” 的时序互动。
+
+[模式 ID: 48]
+统计: 支持度 16 | 置信度 100.0%
+意图: 专门用于预测关系 <38: Arrest, detain, or charge with legal action>
+结构:
+  (User节点1) --[<97: Employ aerial weapons>]--> (节点2)
+  (Item节点2) --[<224: Use unconventional violence>]--> (节点3)
+  (Item节点3) --[<168: Physically assault>]--> (节点2)
+语义:
+  此模式捕捉了 “<97: Employ aerial weapons> → <224: Use unconventional violence> → <168: Physically assault>” 的时序互动。
+
+[模式 ID: 49]
+统计: 支持度 16 | 置信度 100.0%
+意图: 专门用于预测关系 <160: Make statement>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+  (Item节点3) --[<53: Consult>]--> (节点2)
+语义:
+  此模式捕捉了 “<160: Make statement> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 50]
+统计: 支持度 16 | 置信度 100.0%
+意图: 专门用于预测关系 <224: Use unconventional violence>
+结构:
+  (User节点1) --[<224: Use unconventional violence>]--> (节点2)
+  (Item节点2) --[<0: Abduct, hijack, or take hostage>]--> (节点3)
+语义:
+  此模式捕捉了 “<224: Use unconventional violence> → <0: Abduct, hijack, or take hostage> → <160: Make statement>” 的时序互动。
+
+[模式 ID: 51]
+统计: 支持度 16 | 置信度 100.0%
+意图: 专门用于预测关系 <160: Make statement>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<127: Express intent to meet or negotiate>]--> (节点3)
+语义:
+  此模式捕捉了 “<160: Make statement> → <127: Express intent to meet or negotiate> → <142: Host a visit>” 的时序互动。
+
+[模式 ID: 52]
+统计: 支持度 15 | 置信度 100.0%
+意图: 专门用于预测关系 <170: Protest violently, riot>
+结构:
+  (User节点1) --[<170: Protest violently, riot>]--> (节点2)
+  (User节点1) --[<170: Protest violently, riot>]--> (节点2)
+  (Item节点2) --[<223: Use tactics of violent repression>]--> (节点1)
+语义:
+  此模式捕捉了 “<170: Protest violently, riot> → <223: Use tactics of violent repression> → <170: Protest violently, riot>” 的时序互动。
+
+[模式 ID: 53]
+统计: 支持度 15 | 置信度 100.0%
+意图: 专门用于预测关系 <222: Use conventional military force>
+结构:
+  (User节点1) --[<222: Use conventional military force>]--> (节点2)
+  (Item节点2) --[<224: Use unconventional violence>]--> (节点3)
+  (Item节点3) --[<224: Use unconventional violence>]--> (节点2)
+语义:
+  此模式捕捉了 “<222: Use conventional military force> → <224: Use unconventional violence> → <224: Use unconventional violence>” 的时序互动。
+
+[模式 ID: 54]
+统计: 支持度 15 | 置信度 100.0%
+意图: 专门用于预测关系 <155: Make a visit>
+结构:
+  (User节点1) --[<25: Appeal for judicial cooperation>]--> (节点2)
+  (Item节点2) --[<142: Host a visit>]--> (节点3)
+  (Item节点3) --[<155: Make a visit>]--> (节点2)
+语义:
+  此模式捕捉了 “<25: Appeal for judicial cooperation> → <142: Host a visit> → <155: Make a visit>” 的时序互动。
+
+[模式 ID: 55]
+统计: 支持度 15 | 置信度 100.0%
+意图: 专门用于预测关系 <202: Return, release person(s)>
+结构:
+  (User节点1) --[<202: Return, release person(s)>]--> (节点2)
+  (Item节点2) --[<156: Make an appeal or request>]--> (节点3)
+语义:
+  此模式捕捉了 “<202: Return, release person(s)> → <156: Make an appeal or request> → <137: Give ultimatum>” 的时序互动。
+
+[模式 ID: 56]
+统计: 支持度 15 | 置信度 100.0%
+意图: 专门用于预测关系 <222: Use conventional military force>
+结构:
+  (User节点1) --[<222: Use conventional military force>]--> (节点2)
+  (User节点1) --[<222: Use conventional military force>]--> (节点3)
+  (Item节点2) --[<224: Use unconventional violence>]--> (节点1)
+语义:
+  此模式捕捉了 “<222: Use conventional military force> → <224: Use unconventional violence> → <222: Use conventional military force>” 的时序互动。
+
+[模式 ID: 57]
+统计: 支持度 15 | 置信度 100.0%
+意图: 专门用于预测关系 <222: Use conventional military force>
+结构:
+  (User节点1) --[<222: Use conventional military force>]--> (节点2)
+  (User节点1) --[<222: Use conventional military force>]--> (节点3)
+  (Item节点2) --[<224: Use unconventional violence>]--> (节点1)
+语义:
+  此模式捕捉了 “<222: Use conventional military force> → <224: Use unconventional violence> → <222: Use conventional military force>” 的时序互动。
+
+[模式 ID: 58]
+统计: 支持度 15 | 置信度 100.0%
+意图: 专门用于预测关系 <142: Host a visit>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点1)
+语义:
+  此模式捕捉了 “<53: Consult> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 59]
+统计: 支持度 15 | 置信度 100.0%
+意图: 专门用于预测关系 <169: Praise or endorse>
+结构:
+  (User节点1) --[<169: Praise or endorse>]--> (节点2)
+  (Item节点2) --[<158: Make optimistic comment>]--> (节点3)
+语义:
+  此模式捕捉了 “<169: Praise or endorse> → <158: Make optimistic comment> → <142: Host a visit>” 的时序互动。
+
+[模式 ID: 60]
+统计: 支持度 15 | 置信度 100.0%
+意图: 专门用于预测关系 <156: Make an appeal or request>
+结构:
+  (User节点1) --[<156: Make an appeal or request>]--> (节点2)
+  (Item节点2) --[<160: Make statement>]--> (节点3)
+语义:
+  此模式捕捉了 “<156: Make an appeal or request> → <160: Make statement> → <169: Praise or endorse>” 的时序互动。
+
+[模式 ID: 61]
+统计: 支持度 15 | 置信度 100.0%
+意图: 专门用于预测关系 <98: Engage in diplomatic cooperation>
+结构:
+  (User节点1) --[<98: Engage in diplomatic cooperation>]--> (节点2)
+  (Item节点2) --[<159: Make pessimistic comment>]--> (节点3)
+语义:
+  此模式捕捉了 “<98: Engage in diplomatic cooperation> → <159: Make pessimistic comment> → <142: Host a visit>” 的时序互动。
+
+[模式 ID: 62]
+统计: 支持度 15 | 置信度 100.0%
+意图: 专门用于预测关系 <160: Make statement>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<6: Accuse>]--> (节点3)
+语义:
+  此模式捕捉了 “<160: Make statement> → <6: Accuse> → <205: Sexually assault>” 的时序互动。
+
+[模式 ID: 63]
+统计: 支持度 14 | 置信度 100.0%
+意图: 专门用于预测关系 <90: Discuss by telephone>
+结构:
+  (User节点1) --[<90: Discuss by telephone>]--> (节点2)
+  (Item节点2) --[<90: Discuss by telephone>]--> (节点3)
+语义:
+  此模式捕捉了 “<90: Discuss by telephone> → <90: Discuss by telephone> → <53: Consult>” 的时序互动。
+
+[模式 ID: 64]
+统计: 支持度 14 | 置信度 100.0%
+意图: 专门用于预测关系 <90: Discuss by telephone>
+结构:
+  (User节点1) --[<90: Discuss by telephone>]--> (节点2)
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点1)
+语义:
+  此模式捕捉了 “<90: Discuss by telephone> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 65]
+统计: 支持度 14 | 置信度 100.0%
+意图: 专门用于预测关系 <53: Consult>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (User节点1) --[<160: Make statement>]--> (节点3)
+  (Item节点2) --[<53: Consult>]--> (节点1)
+语义:
+  此模式捕捉了 “<53: Consult> → <53: Consult> → <160: Make statement>” 的时序互动。
+
+[模式 ID: 66]
+统计: 支持度 14 | 置信度 100.0%
+意图: 专门用于预测关系 <222: Use conventional military force>
+结构:
+  (User节点1) --[<222: Use conventional military force>]--> (节点2)
+  (Item节点2) --[<224: Use unconventional violence>]--> (节点3)
+语义:
+  此模式捕捉了 “<222: Use conventional military force> → <224: Use unconventional violence> → <224: Use unconventional violence>” 的时序互动。
+
+[模式 ID: 67]
+统计: 支持度 14 | 置信度 100.0%
+意图: 专门用于预测关系 <169: Praise or endorse>
+结构:
+  (User节点1) --[<142: Host a visit>]--> (节点2)
+  (User节点1) --[<142: Host a visit>]--> (节点2)
+  (Item节点2) --[<155: Make a visit>]--> (节点1)
+语义:
+  此模式捕捉了 “<142: Host a visit> → <155: Make a visit> → <142: Host a visit>” 的时序互动。
+
+[模式 ID: 68]
+统计: 支持度 14 | 置信度 100.0%
+意图: 专门用于预测关系 <0: Abduct, hijack, or take hostage>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<160: Make statement>]--> (节点3)
+语义:
+  此模式捕捉了 “<160: Make statement> → <160: Make statement> → <222: Use conventional military force>” 的时序互动。
+
+[模式 ID: 69]
+统计: 支持度 14 | 置信度 100.0%
+意图: 专门用于预测关系 <224: Use unconventional violence>
+结构:
+  (User节点1) --[<224: Use unconventional violence>]--> (节点2)
+  (Item节点2) --[<160: Make statement>]--> (节点3)
+语义:
+  此模式捕捉了 “<224: Use unconventional violence> → <160: Make statement> → <160: Make statement>” 的时序互动。
+
+[模式 ID: 70]
+统计: 支持度 14 | 置信度 100.0%
+意图: 专门用于预测关系 <224: Use unconventional violence>
+结构:
+  (User节点1) --[<224: Use unconventional violence>]--> (节点2)
+  (Item节点2) --[<160: Make statement>]--> (节点3)
+语义:
+  此模式捕捉了 “<224: Use unconventional violence> → <160: Make statement> → <56: Criticize or denounce>” 的时序互动。
+
+[模式 ID: 71]
+统计: 支持度 14 | 置信度 100.0%
+意图: 专门用于预测关系 <222: Use conventional military force>
+结构:
+  (User节点1) --[<222: Use conventional military force>]--> (节点2)
+  (Item节点2) --[<6: Accuse>]--> (节点3)
+语义:
+  此模式捕捉了 “<222: Use conventional military force> → <6: Accuse> → <160: Make statement>” 的时序互动。
+
+[模式 ID: 72]
+统计: 支持度 14 | 置信度 100.0%
+意图: 专门用于预测关系 <115: Express intent to cooperate>
+结构:
+  (User节点1) --[<115: Express intent to cooperate>]--> (节点2)
+  (Item节点2) --[<115: Express intent to cooperate>]--> (节点3)
+  (Item节点3) --[<115: Express intent to cooperate>]--> (节点2)
+语义:
+  此模式捕捉了 “<115: Express intent to cooperate> → <115: Express intent to cooperate> → <115: Express intent to cooperate>” 的时序互动。
+
+[模式 ID: 73]
+统计: 支持度 14 | 置信度 100.0%
+意图: 专门用于预测关系 <156: Make an appeal or request>
+结构:
+  (User节点1) --[<156: Make an appeal or request>]--> (节点2)
+  (Item节点2) --[<38: Arrest, detain, or charge with legal action>]--> (节点3)
+  (Item节点3) --[<56: Criticize or denounce>]--> (节点2)
+语义:
+  此模式捕捉了 “<156: Make an appeal or request> → <38: Arrest, detain, or charge with legal action> → <56: Criticize or denounce>” 的时序互动。
+
+[模式 ID: 74]
+统计: 支持度 14 | 置信度 100.0%
+意图: 专门用于预测关系 <156: Make an appeal or request>
+结构:
+  (User节点1) --[<156: Make an appeal or request>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+  (Item节点3) --[<53: Consult>]--> (节点2)
+语义:
+  此模式捕捉了 “<156: Make an appeal or request> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 75]
+统计: 支持度 14 | 置信度 100.0%
+意图: 专门用于预测关系 <160: Make statement>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<142: Host a visit>]--> (节点3)
+  (Item节点3) --[<155: Make a visit>]--> (节点2)
+语义:
+  此模式捕捉了 “<160: Make statement> → <142: Host a visit> → <155: Make a visit>” 的时序互动。
+
+[模式 ID: 76]
+统计: 支持度 14 | 置信度 100.0%
+意图: 专门用于预测关系 <53: Consult>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<155: Make a visit>]--> (节点3)
+语义:
+  此模式捕捉了 “<53: Consult> → <155: Make a visit> → <56: Criticize or denounce>” 的时序互动。
+
+[模式 ID: 77]
+统计: 支持度 13 | 置信度 100.0%
+意图: 专门用于预测关系 <127: Express intent to meet or negotiate>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+语义:
+  此模式捕捉了 “<53: Consult> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 78]
+统计: 支持度 13 | 置信度 100.0%
+意图: 专门用于预测关系 <90: Discuss by telephone>
+结构:
+  (User节点1) --[<90: Discuss by telephone>]--> (节点2)
+  (User节点1) --[<90: Discuss by telephone>]--> (节点2)
+  (Item节点2) --[<90: Discuss by telephone>]--> (节点1)
+语义:
+  此模式捕捉了 “<90: Discuss by telephone> → <90: Discuss by telephone> → <90: Discuss by telephone>” 的时序互动。
+
+[模式 ID: 79]
+统计: 支持度 13 | 置信度 100.0%
+意图: 专门用于预测关系 <156: Make an appeal or request>
+结构:
+  (User节点1) --[<156: Make an appeal or request>]--> (节点2)
+  (Item节点2) --[<142: Host a visit>]--> (节点3)
+语义:
+  此模式捕捉了 “<156: Make an appeal or request> → <142: Host a visit> → <53: Consult>” 的时序互动。
+
+[模式 ID: 80]
+统计: 支持度 13 | 置信度 100.0%
+意图: 专门用于预测关系 <58: Decline comment>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<160: Make statement>]--> (节点3)
+  (Item节点3) --[<160: Make statement>]--> (节点2)
+语义:
+  此模式捕捉了 “<160: Make statement> → <160: Make statement> → <160: Make statement>” 的时序互动。
+
+[模式 ID: 81]
+统计: 支持度 13 | 置信度 100.0%
+意图: 专门用于预测关系 <208: Threaten>
+结构:
+  (User节点1) --[<208: Threaten>]--> (节点2)
+  (Item节点2) --[<47: Complain officially>]--> (节点3)
+  (Item节点3) --[<86: Demonstrate or rally>]--> (节点2)
+语义:
+  此模式捕捉了 “<208: Threaten> → <47: Complain officially> → <86: Demonstrate or rally>” 的时序互动。
+
+[模式 ID: 82]
+统计: 支持度 13 | 置信度 100.0%
+意图: 专门用于预测关系 <156: Make an appeal or request>
+结构:
+  (User节点1) --[<156: Make an appeal or request>]--> (节点2)
+  (Item节点2) --[<155: Make a visit>]--> (节点3)
+语义:
+  此模式捕捉了 “<156: Make an appeal or request> → <155: Make a visit> → <127: Express intent to meet or negotiate>” 的时序互动。
+
+[模式 ID: 83]
+统计: 支持度 13 | 置信度 100.0%
+意图: 专门用于预测关系 <156: Make an appeal or request>
+结构:
+  (User节点1) --[<156: Make an appeal or request>]--> (节点2)
+  (Item节点2) --[<142: Host a visit>]--> (节点3)
+语义:
+  此模式捕捉了 “<156: Make an appeal or request> → <142: Host a visit> → <155: Make a visit>” 的时序互动。
+
+[模式 ID: 84]
+统计: 支持度 13 | 置信度 100.0%
+意图: 专门用于预测关系 <156: Make an appeal or request>
+结构:
+  (User节点1) --[<156: Make an appeal or request>]--> (节点2)
+  (Item节点2) --[<56: Criticize or denounce>]--> (节点3)
+  (Item节点3) --[<105: Engage in symbolic act>]--> (节点2)
+语义:
+  此模式捕捉了 “<156: Make an appeal or request> → <56: Criticize or denounce> → <105: Engage in symbolic act>” 的时序互动。
+
+[模式 ID: 85]
+统计: 支持度 13 | 置信度 100.0%
+意图: 专门用于预测关系 <53: Consult>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (User节点1) --[<156: Make an appeal or request>]--> (节点3)
+  (Item节点2) --[<53: Consult>]--> (节点1)
+语义:
+  此模式捕捉了 “<53: Consult> → <53: Consult> → <156: Make an appeal or request>” 的时序互动。
+
+[模式 ID: 86]
+统计: 支持度 13 | 置信度 100.0%
+意图: 专门用于预测关系 <208: Threaten>
+结构:
+  (User节点1) --[<208: Threaten>]--> (节点2)
+  (Item节点2) --[<127: Express intent to meet or negotiate>]--> (节点3)
+语义:
+  此模式捕捉了 “<208: Threaten> → <127: Express intent to meet or negotiate> → <98: Engage in diplomatic cooperation>” 的时序互动。
+
+[模式 ID: 87]
+统计: 支持度 13 | 置信度 100.0%
+意图: 专门用于预测关系 <18: Appeal for diplomatic cooperation (such as policy support)>
+结构:
+  (User节点1) --[<18: Appeal for diplomatic cooperation (such as policy support)>]--> (节点2)
+  (Item节点2) --[<0: Abduct, hijack, or take hostage>]--> (节点3)
+语义:
+  此模式捕捉了 “<18: Appeal for diplomatic cooperation (such as policy support)> → <0: Abduct, hijack, or take hostage> → <38: Arrest, detain, or charge with legal action>” 的时序互动。
+
+[模式 ID: 88]
+统计: 支持度 12 | 置信度 100.0%
+意图: 专门用于预测关系 <157: Make empathetic comment>
+结构:
+  (User节点1) --[<224: Use unconventional violence>]--> (节点2)
+  (Item节点2) --[<38: Arrest, detain, or charge with legal action>]--> (节点3)
+语义:
+  此模式捕捉了 “<224: Use unconventional violence> → <38: Arrest, detain, or charge with legal action> → <150: Investigate>” 的时序互动。
+
+[模式 ID: 89]
+统计: 支持度 12 | 置信度 100.0%
+意图: 专门用于预测关系 <58: Decline comment>
+结构:
+  (User节点1) --[<58: Decline comment>]--> (节点2)
+  (Item节点2) --[<142: Host a visit>]--> (节点3)
+  (Item节点3) --[<155: Make a visit>]--> (节点2)
+语义:
+  此模式捕捉了 “<58: Decline comment> → <142: Host a visit> → <155: Make a visit>” 的时序互动。
+
+[模式 ID: 90]
+统计: 支持度 12 | 置信度 100.0%
+意图: 专门用于预测关系 <53: Consult>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<208: Threaten>]--> (节点3)
+  (Item节点3) --[<6: Accuse>]--> (节点2)
+语义:
+  此模式捕捉了 “<53: Consult> → <208: Threaten> → <6: Accuse>” 的时序互动。
+
+[模式 ID: 91]
+统计: 支持度 12 | 置信度 100.0%
+意图: 专门用于预测关系 <142: Host a visit>
+结构:
+  (User节点1) --[<142: Host a visit>]--> (节点2)
+  (Item节点2) --[<169: Praise or endorse>]--> (节点3)
+语义:
+  此模式捕捉了 “<142: Host a visit> → <169: Praise or endorse> → <142: Host a visit>” 的时序互动。
+
+[模式 ID: 92]
+统计: 支持度 12 | 置信度 100.0%
+意图: 专门用于预测关系 <207: Sign formal agreement>
+结构:
+  (User节点1) --[<207: Sign formal agreement>]--> (节点2)
+  (Item节点2) --[<156: Make an appeal or request>]--> (节点3)
+语义:
+  此模式捕捉了 “<207: Sign formal agreement> → <156: Make an appeal or request> → <115: Express intent to cooperate>” 的时序互动。
+
+[模式 ID: 93]
+统计: 支持度 12 | 置信度 100.0%
+意图: 专门用于预测关系 <156: Make an appeal or request>
+结构:
+  (User节点1) --[<155: Make a visit>]--> (节点2)
+  (User节点1) --[<127: Express intent to meet or negotiate>]--> (节点3)
+  (Item节点2) --[<142: Host a visit>]--> (节点1)
+语义:
+  此模式捕捉了 “<155: Make a visit> → <142: Host a visit> → <127: Express intent to meet or negotiate>” 的时序互动。
+
+[模式 ID: 94]
+统计: 支持度 12 | 置信度 100.0%
+意图: 专门用于预测关系 <156: Make an appeal or request>
+结构:
+  (User节点1) --[<156: Make an appeal or request>]--> (节点2)
+  (Item节点2) --[<160: Make statement>]--> (节点3)
+语义:
+  此模式捕捉了 “<156: Make an appeal or request> → <160: Make statement> → <156: Make an appeal or request>” 的时序互动。
+
+[模式 ID: 95]
+统计: 支持度 12 | 置信度 100.0%
+意图: 专门用于预测关系 <34: Appeal to engage in or accept mediation>
+结构:
+  (User节点1) --[<202: Return, release person(s)>]--> (节点2)
+  (Item节点2) --[<156: Make an appeal or request>]--> (节点3)
+语义:
+  此模式捕捉了 “<202: Return, release person(s)> → <156: Make an appeal or request> → <6: Accuse>” 的时序互动。
+
+[模式 ID: 96]
+统计: 支持度 12 | 置信度 100.0%
+意图: 专门用于预测关系 <160: Make statement>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<127: Express intent to meet or negotiate>]--> (节点3)
+语义:
+  此模式捕捉了 “<160: Make statement> → <127: Express intent to meet or negotiate> → <142: Host a visit>” 的时序互动。
+
+[模式 ID: 97]
+统计: 支持度 12 | 置信度 100.0%
+意图: 专门用于预测关系 <160: Make statement>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<160: Make statement>]--> (节点3)
+语义:
+  此模式捕捉了 “<160: Make statement> → <160: Make statement> → <156: Make an appeal or request>” 的时序互动。
+
+[模式 ID: 98]
+统计: 支持度 12 | 置信度 100.0%
+意图: 专门用于预测关系 <160: Make statement>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+语义:
+  此模式捕捉了 “<160: Make statement> → <53: Consult> → <127: Express intent to meet or negotiate>” 的时序互动。
+
+[模式 ID: 99]
+统计: 支持度 12 | 置信度 100.0%
+意图: 专门用于预测关系 <38: Arrest, detain, or charge with legal action>
+结构:
+  (User节点1) --[<38: Arrest, detain, or charge with legal action>]--> (节点2)
+  (Item节点2) --[<124: Express intent to engage in material cooperation>]--> (节点3)
+  (Item节点3) --[<156: Make an appeal or request>]--> (节点2)
+语义:
+  此模式捕捉了 “<38: Arrest, detain, or charge with legal action> → <124: Express intent to engage in material cooperation> → <156: Make an appeal or request>” 的时序互动。
+
+[模式 ID: 100]
+统计: 支持度 12 | 置信度 100.0%
+意图: 专门用于预测关系 <53: Consult>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (User节点1) --[<142: Host a visit>]--> (节点3)
+  (Item节点2) --[<53: Consult>]--> (节点1)
+语义:
+  此模式捕捉了 “<53: Consult> → <53: Consult> → <142: Host a visit>” 的时序互动。
+
+[模式 ID: 101]
+统计: 支持度 12 | 置信度 100.0%
+意图: 专门用于预测关系 <127: Express intent to meet or negotiate>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+语义:
+  此模式捕捉了 “<53: Consult> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 102]
+统计: 支持度 11 | 置信度 100.0%
+意图: 专门用于预测关系 <53: Consult>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (User节点1) --[<142: Host a visit>]--> (节点3)
+  (Item节点2) --[<53: Consult>]--> (节点1)
+语义:
+  此模式捕捉了 “<53: Consult> → <53: Consult> → <142: Host a visit>” 的时序互动。
+
+[模式 ID: 103]
+统计: 支持度 11 | 置信度 100.0%
+意图: 专门用于预测关系 <90: Discuss by telephone>
+结构:
+  (User节点1) --[<90: Discuss by telephone>]--> (节点2)
+  (User节点1) --[<90: Discuss by telephone>]--> (节点2)
+  (Item节点2) --[<90: Discuss by telephone>]--> (节点1)
+语义:
+  此模式捕捉了 “<90: Discuss by telephone> → <90: Discuss by telephone> → <90: Discuss by telephone>” 的时序互动。
+
+[模式 ID: 104]
+统计: 支持度 11 | 置信度 100.0%
+意图: 专门用于预测关系 <90: Discuss by telephone>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+  (Item节点3) --[<53: Consult>]--> (节点2)
+语义:
+  此模式捕捉了 “<53: Consult> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 105]
+统计: 支持度 11 | 置信度 100.0%
+意图: 专门用于预测关系 <222: Use conventional military force>
+结构:
+  (User节点1) --[<222: Use conventional military force>]--> (节点2)
+  (Item节点2) --[<224: Use unconventional violence>]--> (节点3)
+  (Item节点3) --[<222: Use conventional military force>]--> (节点2)
+语义:
+  此模式捕捉了 “<222: Use conventional military force> → <224: Use unconventional violence> → <222: Use conventional military force>” 的时序互动。
+
+[模式 ID: 106]
+统计: 支持度 11 | 置信度 100.0%
+意图: 专门用于预测关系 <207: Sign formal agreement>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+语义:
+  此模式捕捉了 “<160: Make statement> → <53: Consult> → <156: Make an appeal or request>” 的时序互动。
+
+[模式 ID: 107]
+统计: 支持度 11 | 置信度 100.0%
+意图: 专门用于预测关系 <156: Make an appeal or request>
+结构:
+  (User节点1) --[<142: Host a visit>]--> (节点2)
+  (Item节点2) --[<127: Express intent to meet or negotiate>]--> (节点3)
+  (Item节点3) --[<127: Express intent to meet or negotiate>]--> (节点2)
+语义:
+  此模式捕捉了 “<142: Host a visit> → <127: Express intent to meet or negotiate> → <127: Express intent to meet or negotiate>” 的时序互动。
+
+[模式 ID: 108]
+统计: 支持度 11 | 置信度 100.0%
+意图: 专门用于预测关系 <224: Use unconventional violence>
+结构:
+  (User节点1) --[<156: Make an appeal or request>]--> (节点2)
+  (User节点1) --[<156: Make an appeal or request>]--> (节点3)
+  (Item节点2) --[<6: Accuse>]--> (节点1)
+语义:
+  此模式捕捉了 “<156: Make an appeal or request> → <6: Accuse> → <156: Make an appeal or request>” 的时序互动。
+
+[模式 ID: 109]
+统计: 支持度 11 | 置信度 100.0%
+意图: 专门用于预测关系 <115: Express intent to cooperate>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+  (Item节点3) --[<53: Consult>]--> (节点2)
+语义:
+  此模式捕捉了 “<53: Consult> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 110]
+统计: 支持度 11 | 置信度 100.0%
+意图: 专门用于预测关系 <156: Make an appeal or request>
+结构:
+  (User节点1) --[<156: Make an appeal or request>]--> (节点2)
+  (Item节点2) --[<142: Host a visit>]--> (节点3)
+语义:
+  此模式捕捉了 “<156: Make an appeal or request> → <142: Host a visit> → <127: Express intent to meet or negotiate>” 的时序互动。
+
+[模式 ID: 111]
+统计: 支持度 11 | 置信度 100.0%
+意图: 专门用于预测关系 <98: Engage in diplomatic cooperation>
+结构:
+  (User节点1) --[<123: Express intent to engage in diplomatic cooperation (such as policy support)>]--> (节点2)
+  (User节点1) --[<123: Express intent to engage in diplomatic cooperation (such as policy support)>]--> (节点2)
+  (Item节点2) --[<98: Engage in diplomatic cooperation>]--> (节点1)
+语义:
+  此模式捕捉了 “<123: Express intent to engage in diplomatic cooperation (such as policy support)> → <98: Engage in diplomatic cooperation> → <123: Express intent to engage in diplomatic cooperation (such as policy support)>” 的时序互动。
+
+[模式 ID: 112]
+统计: 支持度 11 | 置信度 100.0%
+意图: 专门用于预测关系 <160: Make statement>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<155: Make a visit>]--> (节点3)
+  (Item节点3) --[<142: Host a visit>]--> (节点2)
+语义:
+  此模式捕捉了 “<160: Make statement> → <155: Make a visit> → <142: Host a visit>” 的时序互动。
+
+[模式 ID: 113]
+统计: 支持度 11 | 置信度 100.0%
+意图: 专门用于预测关系 <160: Make statement>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<142: Host a visit>]--> (节点3)
+  (Item节点3) --[<127: Express intent to meet or negotiate>]--> (节点2)
+语义:
+  此模式捕捉了 “<160: Make statement> → <142: Host a visit> → <127: Express intent to meet or negotiate>” 的时序互动。
+
+[模式 ID: 114]
+统计: 支持度 11 | 置信度 100.0%
+意图: 专门用于预测关系 <107: Expel or deport individuals>
+结构:
+  (User节点1) --[<107: Expel or deport individuals>]--> (节点2)
+  (Item节点2) --[<156: Make an appeal or request>]--> (节点3)
+语义:
+  此模式捕捉了 “<107: Expel or deport individuals> → <156: Make an appeal or request> → <169: Praise or endorse>” 的时序互动。
+
+[模式 ID: 115]
+统计: 支持度 11 | 置信度 100.0%
+意图: 专门用于预测关系 <157: Make empathetic comment>
+结构:
+  (User节点1) --[<157: Make empathetic comment>]--> (节点2)
+  (Item节点2) --[<142: Host a visit>]--> (节点3)
+  (Item节点3) --[<155: Make a visit>]--> (节点2)
+语义:
+  此模式捕捉了 “<157: Make empathetic comment> → <142: Host a visit> → <155: Make a visit>” 的时序互动。
+
+[模式 ID: 116]
+统计: 支持度 11 | 置信度 100.0%
+意图: 专门用于预测关系 <86: Demonstrate or rally>
+结构:
+  (User节点1) --[<224: Use unconventional violence>]--> (节点2)
+  (Item节点2) --[<229: fight with small arms and light weapons>]--> (节点3)
+语义:
+  此模式捕捉了 “<224: Use unconventional violence> → <229: fight with small arms and light weapons> → <160: Make statement>” 的时序互动。
+
+[模式 ID: 117]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <53: Consult>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+语义:
+  此模式捕捉了 “<53: Consult> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 118]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <223: Use tactics of violent repression>
+结构:
+  (User节点1) --[<38: Arrest, detain, or charge with legal action>]--> (节点2)
+  (Item节点2) --[<6: Accuse>]--> (节点3)
+  (Item节点3) --[<38: Arrest, detain, or charge with legal action>]--> (节点2)
+语义:
+  此模式捕捉了 “<38: Arrest, detain, or charge with legal action> → <6: Accuse> → <38: Arrest, detain, or charge with legal action>” 的时序互动。
+
+[模式 ID: 119]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <222: Use conventional military force>
+结构:
+  (User节点1) --[<222: Use conventional military force>]--> (节点2)
+  (Item节点2) --[<6: Accuse>]--> (节点3)
+  (Item节点3) --[<38: Arrest, detain, or charge with legal action>]--> (节点2)
+语义:
+  此模式捕捉了 “<222: Use conventional military force> → <6: Accuse> → <38: Arrest, detain, or charge with legal action>” 的时序互动。
+
+[模式 ID: 120]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <208: Threaten>
+结构:
+  (User节点1) --[<61: Demand>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+  (Item节点3) --[<53: Consult>]--> (节点2)
+语义:
+  此模式捕捉了 “<61: Demand> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 121]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <202: Return, release person(s)>
+结构:
+  (User节点1) --[<202: Return, release person(s)>]--> (节点2)
+  (Item节点2) --[<156: Make an appeal or request>]--> (节点3)
+语义:
+  此模式捕捉了 “<202: Return, release person(s)> → <156: Make an appeal or request> → <38: Arrest, detain, or charge with legal action>” 的时序互动。
+
+[模式 ID: 122]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <222: Use conventional military force>
+结构:
+  (User节点1) --[<222: Use conventional military force>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+语义:
+  此模式捕捉了 “<222: Use conventional military force> → <53: Consult> → <103: Engage in negotiation>” 的时序互动。
+
+[模式 ID: 123]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <168: Physically assault>
+结构:
+  (User节点1) --[<168: Physically assault>]--> (节点2)
+  (User节点1) --[<224: Use unconventional violence>]--> (节点2)
+  (Item节点2) --[<229: fight with small arms and light weapons>]--> (节点1)
+语义:
+  此模式捕捉了 “<168: Physically assault> → <229: fight with small arms and light weapons> → <224: Use unconventional violence>” 的时序互动。
+
+[模式 ID: 124]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <142: Host a visit>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+  (Item节点3) --[<53: Consult>]--> (节点2)
+语义:
+  此模式捕捉了 “<53: Consult> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 125]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <169: Praise or endorse>
+结构:
+  (User节点1) --[<127: Express intent to meet or negotiate>]--> (节点2)
+  (Item节点2) --[<169: Praise or endorse>]--> (节点3)
+语义:
+  此模式捕捉了 “<127: Express intent to meet or negotiate> → <169: Praise or endorse> → <53: Consult>” 的时序互动。
+
+[模式 ID: 126]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <6: Accuse>
+结构:
+  (User节点1) --[<6: Accuse>]--> (节点2)
+  (Item节点2) --[<127: Express intent to meet or negotiate>]--> (节点3)
+语义:
+  此模式捕捉了 “<6: Accuse> → <127: Express intent to meet or negotiate> → <127: Express intent to meet or negotiate>” 的时序互动。
+
+[模式 ID: 127]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <115: Express intent to cooperate>
+结构:
+  (User节点1) --[<202: Return, release person(s)>]--> (节点2)
+  (Item节点2) --[<98: Engage in diplomatic cooperation>]--> (节点3)
+语义:
+  此模式捕捉了 “<202: Return, release person(s)> → <98: Engage in diplomatic cooperation> → <98: Engage in diplomatic cooperation>” 的时序互动。
+
+[模式 ID: 128]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <222: Use conventional military force>
+结构:
+  (User节点1) --[<222: Use conventional military force>]--> (节点2)
+  (Item节点2) --[<160: Make statement>]--> (节点3)
+语义:
+  此模式捕捉了 “<222: Use conventional military force> → <160: Make statement> → <160: Make statement>” 的时序互动。
+
+[模式 ID: 129]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <6: Accuse>
+结构:
+  (User节点1) --[<6: Accuse>]--> (节点2)
+  (Item节点2) --[<156: Make an appeal or request>]--> (节点3)
+  (Item节点3) --[<171: Provide aid>]--> (节点2)
+语义:
+  此模式捕捉了 “<6: Accuse> → <156: Make an appeal or request> → <171: Provide aid>” 的时序互动。
+
+[模式 ID: 130]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <156: Make an appeal or request>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<202: Return, release person(s)>]--> (节点3)
+  (Item节点3) --[<223: Use tactics of violent repression>]--> (节点2)
+语义:
+  此模式捕捉了 “<53: Consult> → <202: Return, release person(s)> → <223: Use tactics of violent repression>” 的时序互动。
+
+[模式 ID: 131]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <156: Make an appeal or request>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<202: Return, release person(s)>]--> (节点3)
+  (Item节点3) --[<222: Use conventional military force>]--> (节点2)
+语义:
+  此模式捕捉了 “<53: Consult> → <202: Return, release person(s)> → <222: Use conventional military force>” 的时序互动。
+
+[模式 ID: 132]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <142: Host a visit>
+结构:
+  (User节点1) --[<155: Make a visit>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+  (Item节点3) --[<53: Consult>]--> (节点2)
+语义:
+  此模式捕捉了 “<155: Make a visit> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 133]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <142: Host a visit>
+结构:
+  (User节点1) --[<103: Engage in negotiation>]--> (节点2)
+  (Item节点2) --[<160: Make statement>]--> (节点3)
+语义:
+  此模式捕捉了 “<103: Engage in negotiation> → <160: Make statement> → <142: Host a visit>” 的时序互动。
+
+[模式 ID: 134]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <160: Make statement>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<72: Demand material cooperation>]--> (节点3)
+语义:
+  此模式捕捉了 “<160: Make statement> → <72: Demand material cooperation> → <0: Abduct, hijack, or take hostage>” 的时序互动。
+
+[模式 ID: 135]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <53: Consult>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+  (Item节点3) --[<53: Consult>]--> (节点2)
+语义:
+  此模式捕捉了 “<160: Make statement> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 136]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <160: Make statement>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<160: Make statement>]--> (节点3)
+语义:
+  此模式捕捉了 “<160: Make statement> → <160: Make statement> → <156: Make an appeal or request>” 的时序互动。
+
+[模式 ID: 137]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <160: Make statement>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<159: Make pessimistic comment>]--> (节点3)
+语义:
+  此模式捕捉了 “<160: Make statement> → <159: Make pessimistic comment> → <155: Make a visit>” 的时序互动。
+
+[模式 ID: 138]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <53: Consult>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (User节点1) --[<6: Accuse>]--> (节点3)
+  (Item节点2) --[<53: Consult>]--> (节点1)
+语义:
+  此模式捕捉了 “<53: Consult> → <53: Consult> → <6: Accuse>” 的时序互动。
+
+[模式 ID: 139]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <224: Use unconventional violence>
+结构:
+  (User节点1) --[<224: Use unconventional violence>]--> (节点2)
+  (Item节点2) --[<224: Use unconventional violence>]--> (节点3)
+  (Item节点3) --[<224: Use unconventional violence>]--> (节点2)
+语义:
+  此模式捕捉了 “<224: Use unconventional violence> → <224: Use unconventional violence> → <224: Use unconventional violence>” 的时序互动。
+
+[模式 ID: 140]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <53: Consult>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<155: Make a visit>]--> (节点3)
+语义:
+  此模式捕捉了 “<53: Consult> → <155: Make a visit> → <38: Arrest, detain, or charge with legal action>” 的时序互动。
+
+[模式 ID: 141]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <53: Consult>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<155: Make a visit>]--> (节点3)
+  (Item节点3) --[<142: Host a visit>]--> (节点2)
+语义:
+  此模式捕捉了 “<53: Consult> → <155: Make a visit> → <142: Host a visit>” 的时序互动。
+
+[模式 ID: 142]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <155: Make a visit>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<160: Make statement>]--> (节点3)
+语义:
+  此模式捕捉了 “<160: Make statement> → <160: Make statement> → <53: Consult>” 的时序互动。
+
+[模式 ID: 143]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <207: Sign formal agreement>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+  (Item节点3) --[<53: Consult>]--> (节点2)
+语义:
+  此模式捕捉了 “<53: Consult> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 144]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <156: Make an appeal or request>
+结构:
+  (User节点1) --[<156: Make an appeal or request>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+  (Item节点3) --[<53: Consult>]--> (节点2)
+语义:
+  此模式捕捉了 “<156: Make an appeal or request> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 145]
+统计: 支持度 10 | 置信度 100.0%
+意图: 专门用于预测关系 <18: Appeal for diplomatic cooperation (such as policy support)>
+结构:
+  (User节点1) --[<18: Appeal for diplomatic cooperation (such as policy support)>]--> (节点2)
+  (Item节点2) --[<160: Make statement>]--> (节点3)
+语义:
+  此模式捕捉了 “<18: Appeal for diplomatic cooperation (such as policy support)> → <160: Make statement> → <222: Use conventional military force>” 的时序互动。
+
+[模式 ID: 146]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <90: Discuss by telephone>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<90: Discuss by telephone>]--> (节点3)
+语义:
+  此模式捕捉了 “<53: Consult> → <90: Discuss by telephone> → <53: Consult>” 的时序互动。
+
+[模式 ID: 147]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <6: Accuse>
+结构:
+  (User节点1) --[<6: Accuse>]--> (节点2)
+  (Item节点2) --[<123: Express intent to engage in diplomatic cooperation (such as policy support)>]--> (节点3)
+语义:
+  此模式捕捉了 “<6: Accuse> → <123: Express intent to engage in diplomatic cooperation (such as policy support)> → <127: Express intent to meet or negotiate>” 的时序互动。
+
+[模式 ID: 148]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <202: Return, release person(s)>
+结构:
+  (User节点1) --[<142: Host a visit>]--> (节点2)
+  (Item节点2) --[<224: Use unconventional violence>]--> (节点3)
+  (Item节点3) --[<38: Arrest, detain, or charge with legal action>]--> (节点2)
+语义:
+  此模式捕捉了 “<142: Host a visit> → <224: Use unconventional violence> → <38: Arrest, detain, or charge with legal action>” 的时序互动。
+
+[模式 ID: 149]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <103: Engage in negotiation>
+结构:
+  (User节点1) --[<103: Engage in negotiation>]--> (节点2)
+  (Item节点2) --[<156: Make an appeal or request>]--> (节点3)
+语义:
+  此模式捕捉了 “<103: Engage in negotiation> → <156: Make an appeal or request> → <127: Express intent to meet or negotiate>” 的时序互动。
+
+[模式 ID: 150]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <160: Make statement>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<38: Arrest, detain, or charge with legal action>]--> (节点3)
+语义:
+  此模式捕捉了 “<160: Make statement> → <38: Arrest, detain, or charge with legal action> → <160: Make statement>” 的时序互动。
+
+[模式 ID: 151]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <222: Use conventional military force>
+结构:
+  (User节点1) --[<38: Arrest, detain, or charge with legal action>]--> (节点2)
+  (User节点1) --[<38: Arrest, detain, or charge with legal action>]--> (节点2)
+  (Item节点2) --[<6: Accuse>]--> (节点1)
+语义:
+  此模式捕捉了 “<38: Arrest, detain, or charge with legal action> → <6: Accuse> → <38: Arrest, detain, or charge with legal action>” 的时序互动。
+
+[模式 ID: 152]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <127: Express intent to meet or negotiate>
+结构:
+  (User节点1) --[<127: Express intent to meet or negotiate>]--> (节点2)
+  (Item节点2) --[<56: Criticize or denounce>]--> (节点3)
+语义:
+  此模式捕捉了 “<127: Express intent to meet or negotiate> → <56: Criticize or denounce> → <160: Make statement>” 的时序互动。
+
+[模式 ID: 153]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <208: Threaten>
+结构:
+  (User节点1) --[<208: Threaten>]--> (节点2)
+  (Item节点2) --[<38: Arrest, detain, or charge with legal action>]--> (节点3)
+语义:
+  此模式捕捉了 “<208: Threaten> → <38: Arrest, detain, or charge with legal action> → <155: Make a visit>” 的时序互动。
+
+[模式 ID: 154]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <208: Threaten>
+结构:
+  (User节点1) --[<208: Threaten>]--> (节点2)
+  (Item节点2) --[<191: Reject>]--> (节点3)
+语义:
+  此模式捕捉了 “<208: Threaten> → <191: Reject> → <156: Make an appeal or request>” 的时序互动。
+
+[模式 ID: 155]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <6: Accuse>
+结构:
+  (User节点1) --[<6: Accuse>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+语义:
+  此模式捕捉了 “<6: Accuse> → <53: Consult> → <6: Accuse>” 的时序互动。
+
+[模式 ID: 156]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <103: Engage in negotiation>
+结构:
+  (User节点1) --[<103: Engage in negotiation>]--> (节点2)
+  (User节点1) --[<103: Engage in negotiation>]--> (节点2)
+  (Item节点2) --[<103: Engage in negotiation>]--> (节点1)
+语义:
+  此模式捕捉了 “<103: Engage in negotiation> → <103: Engage in negotiation> → <103: Engage in negotiation>” 的时序互动。
+
+[模式 ID: 157]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <53: Consult>
+结构:
+  (User节点1) --[<142: Host a visit>]--> (节点2)
+  (User节点1) --[<142: Host a visit>]--> (节点2)
+  (Item节点2) --[<155: Make a visit>]--> (节点1)
+语义:
+  此模式捕捉了 “<142: Host a visit> → <155: Make a visit> → <142: Host a visit>” 的时序互动。
+
+[模式 ID: 158]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <222: Use conventional military force>
+结构:
+  (User节点1) --[<222: Use conventional military force>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+语义:
+  此模式捕捉了 “<222: Use conventional military force> → <53: Consult> → <127: Express intent to meet or negotiate>” 的时序互动。
+
+[模式 ID: 159]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <160: Make statement>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<97: Employ aerial weapons>]--> (节点3)
+  (Item节点3) --[<208: Threaten>]--> (节点2)
+语义:
+  此模式捕捉了 “<160: Make statement> → <97: Employ aerial weapons> → <208: Threaten>” 的时序互动。
+
+[模式 ID: 160]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <156: Make an appeal or request>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<191: Reject>]--> (节点3)
+语义:
+  此模式捕捉了 “<160: Make statement> → <191: Reject> → <160: Make statement>” 的时序互动。
+
+[模式 ID: 161]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <159: Make pessimistic comment>
+结构:
+  (User节点1) --[<159: Make pessimistic comment>]--> (节点2)
+  (Item节点2) --[<156: Make an appeal or request>]--> (节点3)
+语义:
+  此模式捕捉了 “<159: Make pessimistic comment> → <156: Make an appeal or request> → <156: Make an appeal or request>” 的时序互动。
+
+[模式 ID: 162]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <162: Meet at a 'third' location>
+结构:
+  (User节点1) --[<142: Host a visit>]--> (节点2)
+  (User节点1) --[<142: Host a visit>]--> (节点2)
+  (Item节点2) --[<155: Make a visit>]--> (节点1)
+语义:
+  此模式捕捉了 “<142: Host a visit> → <155: Make a visit> → <142: Host a visit>” 的时序互动。
+
+[模式 ID: 163]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <222: Use conventional military force>
+结构:
+  (User节点1) --[<222: Use conventional military force>]--> (节点2)
+  (Item节点2) --[<160: Make statement>]--> (节点3)
+语义:
+  此模式捕捉了 “<222: Use conventional military force> → <160: Make statement> → <127: Express intent to meet or negotiate>” 的时序互动。
+
+[模式 ID: 164]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <222: Use conventional military force>
+结构:
+  (User节点1) --[<222: Use conventional military force>]--> (节点2)
+  (Item节点2) --[<224: Use unconventional violence>]--> (节点3)
+  (Item节点3) --[<107: Expel or deport individuals>]--> (节点2)
+语义:
+  此模式捕捉了 “<222: Use conventional military force> → <224: Use unconventional violence> → <107: Expel or deport individuals>” 的时序互动。
+
+[模式 ID: 165]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <222: Use conventional military force>
+结构:
+  (User节点1) --[<222: Use conventional military force>]--> (节点2)
+  (User节点1) --[<222: Use conventional military force>]--> (节点3)
+  (Item节点2) --[<224: Use unconventional violence>]--> (节点1)
+语义:
+  此模式捕捉了 “<222: Use conventional military force> → <224: Use unconventional violence> → <222: Use conventional military force>” 的时序互动。
+
+[模式 ID: 166]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <6: Accuse>
+结构:
+  (User节点1) --[<6: Accuse>]--> (节点2)
+  (Item节点2) --[<156: Make an appeal or request>]--> (节点3)
+  (Item节点3) --[<87: Deny responsibility>]--> (节点2)
+语义:
+  此模式捕捉了 “<6: Accuse> → <156: Make an appeal or request> → <87: Deny responsibility>” 的时序互动。
+
+[模式 ID: 167]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <6: Accuse>
+结构:
+  (User节点1) --[<6: Accuse>]--> (节点2)
+  (Item节点2) --[<156: Make an appeal or request>]--> (节点3)
+语义:
+  此模式捕捉了 “<6: Accuse> → <156: Make an appeal or request> → <38: Arrest, detain, or charge with legal action>” 的时序互动。
+
+[模式 ID: 168]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <107: Expel or deport individuals>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<155: Make a visit>]--> (节点3)
+语义:
+  此模式捕捉了 “<160: Make statement> → <155: Make a visit> → <155: Make a visit>” 的时序互动。
+
+[模式 ID: 169]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <6: Accuse>
+结构:
+  (User节点1) --[<6: Accuse>]--> (节点2)
+  (Item节点2) --[<47: Complain officially>]--> (节点3)
+语义:
+  此模式捕捉了 “<6: Accuse> → <47: Complain officially> → <156: Make an appeal or request>” 的时序互动。
+
+[模式 ID: 170]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <224: Use unconventional violence>
+结构:
+  (User节点1) --[<63: Demand change in leadership>]--> (节点2)
+  (Item节点2) --[<160: Make statement>]--> (节点3)
+语义:
+  此模式捕捉了 “<63: Demand change in leadership> → <160: Make statement> → <53: Consult>” 的时序互动。
+
+[模式 ID: 171]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <142: Host a visit>
+结构:
+  (User节点1) --[<103: Engage in negotiation>]--> (节点2)
+  (Item节点2) --[<50: Conduct suicide, car, or other non-military bombing>]--> (节点3)
+  (Item节点3) --[<38: Arrest, detain, or charge with legal action>]--> (节点2)
+语义:
+  此模式捕捉了 “<103: Engage in negotiation> → <50: Conduct suicide, car, or other non-military bombing> → <38: Arrest, detain, or charge with legal action>” 的时序互动。
+
+[模式 ID: 172]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <127: Express intent to meet or negotiate>
+结构:
+  (User节点1) --[<127: Express intent to meet or negotiate>]--> (节点2)
+  (Item节点2) --[<229: fight with small arms and light weapons>]--> (节点3)
+  (Item节点3) --[<56: Criticize or denounce>]--> (节点2)
+语义:
+  此模式捕捉了 “<127: Express intent to meet or negotiate> → <229: fight with small arms and light weapons> → <56: Criticize or denounce>” 的时序互动。
+
+[模式 ID: 173]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <170: Protest violently, riot>
+结构:
+  (User节点1) --[<86: Demonstrate or rally>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+  (Item节点3) --[<53: Consult>]--> (节点2)
+语义:
+  此模式捕捉了 “<86: Demonstrate or rally> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 174]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <53: Consult>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<160: Make statement>]--> (节点3)
+语义:
+  此模式捕捉了 “<53: Consult> → <160: Make statement> → <53: Consult>” 的时序互动。
+
+[模式 ID: 175]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <38: Arrest, detain, or charge with legal action>
+结构:
+  (User节点1) --[<38: Arrest, detain, or charge with legal action>]--> (节点2)
+  (Item节点2) --[<123: Express intent to engage in diplomatic cooperation (such as policy support)>]--> (节点3)
+  (Item节点3) --[<156: Make an appeal or request>]--> (节点2)
+语义:
+  此模式捕捉了 “<38: Arrest, detain, or charge with legal action> → <123: Express intent to engage in diplomatic cooperation (such as policy support)> → <156: Make an appeal or request>” 的时序互动。
+
+[模式 ID: 176]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <38: Arrest, detain, or charge with legal action>
+结构:
+  (User节点1) --[<219: Torture>]--> (节点2)
+  (Item节点2) --[<38: Arrest, detain, or charge with legal action>]--> (节点3)
+语义:
+  此模式捕捉了 “<219: Torture> → <38: Arrest, detain, or charge with legal action> → <170: Protest violently, riot>” 的时序互动。
+
+[模式 ID: 177]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <160: Make statement>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<205: Sexually assault>]--> (节点3)
+语义:
+  此模式捕捉了 “<160: Make statement> → <205: Sexually assault> → <6: Accuse>” 的时序互动。
+
+[模式 ID: 178]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <127: Express intent to meet or negotiate>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+语义:
+  此模式捕捉了 “<53: Consult> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 179]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <173: Provide humanitarian aid>
+结构:
+  (User节点1) --[<173: Provide humanitarian aid>]--> (节点2)
+  (Item节点2) --[<207: Sign formal agreement>]--> (节点3)
+语义:
+  此模式捕捉了 “<173: Provide humanitarian aid> → <207: Sign formal agreement> → <207: Sign formal agreement>” 的时序互动。
+
+[模式 ID: 180]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <156: Make an appeal or request>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+语义:
+  此模式捕捉了 “<53: Consult> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 181]
+统计: 支持度 9 | 置信度 100.0%
+意图: 专门用于预测关系 <35: Appeal to others to meet or negotiate>
+结构:
+  (User节点1) --[<156: Make an appeal or request>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+  (Item节点3) --[<53: Consult>]--> (节点2)
+语义:
+  此模式捕捉了 “<156: Make an appeal or request> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 182]
+统计: 支持度 8 | 置信度 100.0%
+意图: 专门用于预测关系 <202: Return, release person(s)>
+结构:
+  (User节点1) --[<150: Investigate>]--> (节点2)
+  (User节点1) --[<38: Arrest, detain, or charge with legal action>]--> (节点2)
+  (Item节点2) --[<128: Express intent to provide economic aid>]--> (节点1)
+语义:
+  此模式捕捉了 “<150: Investigate> → <128: Express intent to provide economic aid> → <38: Arrest, detain, or charge with legal action>” 的时序互动。
+
+[模式 ID: 183]
+统计: 支持度 8 | 置信度 100.0%
+意图: 专门用于预测关系 <53: Consult>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+  (Item节点3) --[<53: Consult>]--> (节点2)
+语义:
+  此模式捕捉了 “<53: Consult> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 184]
+统计: 支持度 8 | 置信度 100.0%
+意图: 专门用于预测关系 <53: Consult>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (User节点1) --[<103: Engage in negotiation>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点1)
+语义:
+  此模式捕捉了 “<53: Consult> → <53: Consult> → <103: Engage in negotiation>” 的时序互动。
+
+[模式 ID: 185]
+统计: 支持度 8 | 置信度 100.0%
+意图: 专门用于预测关系 <170: Protest violently, riot>
+结构:
+  (User节点1) --[<86: Demonstrate or rally>]--> (节点2)
+  (User节点1) --[<170: Protest violently, riot>]--> (节点2)
+  (Item节点2) --[<223: Use tactics of violent repression>]--> (节点1)
+语义:
+  此模式捕捉了 “<86: Demonstrate or rally> → <223: Use tactics of violent repression> → <170: Protest violently, riot>” 的时序互动。
+
+[模式 ID: 186]
+统计: 支持度 8 | 置信度 100.0%
+意图: 专门用于预测关系 <160: Make statement>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+  (Item节点3) --[<53: Consult>]--> (节点2)
+语义:
+  此模式捕捉了 “<160: Make statement> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 187]
+统计: 支持度 8 | 置信度 100.0%
+意图: 专门用于预测关系 <150: Investigate>
+结构:
+  (User节点1) --[<8: Accuse of crime, corruption>]--> (节点2)
+  (User节点1) --[<38: Arrest, detain, or charge with legal action>]--> (节点3)
+  (Item节点2) --[<156: Make an appeal or request>]--> (节点1)
+语义:
+  此模式捕捉了 “<8: Accuse of crime, corruption> → <156: Make an appeal or request> → <38: Arrest, detain, or charge with legal action>” 的时序互动。
+
+[模式 ID: 188]
+统计: 支持度 8 | 置信度 100.0%
+意图: 专门用于预测关系 <56: Criticize or denounce>
+结构:
+  (User节点1) --[<115: Express intent to cooperate>]--> (节点2)
+  (User节点1) --[<115: Express intent to cooperate>]--> (节点2)
+  (Item节点2) --[<115: Express intent to cooperate>]--> (节点1)
+语义:
+  此模式捕捉了 “<115: Express intent to cooperate> → <115: Express intent to cooperate> → <115: Express intent to cooperate>” 的时序互动。
+
+[模式 ID: 189]
+统计: 支持度 8 | 置信度 100.0%
+意图: 专门用于预测关系 <56: Criticize or denounce>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<207: Sign formal agreement>]--> (节点3)
+  (Item节点3) --[<207: Sign formal agreement>]--> (节点2)
+语义:
+  此模式捕捉了 “<53: Consult> → <207: Sign formal agreement> → <207: Sign formal agreement>” 的时序互动。
+
+[模式 ID: 190]
+统计: 支持度 8 | 置信度 100.0%
+意图: 专门用于预测关系 <6: Accuse>
+结构:
+  (User节点1) --[<160: Make statement>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点3)
+  (Item节点3) --[<53: Consult>]--> (节点2)
+语义:
+  此模式捕捉了 “<160: Make statement> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 191]
+统计: 支持度 8 | 置信度 100.0%
+意图: 专门用于预测关系 <38: Arrest, detain, or charge with legal action>
+结构:
+  (User节点1) --[<38: Arrest, detain, or charge with legal action>]--> (节点2)
+  (Item节点2) --[<169: Praise or endorse>]--> (节点3)
+  (Item节点3) --[<169: Praise or endorse>]--> (节点2)
+语义:
+  此模式捕捉了 “<38: Arrest, detain, or charge with legal action> → <169: Praise or endorse> → <169: Praise or endorse>” 的时序互动。
+
+[模式 ID: 192]
+统计: 支持度 8 | 置信度 100.0%
+意图: 专门用于预测关系 <38: Arrest, detain, or charge with legal action>
+结构:
+  (User节点1) --[<38: Arrest, detain, or charge with legal action>]--> (节点2)
+  (Item节点2) --[<169: Praise or endorse>]--> (节点3)
+语义:
+  此模式捕捉了 “<38: Arrest, detain, or charge with legal action> → <169: Praise or endorse> → <156: Make an appeal or request>” 的时序互动。
+
+[模式 ID: 193]
+统计: 支持度 8 | 置信度 100.0%
+意图: 专门用于预测关系 <169: Praise or endorse>
+结构:
+  (User节点1) --[<142: Host a visit>]--> (节点2)
+  (User节点1) --[<142: Host a visit>]--> (节点3)
+  (Item节点2) --[<120: Express intent to de-escalate military engagement>]--> (节点1)
+语义:
+  此模式捕捉了 “<142: Host a visit> → <120: Express intent to de-escalate military engagement> → <142: Host a visit>” 的时序互动。
+
+[模式 ID: 194]
+统计: 支持度 8 | 置信度 100.0%
+意图: 专门用于预测关系 <53: Consult>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<53: Consult>]--> (节点1)
+语义:
+  此模式捕捉了 “<53: Consult> → <53: Consult> → <53: Consult>” 的时序互动。
+
+[模式 ID: 195]
+统计: 支持度 8 | 置信度 100.0%
+意图: 专门用于预测关系 <55: Cooperate militarily>
+结构:
+  (User节点1) --[<55: Cooperate militarily>]--> (节点2)
+  (Item节点2) --[<160: Make statement>]--> (节点3)
+语义:
+  此模式捕捉了 “<55: Cooperate militarily> → <160: Make statement> → <38: Arrest, detain, or charge with legal action>” 的时序互动。
+
+[模式 ID: 196]
+统计: 支持度 8 | 置信度 100.0%
+意图: 专门用于预测关系 <160: Make statement>
+结构:
+  (User节点1) --[<169: Praise or endorse>]--> (节点2)
+  (Item节点2) --[<174: Provide military aid>]--> (节点3)
+语义:
+  此模式捕捉了 “<169: Praise or endorse> → <174: Provide military aid> → <142: Host a visit>” 的时序互动。
+
+[模式 ID: 197]
+统计: 支持度 8 | 置信度 100.0%
+意图: 专门用于预测关系 <142: Host a visit>
+结构:
+  (User节点1) --[<142: Host a visit>]--> (节点2)
+  (Item节点2) --[<169: Praise or endorse>]--> (节点3)
+语义:
+  此模式捕捉了 “<142: Host a visit> → <169: Praise or endorse> → <123: Express intent to engage in diplomatic cooperation (such as policy support)>” 的时序互动。
+
+[模式 ID: 198]
+统计: 支持度 8 | 置信度 100.0%
+意图: 专门用于预测关系 <53: Consult>
+结构:
+  (User节点1) --[<53: Consult>]--> (节点2)
+  (Item节点2) --[<156: Make an appeal or request>]--> (节点3)
+语义:
+  此模式捕捉了 “<53: Consult> → <156: Make an appeal or request> → <156: Make an appeal or request>” 的时序互动。
+
+[模式 ID: 199]
+统计: 支持度 8 | 置信度 100.0%
+意图: 专门用于预测关系 <222: Use conventional military force>
+结构:
+  (User节点1) --[<222: Use conventional military force>]--> (节点2)
+  (Item节点2) --[<160: Make statement>]--> (节点3)
+语义:
+  此模式捕捉了 “<222: Use conventional military force> → <160: Make statement> → <53: Consult>” 的时序互动。
+
+[模式 ID: 200]
+统计: 支持度 8 | 置信度 100.0%
+意图: 专门用于预测关系 <222: Use conventional military force>
+结构:
+  (User节点1) --[<222: Use conventional military force>]--> (节点2)
+  (Item节点2) --[<224: Use unconventional violence>]--> (节点3)
+语义:
+  此模式捕捉了 “<222: Use conventional military force> → <224: Use unconventional violence> → <38: Arrest, detain, or charge with legal action>” 的时序互动。
