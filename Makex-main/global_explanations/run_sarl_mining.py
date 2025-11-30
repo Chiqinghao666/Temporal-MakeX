@@ -123,16 +123,18 @@ def build_edge_store(
     return store, rev_store
 
 
-def sample_queries(triples: Sequence[Triple], num_queries: int) -> List[Triple]:
+def sample_queries(triples: Sequence[Triple], num_queries: int, start: int = 0) -> List[Triple]:
     """
     随机采样一部分真实发生的三元组作为“查询（Query）”。
     这是为了模拟链接预测任务：已知 (h, r, ?, t)，预测 t。
+    :param start: 从打乱后的列表起始位置开始取（用于多进程切片）
     """
     triples = list(triples)
     random.shuffle(triples)
-    if num_queries >= len(triples):
-        return triples
-    return triples[:num_queries]
+    if start >= len(triples):
+        return []
+    end = min(len(triples), start + num_queries)
+    return triples[start:end]
 
 
 def parse_args() -> argparse.Namespace:
@@ -161,6 +163,7 @@ def parse_args() -> argparse.Namespace:
 
     # 挖掘参数
     parser.add_argument("--num_queries", type=int, default=200, help="采样多少个查询进行挖掘")
+    parser.add_argument("--query_start", type=int, default=0, help="采样起始偏移（多进程切片用）")
     parser.add_argument("--walks_per_query", type=int, default=50, help="每个查询采样多少条路径")
     parser.add_argument("--max_hops", type=int, default=3, help="最大路径长度")
     parser.add_argument("--beam_size", type=int, default=16, help="集束搜索的宽度")
@@ -201,8 +204,8 @@ def main() -> None:
 
     # 3. 构建图索引和采样查询
     edge_store, rev_edge_store = build_edge_store(triples)
-    queries = sample_queries(triples, args.num_queries)
-    print(f"[Init] Loaded {len(triples)} triples, sampled {len(queries)} queries.")
+    queries = sample_queries(triples, args.num_queries, args.query_start)
+    print(f"[Init] Loaded {len(triples)} triples, sampled {len(queries)} queries (start={args.query_start}).")
 
     # 4. 加载预训练好的 TemporalSARL 模型
     num_entities = len(entity_map) + 1
