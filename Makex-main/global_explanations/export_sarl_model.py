@@ -17,10 +17,36 @@ from sarl_model import TemporalSARL
 def export(model_path: Path, output_path: Path, num_entities: int, num_relations: int,
            history_size: int, num_candidates: int) -> None:
     # 构建模型并加载权重
-    model = TemporalSARL(num_entities=num_entities, num_relations=num_relations)
+    base_model = TemporalSARL(num_entities=num_entities, num_relations=num_relations)
     state_dict = torch.load(model_path, map_location="cpu")
-    model.load_state_dict(state_dict)
-    model.eval()
+    base_model.load_state_dict(state_dict)
+    base_model.eval()
+
+    # 使用包装器避免重复定义 forward 的冲突
+    class Wrapper(torch.nn.Module):
+        def __init__(self, m):
+            super().__init__()
+            self.m = m
+
+        def forward(self,
+                    hist_entities,
+                    hist_relations,
+                    hist_deltas,
+                    current_entities,
+                    query_relation,
+                    cand_entities,
+                    cand_relations,
+                    cand_deltas):
+            return self.m(hist_entities,
+                          hist_relations,
+                          hist_deltas,
+                          current_entities,
+                          query_relation,
+                          cand_entities,
+                          cand_relations,
+                          cand_deltas)
+
+    model = Wrapper(base_model)
 
     # 准备 Dummy 输入，维度需与 forward 对齐
     # (Batch, Seq) 历史

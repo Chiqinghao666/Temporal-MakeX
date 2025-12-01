@@ -191,7 +191,10 @@ struct Miner {
 
         std::vector<torch::jit::IValue> inputs{
             h_ent, h_rel, h_dt, cur_ent, query_rel, cand_entities, cand_relations, cand_deltas};
+
         torch::Tensor scores = model.forward(inputs).toTensor();
+        // 将 logits 拉回 CPU 再做后续处理，避免多线程 GPU 采样开销
+        scores = scores.to(torch::kCPU);
         scores = torch::nan_to_num(scores, 0.0, 0.0, 0.0);
         auto probs = torch::softmax(scores, -1);
         if (!probs.isfinite().all().item<bool>() || probs.sum().item<double>() <= 0) {
@@ -270,6 +273,7 @@ int main(int argc, char *argv[]) {
     Options opt;
     opt.log_file = raw_out;
     opt.use_cuda = torch::cuda::is_available();
+    std::cout << "[Device] CUDA available: " << std::boolalpha << opt.use_cuda << std::endl;
 
     // 加载数据
     auto triples = load_triples(dataset_dir);
