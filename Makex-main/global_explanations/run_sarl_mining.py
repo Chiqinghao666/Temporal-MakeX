@@ -174,7 +174,7 @@ def parse_args() -> argparse.Namespace:
     # 输出控制
     parser.add_argument("--top_signatures", type=int, default=200, help="保留多少个高频模式")
     parser.add_argument("--sample_limit", type=int, default=0)
-    parser.add_argument("--output_rep", type=Path, default=Path("./rep_sarl.txt"))
+    parser.add_argument("--output_rep", type=Path, default=Path("./rep_sarl_5000_queries.txt"))
     parser.add_argument("--log_dir", type=Path, default=Path("./global_explanations"))
     parser.add_argument("--cuda", action="store_true")
     parser.add_argument("--seed", type=int, default=1996)
@@ -301,7 +301,7 @@ def main() -> None:
 
     print(
         f"[Summary] Saved {len(rep_entries)} SARL patterns to {args.output_rep}."
-        f" Raw paths logged at {options.log_dir / 'sarl_raw_paths.txt'}"
+        f" Raw paths logged at {options.log_dir / 'sarl_raw_paths_5000_queries.txt'}"
     )
 
 

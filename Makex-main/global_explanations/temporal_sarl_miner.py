@@ -355,9 +355,13 @@ class SARLMiner:
                     cand_relations,
                     cand_deltas,
                 )
+        # 避免出现 NaN/Inf
+        scores = torch.nan_to_num(scores, nan=0.0, posinf=0.0, neginf=0.0)
 
         # 4. 计算概率分布 (Softmax)
         probs = torch.softmax(scores.squeeze(0), dim=-1)
+        if (not torch.isfinite(probs).all()) or probs.sum() <= 0:
+            probs = torch.full_like(probs, 1.0 / len(probs))
 
         # 5. Top-K 采样逻辑
         # 选取前 5 个（如果邻居不够5个，就全选）
@@ -370,6 +374,9 @@ class SARLMiner:
 
         # 重新归一化 (Re-normalize)，让这K个概率加起来等于1
         normalized = torch.softmax(top_probs, dim=-1)
+        normalized = torch.nan_to_num(normalized, nan=0.0, posinf=0.0, neginf=0.0)
+        if (not torch.isfinite(normalized).all()) or normalized.sum() <= 0:
+            normalized = torch.full_like(normalized, 1.0 / len(normalized))
 
         # 在这K个里面随机抽一个 (Multinomial Sampling)
         sampled = torch.multinomial(normalized, num_samples=1).item()
