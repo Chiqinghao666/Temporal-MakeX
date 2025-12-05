@@ -55,16 +55,20 @@ def parse_rep(path: Path) -> List[dict]:
                 entry = ast.literal_eval(line)
             except Exception:
                 continue
-            if len(entry) < 4:
+            # 新格式（dict）直接保留
+            if isinstance(entry, dict) and "nodes" in entry and "edges" in entry:
+                patterns.append(entry)
                 continue
-            patterns.append(
-                {
-                    "nodes": entry[0],
-                    "edges": entry[1],
-                    "predicates": entry[2] if len(entry) > 2 else [],
-                    "stats": entry[3],
-                }
-            )
+            # 兼容旧格式
+            if isinstance(entry, (list, tuple)) and len(entry) >= 4:
+                patterns.append(
+                    {
+                        "nodes": entry[0],
+                        "edges": entry[1],
+                        "predicates": entry[2] if len(entry) > 2 else [],
+                        "stats": entry[3],
+                    }
+                )
     return patterns
 
 
@@ -136,6 +140,34 @@ def semantic_summary(edges: Sequence[Sequence[int]], rel_map: Dict[int, str]) ->
 def build_report(patterns: List[dict], rel_map: Dict[int, str]) -> str:
     lines: List[str] = []
     for idx, pattern in enumerate(patterns, 1):
+        # 新格式（dict）
+        if isinstance(pattern, dict) and "query" in pattern and "nodes" in pattern and isinstance(pattern.get("edges"), list):
+            support = int(pattern.get("support", 0))
+            conf = float(pattern.get("confidence", 0.0))
+            query_info = pattern.get("query", {})
+            lines.append(f"[模式 ID: {idx}]")
+            lines.append(f"统计: 支持度 {support} | 置信度 {conf * 100:.1f}%")
+            lines.append(
+                f"意图: 预测关系 <{query_info.get('relation', query_info.get('relation_id', ''))}> | 星侧: {query_info.get('star_side', '')}"
+            )
+
+            node_desc = []
+            for n in pattern["nodes"]:
+                node_desc.append(
+                    f"节点{n.get('pattern_id')}: {n.get('name')} (ID={n.get('entity_id')}, 类型={n.get('type')})"
+                )
+            lines.append("节点: " + "; ".join(node_desc))
+
+            edge_desc = []
+            for e in pattern["edges"]:
+                edge_desc.append(
+                    f"{e.get('src')} -[{e.get('relation')}]→ {e.get('dst')} (time_bin={e.get('time_bin')}, gap_days={e.get('gap_days')})"
+                )
+            lines.append("路径: " + " | ".join(edge_desc))
+            lines.append("")
+            continue
+
+        # 兼容旧格式
         stats = pattern["stats"] if pattern.get("stats") else [0, 0]
         support = int(stats[0]) if stats else 0
         conf = float(stats[1]) if len(stats) > 1 else 0.0
