@@ -156,6 +156,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--entity_map", type=Path, default=Path("../DataSets/icews14/entity2id.json"))
     parser.add_argument("--relation_map", type=Path, default=Path("../DataSets/icews14/relation2id.json"))
     parser.add_argument("--entity_type_map", type=Path, default=Path("../DataSets/icews14/entity2type.json"))
+    parser.add_argument("--entity_type_csv", type=Path, default=Path("../DataSets/icews14/entity_classification.csv"))
 
     # 模型路径
     parser.add_argument("--model_path", type=Path, default=Path("./sarl_model.pth"))
@@ -243,6 +244,7 @@ def main() -> None:
         edge_store=edge_store,
         rev_edge_store=rev_edge_store,  # 传入反向索引，支持双向挖掘
         entity_type_path=args.entity_type_map,
+        entity_type_csv=args.entity_type_csv,
         vertex_file=args.vertex_file,
     )
     miner.reset_statistics()

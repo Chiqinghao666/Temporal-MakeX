@@ -84,6 +84,7 @@ class SARLMiner:
             edge_store: Dict[int, List[TemporalNeighbor]],  # 正向边索引 Head -> Tail
             rev_edge_store: Optional[Dict[int, List[TemporalNeighbor]]] = None,  # 反向边索引 Tail -> Head
             entity_type_path: Optional[Path] = None,
+            entity_type_csv: Optional[Path] = None,
             vertex_file: Optional[Path] = None,
     ) -> None:
         self.model = model.to(options.device)
@@ -98,8 +99,8 @@ class SARLMiner:
         self.relation_map = self._load_map(relation2id_path)
         self.entity_inv = {v: k for k, v in self.entity_map.items()}
         self.relation_inv = {v: k for k, v in self.relation_map.items()}
-        # 加载实体类型映射（优先 entity_type 文件，其次顶点 CSV）
-        self.entity_type_map = self._load_entity_types(entity_type_path, vertex_file)
+        # 加载实体类型映射（优先显式分类 CSV，其次 JSON，最后顶点 CSV）
+        self.entity_type_map = self._load_entity_types(entity_type_path, entity_type_csv, vertex_file)
 
         # 定义填充 ID（通常是最大 ID + 1）
         self.pad_entity = len(self.entity_map)
@@ -127,11 +128,41 @@ class SARLMiner:
     def _id_to_name(self, inv_map: Dict[int, str], idx: int) -> str:
         return inv_map.get(idx, f"ID_{idx}")
 
-    def _load_entity_types(self, entity_type_path: Optional[Path], vertex_file: Optional[Path]) -> Dict[int, str]:
+    def _load_entity_types(
+            self,
+            entity_type_path: Optional[Path],
+            entity_type_csv: Optional[Path],
+            vertex_file: Optional[Path],
+    ) -> Dict[int, str]:
         """
-        加载实体类型映射，优先使用显式的 entity2type 文件，缺失时回退到顶点 CSV 中的 type 列。
+        加载实体类型映射：
+        1) 若提供 entity_classification.csv（含 Entity_ID / Type_Name），优先使用。
+        2) 其次尝试 entity2type.json。
+        3) 最后回退到顶点 CSV 的 type 列。
         """
         mapping: Dict[int, str] = {}
+        # 1) 显式分类 CSV
+        if entity_type_csv and entity_type_csv.exists():
+            try:
+                with entity_type_csv.open("r", encoding="utf-8", errors="replace") as f:
+                    reader = csv.DictReader(f)
+                    for row in reader:
+                        lower_row = {k.lower(): v for k, v in row.items() if k}
+                        vid_raw = lower_row.get("entity_id")
+                        type_name = lower_row.get("type_name") or lower_row.get("type")
+                        if vid_raw is None or type_name is None:
+                            continue
+                        try:
+                            ent_id = int(vid_raw)
+                        except ValueError:
+                            continue
+                        mapping[ent_id] = str(type_name)
+            except Exception as exc:  # pragma: no cover - 容错输出提醒
+                print(f"[WARN] 加载实体分类 CSV 失败 {entity_type_csv}: {exc}")
+        if mapping:
+            return mapping
+
+        # 2) JSON 映射
         if entity_type_path and entity_type_path.exists():
             try:
                 raw = json.loads(entity_type_path.read_text())
