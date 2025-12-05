@@ -28,7 +28,16 @@ def load_relation_map(path: Path) -> Dict[int, str]:
     return {int(idx): name.replace("_", " ") for name, idx in data.items()}
 
 
-def describe_relation(rel_id: int, rel_map: Dict[int, str]) -> str:
+def describe_relation(rel: int | str, rel_map: Dict[int, str]) -> str:
+    """
+    兼容字符串关系名与数值 ID，优先输出可读名称。
+    """
+    if isinstance(rel, str) and not rel.isdigit():
+        return f"<{rel}>"
+    try:
+        rel_id = int(rel)
+    except (TypeError, ValueError):
+        return f"<{rel}>"
     name = rel_map.get(rel_id, f"关系{rel_id}")
     return f"<{rel_id}: {name}>"
 
@@ -90,15 +99,28 @@ def summarize_edges(edges: Sequence[Sequence[int]], role: str, rel_map: Dict[int
     return lines
 
 
-def extract_query_relation(predicates: Sequence[Sequence]) -> int | None:
+def extract_query_relation(predicates: Sequence[Sequence]) -> tuple[int | None, str | None]:
+    """
+    同时提取关系 ID 与关系名称，优先返回名称。
+    """
+    rel_id = None
+    rel_name = None
     for predicate in predicates:
         if len(predicate) >= 4 and predicate[0] == "Constant":
-            if str(predicate[2]).lower() == "query_relation":
+            key = str(predicate[2]).lower()
+            if key == "query_relation":
                 try:
-                    return int(predicate[3])
+                    rel_id = int(predicate[3])
                 except ValueError:
-                    return None
-    return None
+                    rel_name = str(predicate[3])
+            if key == "query_relation_id":
+                try:
+                    rel_id = int(predicate[3])
+                except ValueError:
+                    pass
+            if key == "relation_chain" and not rel_name:
+                rel_name = str(predicate[3])
+    return rel_id, rel_name
 
 
 def semantic_summary(edges: Sequence[Sequence[int]], rel_map: Dict[int, str]) -> str:
@@ -120,12 +142,13 @@ def build_report(patterns: List[dict], rel_map: Dict[int, str]) -> str:
         node_map, pivot_x, pivot_y, user_edges, item_edges = split_stars(
             pattern["nodes"], pattern["edges"]
         )
-        query_rel = extract_query_relation(pattern.get("predicates", []))
-        intent = (
-            f"专门用于预测关系 {describe_relation(query_rel, rel_map)}"
-            if query_rel is not None
-            else "用于捕捉目标节点之间的共现结构"
-        )
+        query_rel_id, query_rel_name = extract_query_relation(pattern.get("predicates", []))
+        if query_rel_name:
+            intent = f"专门用于预测关系 <{query_rel_name}>"
+        elif query_rel_id is not None:
+            intent = f"专门用于预测关系 {describe_relation(query_rel_id, rel_map)}"
+        else:
+            intent = "用于捕捉目标节点之间的共现结构"
         lines.append(f"[模式 ID: {idx}]")
         lines.append(f"统计: 支持度 {support} | 置信度 {conf * 100:.1f}%")
         lines.append(f"意图: {intent}")
