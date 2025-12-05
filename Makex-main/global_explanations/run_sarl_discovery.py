@@ -21,7 +21,7 @@ if str(CURRENT_DIR) not in sys.path:
 
 import pyMakex  # type: ignore
 from sarl_model import TemporalSARL
-from temporal_sarl_miner import SARLMiner, SARLOptions, TemporalNeighbor
+from temporal_sarl_miner import SARLMiner, SARLOptions, TemporalNeighbor, TemporalPath
 
 
 def parse_args() -> argparse.Namespace:
@@ -43,6 +43,9 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--relation_map", type=Path, default=Path("../DataSets/icews14/relation2id.json")
+    )
+    parser.add_argument(
+        "--entity_type_map", type=Path, default=Path("../DataSets/icews14/entity2type.json")
     )
     parser.add_argument("--output_rep", type=Path, default=Path("./rep_sarl.txt"))
     parser.add_argument("--num_entities", type=int, default=0)
@@ -189,9 +192,10 @@ def main() -> None:
     options = SARLOptions(
         max_hops=args.max_hops,
         beam_size=args.beam_size,
-        time_decay=args.time_window,
+        time_window=args.time_window,
         device=device,
         log_dir=args.log_dir,
+        time_bucket=args.time_bucket,
     )
     miner = SARLMiner(
         model=model,
@@ -200,9 +204,11 @@ def main() -> None:
         relation2id_path=args.relation_map,
         graph_ptr=graph_ptr,
         edge_store=edge_store,
+        entity_type_path=args.entity_type_map,
+        vertex_file=args.vertex_file,
     )
 
-    all_paths = []
+    all_paths: List[TemporalPath] = []
     total_queries = len(seed_queries)
     for idx, (head, relation, _, ts) in enumerate(seed_queries, 1):
         if idx % 10 == 0 or idx == total_queries:
@@ -210,7 +216,7 @@ def main() -> None:
         paths = miner.mine_paths(head, relation, ts, num_walks=args.walks_per_query)
         for path in paths:
             if path:
-                all_paths.append({"head": head, "relation": relation, "query_time": ts, "path": path})
+                all_paths.append(path)
 
     if not all_paths:
         print("未挖掘到任何有效路径，rep 文件不会被更新。")
@@ -221,16 +227,11 @@ def main() -> None:
         f"Avg paths/query={len(all_paths) / max(total_queries,1):.2f}"
     )
 
-    grouped: Dict[Tuple[int, int, str], List[List[TemporalNeighbor]]] = defaultdict(list)
-    for entry in all_paths:
-        signature = build_signature(entry["path"], entry["query_time"], args.time_bucket)
-        key = (entry["head"], entry["relation"], signature)
-        grouped[key].append(entry["path"])
-
+    grouped = miner.cluster_paths(all_paths, args.time_bucket)
     ranked_groups = sorted(grouped.items(), key=lambda kv: len(kv[1]), reverse=True)
     rep_entries = []
-    for (head, relation, _), path_list in ranked_groups[: args.top_signatures]:
-        rep_entries.append(path_to_rep(head, relation, path_list[0], len(path_list)))
+    for (_, _, _, _), path_list in ranked_groups[: args.top_signatures]:
+        rep_entries.append(miner.path_to_rep(path_list[0], len(path_list)))
 
     output_path = args.output_rep
     with output_path.open("w", encoding="utf-8") as f:

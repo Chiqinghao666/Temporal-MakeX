@@ -11,6 +11,7 @@ Temporal SARL 挖掘器（Miner）模块。
 
 from __future__ import annotations
 
+import csv
 import json
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -61,6 +62,7 @@ class SARLOptions:
     beam_size: int = 8  # 在每一步搜索时，最多考虑多少个候选邻居（物理截断）
     time_window: float = 30 * 86400.0  # 时间窗口：只考虑最近多久的历史（默认30天）
     min_timestamp: float = 0.0  # 数据集最早时间戳
+    time_bucket: float = 7 * 86400.0  # 时间分箱粒度（默认按周）
     device: str = "cpu"  # 运行设备
     log_dir: Path = Path(".")  # 日志保存路径
     verbose: bool = False  # 是否打印详细的每一步日志
@@ -80,24 +82,29 @@ class SARLMiner:
             relation2id_path: Path,
             graph_ptr: int,  # pyMakex C++ 图对象的指针
             edge_store: Dict[int, List[TemporalNeighbor]],  # 正向边索引 Head -> Tail
-            rev_edge_store: Dict[int, List[TemporalNeighbor]],  # 反向边索引 Tail -> Head
+            rev_edge_store: Optional[Dict[int, List[TemporalNeighbor]]] = None,  # 反向边索引 Tail -> Head
+            entity_type_path: Optional[Path] = None,
+            vertex_file: Optional[Path] = None,
     ) -> None:
         self.model = model.to(options.device)
         self.model.eval()  # 挖掘阶段仅推理，无需反向传播
         self.options = options
         self.graph_ptr = graph_ptr
         self.edge_store = edge_store
-        self.rev_edge_store = rev_edge_store
+        self.rev_edge_store = rev_edge_store or {}
 
         # 加载 ID 映射，用于日志打印时显示真实名称
         self.entity_map = self._load_map(entity2id_path)
         self.relation_map = self._load_map(relation2id_path)
         self.entity_inv = {v: k for k, v in self.entity_map.items()}
         self.relation_inv = {v: k for k, v in self.relation_map.items()}
+        # 加载实体类型映射（优先 entity_type 文件，其次顶点 CSV）
+        self.entity_type_map = self._load_entity_types(entity_type_path, vertex_file)
 
         # 定义填充 ID（通常是最大 ID + 1）
         self.pad_entity = len(self.entity_map)
         self.pad_relation = len(self.relation_map)
+        self.time_bucket = max(0.0, self.options.time_bucket)
 
         # 初始化日志目录
         self.log_dir = options.log_dir
@@ -119,6 +126,65 @@ class SARLMiner:
 
     def _id_to_name(self, inv_map: Dict[int, str], idx: int) -> str:
         return inv_map.get(idx, f"ID_{idx}")
+
+    def _load_entity_types(self, entity_type_path: Optional[Path], vertex_file: Optional[Path]) -> Dict[int, str]:
+        """
+        加载实体类型映射，优先使用显式的 entity2type 文件，缺失时回退到顶点 CSV 中的 type 列。
+        """
+        mapping: Dict[int, str] = {}
+        if entity_type_path and entity_type_path.exists():
+            try:
+                raw = json.loads(entity_type_path.read_text())
+                for key, value in raw.items():
+                    ent_id: Optional[int] = None
+                    try:
+                        ent_id = int(key)
+                    except ValueError:
+                        ent_id = self.entity_map.get(key)
+                    if ent_id is None:
+                        continue
+                    mapping[ent_id] = str(value)
+            except Exception as exc:  # pragma: no cover - 容错输出提醒
+                print(f"[WARN] 加载实体类型文件失败 {entity_type_path}: {exc}")
+
+        if not mapping and vertex_file and vertex_file.exists():
+            try:
+                with vertex_file.open("r", encoding="utf-8", errors="replace") as f:
+                    reader = csv.DictReader(f)
+                    for row in reader:
+                        vid_raw = row.get("vertex_id:int") or row.get("vertex_id")
+                        type_raw = row.get("type:string") or row.get("type")
+                        if vid_raw is None or type_raw is None:
+                            continue
+                        try:
+                            mapping[int(vid_raw)] = str(type_raw)
+                        except ValueError:
+                            continue
+            except Exception as exc:  # pragma: no cover - 容错输出提醒
+                print(f"[WARN] 读取顶点类型列失败 {vertex_file}: {exc}")
+        return mapping
+
+    def _entity_type(self, entity_id: int) -> str:
+        """
+        返回实体的类型名称；若类型缺失则回退到实体原始名称，确保输出可读。
+        """
+        if entity_id in self.entity_type_map:
+            return self.entity_type_map[entity_id]
+        return self.entity_inv.get(entity_id, f"Entity_{entity_id}")
+
+    def _relation_name(self, relation_id: int) -> str:
+        """关系名称转为可读格式（替换下划线）。"""
+        raw = self.relation_inv.get(relation_id, f"rel_{relation_id}")
+        return raw.replace("_", " ")
+
+    def _time_bin(self, query_time: float, edge_ts: float) -> Tuple[int, float]:
+        """
+        计算时间分箱编号以及时间差（秒）。
+        """
+        delta = max(0.0, query_time - edge_ts)
+        if self.time_bucket <= 0:
+            return 0, delta
+        return int(delta // self.time_bucket), delta
 
     def mine_paths(
             self,
@@ -542,29 +608,58 @@ class SARLMiner:
         将一条代表路径转换为 Makex 规则格式 (REP)。
         输出格式：[Vertices, Edges, Predicates, Stats, Meta]
         """
-        # 1. 节点重映射：将具体 ID 转换为抽象 ID (1, 2, 3...)
-        node_ids = {path.head: 1}
+        # 1. 节点重映射：将具体 ID 转换为抽象 ID (1, 2, 3...) 并附带类型
+        node_ids: Dict[int, int] = {path.head: 1}
+        node_types: Dict[int, str] = {1: self._entity_type(path.head)}
         next_idx = 2
         current = path.head
         edges: List[List[int]] = []
-        for edge in path.edges:
+        relation_chain: List[str] = []
+        time_predicates: List[List[str]] = []
+        relation_predicates: List[List[str]] = []
+
+        for hop_idx, edge in enumerate(path.edges, 1):
             if edge.dst not in node_ids:
                 node_ids[edge.dst] = next_idx
+                node_types[next_idx] = self._entity_type(edge.dst)
                 next_idx += 1
             src_idx = node_ids[current]
             dst_idx = node_ids[edge.dst]
             edges.append([src_idx, dst_idx, edge.relation])
+
+            # 记录关系与时间分箱信息，便于规则可读化
+            rel_name = self._relation_name(edge.relation)
+            relation_chain.append(rel_name)
+            relation_predicates.append(["Constant", dst_idx, "relation_name", rel_name, "string", "="])
+
+            bucket, delta = self._time_bin(path.query_time, edge.timestamp)
+            time_predicates.append(
+                ["Constant", dst_idx, f"time_bin_hop{hop_idx}", str(bucket), "string", "="]
+            )
+            time_predicates.append(
+                ["Constant", dst_idx, f"time_gap_days_hop{hop_idx}", f"{delta / 86400.0:.2f}", "string", "="]
+            )
+
             current = edge.dst
 
-        # 2. 构建顶点列表
-        vertices = [[idx, 0] for _, idx in sorted(node_ids.items(), key=lambda item: item[1])]
+        # 2. 构建顶点列表（第二列写入类型，便于阅读）
+        vertices = [[idx, node_types[idx]] for idx in sorted(node_types.keys())]
 
-        # 3. 构建谓词约束
-        predicates = [
-            ["Constant", 1, "query_relation", str(path.relation), "string", "="],
+        # 3. 构建谓词约束：包含查询关系名、ID、路径长度、方向、类型约束与时间分箱
+        predicates: List[List[str]] = [
+            ["Constant", 1, "query_relation", self._relation_name(path.relation), "string", "="],
+            ["Constant", 1, "query_relation_id", str(path.relation), "string", "="],
             ["Constant", 1, "path_length", str(len(path.edges)), "string", "="],
             ["Constant", 1, "star_side", path.side, "string", "="],  # 关键：标记是 Head 星还是 Tail 星
+            ["Constant", 1, "relation_chain", " -> ".join(relation_chain), "string", "="],
         ]
+
+        # 为每个节点补充类型谓词，便于下游直接查看类型
+        for idx, type_name in node_types.items():
+            predicates.append(["Constant", idx, "type", type_name, "string", "="])
+
+        predicates.extend(relation_predicates)
+        predicates.extend(time_predicates)
 
         # 4. 统计信息 [Support, Confidence]
         stats = [float(support), 1.0]

@@ -13,7 +13,12 @@ Rebuild the C++ extension and run the new smoke test:
 
 ```bash
 cd pyMakex && python setup.py build_ext --inplace
-python pyMakex/test_
-
-temporal_simple.py
+python pyMakex/test_temporal_simple.py
 ```
+
+## 阶段更新 – 可读规则输出（SARL）
+
+- SARL Miner 支持加载 `entity2type.json`（缺失时回退顶点 CSV 的 type 列），规则节点直接写入类型名称，便于展示。
+- REP 输出新增查询关系名称、关系链、人类可读类型谓词，以及逐 hop 的时间分箱与时间差谓词；原有关系 ID 仍保留以兼容匹配。
+- `run_sarl_mining.py` 与 `run_sarl_discovery.py` 增加 `--entity_type_map`，并将 `time_bucket` 传入 Miner，统一使用 `miner.path_to_rep` 写规则。
+- `interpret_global.py` 兼容字符串关系名，生成报告时不再依赖纯数字关系 ID。
