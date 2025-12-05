@@ -656,15 +656,9 @@ class SARLMiner:
           "confidence": 1.0
         }
         """
-        # 1. 节点重映射：将具体 ID 转换为抽象 ID (1, 2, 3...) 并附带类型、名称、原始 ID
+        # 1. 节点重映射：将具体 ID 转换为抽象 ID (1, 2, 3...)，输出仅保留类型（不再暴露具体实体 ID/名称）
         node_ids: Dict[int, int] = {path.head: 1}
-        node_info: Dict[int, Dict[str, str]] = {
-            1: {
-                "entity_id": path.head,
-                "name": self._id_to_name(self.entity_inv, path.head),
-                "type": self._entity_type(path.head),
-            }
-        }
+        node_info: Dict[int, Dict[str, str]] = {1: {"type": self._entity_type(path.head)}}
         next_idx = 2
         current = path.head
         edges_payload: List[Dict[str, object]] = []
@@ -672,11 +666,7 @@ class SARLMiner:
         for hop_idx, edge in enumerate(path.edges, 1):
             if edge.dst not in node_ids:
                 node_ids[edge.dst] = next_idx
-                node_info[next_idx] = {
-                    "entity_id": edge.dst,
-                    "name": self._id_to_name(self.entity_inv, edge.dst),
-                    "type": self._entity_type(edge.dst),
-                }
+                node_info[next_idx] = {"type": self._entity_type(edge.dst)}
                 next_idx += 1
             src_idx = node_ids[current]
             dst_idx = node_ids[edge.dst]
@@ -695,12 +685,10 @@ class SARLMiner:
 
             current = edge.dst
 
-        # 2. 构建节点列表（包含原始 ID、名称、类型）
+        # 2. 构建节点列表（仅类型）
         vertices = [
             {
                 "pattern_id": idx,
-                "entity_id": info["entity_id"],
-                "name": info["name"],
                 "type": info["type"],
             }
             for idx, info in sorted(node_info.items(), key=lambda kv: kv[0])

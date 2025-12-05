@@ -153,9 +153,7 @@ def build_report(patterns: List[dict], rel_map: Dict[int, str]) -> str:
 
             node_desc = []
             for n in pattern["nodes"]:
-                node_desc.append(
-                    f"节点{n.get('pattern_id')}: {n.get('name')} (ID={n.get('entity_id')}, 类型={n.get('type')})"
-                )
+                node_desc.append(f"节点{n.get('pattern_id')}: 类型={n.get('type')}")
             lines.append("节点: " + "; ".join(node_desc))
 
             edge_desc = []
