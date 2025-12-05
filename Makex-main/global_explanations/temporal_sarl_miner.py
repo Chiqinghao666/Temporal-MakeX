@@ -12,6 +12,7 @@ Temporal SARL 挖掘器（Miner）模块。
 from __future__ import annotations
 
 import csv
+import math
 import json
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -284,76 +285,111 @@ class SARLMiner:
             side: str,
     ) -> Optional[TemporalPath]:
         """
-        执行单次随机游走的核心逻辑。
+        执行单次游走的核心逻辑（Beam Search）。
         :param pivot_id: 起始节点 ID (Head or Tail)
         :param neighbor_getter: 获取邻居的函数（正向或反向）
         """
-        # 1. 初始化历史记忆（用 PAD 填充）
-        history_entities, history_relations, history_deltas = self._init_history(pivot_id, relation_id)
+        # 1. 初始化 beam，深拷贝历史，避免共享引用
+        hist_entities, hist_relations, hist_deltas = self._init_history(pivot_id, relation_id)
+        beams = [{
+            "logprob": 0.0,
+            "current": pivot_id,
+            "current_time": query_time,
+            "hist_entities": list(hist_entities),
+            "hist_relations": list(hist_relations),
+            "hist_deltas": list(hist_deltas),
+            "edges": [],  # type: List[TemporalNeighbor]
+        }]
+        completed: List[dict] = []
 
-        current = pivot_id
-        current_time = query_time
-        mined_edges: List[TemporalNeighbor] = []
-
-        # 2. 开始逐跳搜索
         for hop in range(self.options.max_hops):
-            # 获取当前节点在当前时间之前的邻居
-            neighbors = neighbor_getter(current, current_time)
-            if not neighbors:
-                # 如果是 verbose 模式，打印死胡同信息
-                if self.options.verbose:
-                    print(f"[SARL Step] Walk {walk_idx}, hop {hop}: no neighbors in window.")
-                return None
+            new_beams: List[dict] = []
+            for beam in beams:
+                neighbors = neighbor_getter(beam["current"], beam["current_time"])
+                if not neighbors:
+                    completed.append(beam)
+                    continue
 
-            # 3. 询问模型，选择下一步
-            choice, probs = self._select_neighbor(
-                neighbors,
-                history_entities,
-                history_relations,
-                history_deltas,
-                current,
-                relation_id,
-                query_time,
-            )
+                log_probs = self._score_neighbors(
+                    neighbors=neighbors,
+                    history_entities=beam["hist_entities"],
+                    history_relations=beam["hist_relations"],
+                    history_deltas=beam["hist_deltas"],
+                    current_entity=beam["current"],
+                    relation_id=relation_id,
+                    query_time=query_time,
+                )
 
-            mined_edges.append(choice)
+                for idx, neigh in enumerate(neighbors):
+                    new_hist_entities = list(beam["hist_entities"])
+                    new_hist_relations = list(beam["hist_relations"])
+                    new_hist_deltas = list(beam["hist_deltas"])
+                    new_edges = list(beam["edges"])
 
-            # 记录日志（仅 verbose=True 时）
-            self._log_step(
-                walk_idx,
-                hop,
-                current,
-                relation_id,
-                current_time,
-                neighbors,
-                probs,
-                choice,
-            )
+                    new_edges.append(neigh)
+                    self._append_history(
+                        new_hist_entities,
+                        new_hist_relations,
+                        new_hist_deltas,
+                        neigh.dst,
+                        neigh.relation,
+                        max(0.0, query_time - neigh.timestamp),
+                    )
 
-            # 4. 更新历史记忆（Sliding Window）
-            # 将刚走过的边加入历史序列，挤出最旧的
-            self._append_history(
-                history_entities,
-                history_relations,
-                history_deltas,
-                choice.dst,
-                choice.relation,
-                max(0.0, query_time - choice.timestamp),
-            )
+                    new_beams.append({
+                        "logprob": beam["logprob"] + log_probs[idx].item(),
+                        "current": neigh.dst,
+                        "current_time": neigh.timestamp,
+                        "hist_entities": new_hist_entities,
+                        "hist_relations": new_hist_relations,
+                        "hist_deltas": new_hist_deltas,
+                        "edges": new_edges,
+                        "last_choice": neigh,
+                        "neighbors": neighbors,
+                        "probs": log_probs.exp(),
+                        "hop": hop,
+                    })
 
-            # 5. 移动到下一个节点，时间回溯
-            current = choice.dst
-            current_time = choice.timestamp
-
-            # 达到最大长度，停止
-            if len(mined_edges) == self.options.max_hops:
+            if not new_beams:
                 break
 
-        # 6. 成功找到路径，保存并返回
-        if mined_edges:
+            # 全局截断到 beam_size
+            new_beams.sort(key=lambda b: b["logprob"], reverse=True)
+            beams = new_beams[: self.options.beam_size]
+
+            if self.options.verbose and beams:
+                top = beams[0]
+                self._log_step(
+                    walk_idx,
+                    top.get("hop", hop),
+                    top.get("current", pivot_id),
+                    relation_id,
+                    top.get("current_time", query_time),
+                    top.get("neighbors", []),
+                    top.get("probs", torch.empty(0)),
+                    top.get("last_choice"),
+                )
+
+        # 收集完成的 beam
+        completed.extend(beams)
+
+        # 选择累积 logprob 最高且有路径的 beam
+        best = None
+        for beam in completed:
+            if beam["edges"]:
+                if best is None or beam["logprob"] > best["logprob"]:
+                    best = beam
+
+        if best:
+            mined_edges = best["edges"]
             self._write_raw_path(pivot_id, relation_id, query_time, mined_edges, side)
-            return TemporalPath(head=pivot_id, relation=relation_id, query_time=query_time, edges=mined_edges,
-                                side=side)
+            return TemporalPath(
+                head=pivot_id,
+                relation=relation_id,
+                query_time=query_time,
+                edges=mined_edges,
+                side=side,
+            )
         return None
 
     def _init_history(self, head: int, relation: int) -> Tuple[List[int], List[int], List[float]]:
@@ -402,7 +438,7 @@ class SARLMiner:
         relation_tensor = torch.tensor([relation_id], dtype=torch.long, device=device)
         return hist_entities, hist_relations, hist_deltas, current_tensor, relation_tensor
 
-    def _select_neighbor(
+    def _score_neighbors(
             self,
             neighbors: List[TemporalNeighbor],
             history_entities: List[int],
@@ -411,11 +447,13 @@ class SARLMiner:
             current_entity: int,
             relation_id: int,
             query_time: float,
-    ) -> Tuple[TemporalNeighbor, torch.Tensor]:
+    ) -> torch.Tensor:
         """
-        核心决策函数：Top-K 随机采样。
+        返回每个邻居的 log_softmax 分数（Beam Search 使用，不再随机采样）。
         """
-        # 1. 准备候选邻居的 Tensor 数据
+        if not neighbors:
+            raise RuntimeError("No neighbors available for scoring.")
+
         cand_entities = torch.tensor([[n.dst for n in neighbors]], dtype=torch.long, device=self.options.device)
         cand_relations = torch.tensor([[n.relation for n in neighbors]], dtype=torch.long, device=self.options.device)
         cand_deltas = torch.tensor(
@@ -424,7 +462,6 @@ class SARLMiner:
             device=self.options.device,
         )
 
-        # 2. 准备历史 Context Tensor
         hist_entities, hist_relations, hist_deltas, current_tensor, relation_tensor = self._history_tensors(
             history_entities,
             history_relations,
@@ -433,7 +470,6 @@ class SARLMiner:
             relation_id,
         )
 
-        # 3. 模型推理 (Forward)
         self.model.eval()
         with torch.no_grad():
             if self.options.use_amp and torch.cuda.is_available():
@@ -452,40 +488,11 @@ class SARLMiner:
                     cand_relations,
                     cand_deltas,
                 )
-        # 避免出现 NaN/Inf
         scores = torch.nan_to_num(scores, nan=0.0, posinf=0.0, neginf=0.0)
-
-        # 4. 计算概率分布 (Softmax)
-        probs = torch.softmax(scores.squeeze(0), dim=-1)
-        if (not torch.isfinite(probs).all()) or probs.sum() <= 0:
-            probs = torch.full_like(probs, 1.0 / len(probs))
-
-        # 5. Top-K 采样逻辑
-        # 选取前 5 个（如果邻居不够5个，就全选）
-        k = min(5, len(neighbors))
-        if k <= 0:
-            raise RuntimeError("No neighbors available for selection.")
-
-        # 获取 Top-K 的概率值和原始索引
-        top_probs, top_idx = torch.topk(probs, k=k)
-
-        # 重新归一化 (Re-normalize)，让这K个概率加起来等于1
-        normalized = torch.softmax(top_probs, dim=-1)
-        normalized = torch.nan_to_num(normalized, nan=0.0, posinf=0.0, neginf=0.0)
-        if (not torch.isfinite(normalized).all()) or normalized.sum() <= 0:
-            normalized = torch.full_like(normalized, 1.0 / len(normalized))
-
-        # 在这K个里面随机抽一个 (Multinomial Sampling)
-        sampled = torch.multinomial(normalized, num_samples=1).item()
-
-        # 映射回原始邻居列表
-        selected_neighbor = neighbors[top_idx[sampled].item()]
-
-        # 构造返回的概率分布（只保留被选中的那几个，方便调试）
-        sampled_probs = torch.zeros_like(probs)
-        sampled_probs[top_idx] = normalized
-
-        return selected_neighbor, sampled_probs
+        log_probs = torch.log_softmax(scores.squeeze(0), dim=-1)
+        if not torch.isfinite(log_probs).all():
+            log_probs = torch.full_like(log_probs, -math.log(len(log_probs)))
+        return log_probs
 
     def _temporal_neighbors(self, node_id: int, time_upper: float) -> List[TemporalNeighbor]:
         """正向邻居查询：查 Head -> Tail。"""
