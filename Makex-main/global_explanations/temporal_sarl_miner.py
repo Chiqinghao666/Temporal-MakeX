@@ -629,68 +629,80 @@ class SARLMiner:
 
     def path_to_rep(self, path: TemporalPath, support: int) -> List:
         """
-        将一条代表路径转换为 Makex 规则格式 (REP)。
-        输出格式：[Vertices, Edges, Predicates, Stats, Meta]
+        将一条代表路径转换为精简可读的规则格式。
+        输出结构：
+        {
+          "nodes": [{"pattern_id":1,"entity_id":123,"name":"China","type":"Country"}, ...],
+          "edges": [{"src":1,"dst":2,"relation_id":53,"relation":"Threaten","time_bin":0,"gap_days":0.0}, ...],
+          "query": {"relation_id":53,"relation":"Threaten","path_length":3,"star_side":"head"},
+          "support": float,
+          "confidence": 1.0
+        }
         """
-        # 1. 节点重映射：将具体 ID 转换为抽象 ID (1, 2, 3...) 并附带类型
+        # 1. 节点重映射：将具体 ID 转换为抽象 ID (1, 2, 3...) 并附带类型、名称、原始 ID
         node_ids: Dict[int, int] = {path.head: 1}
-        node_types: Dict[int, str] = {1: self._entity_type(path.head)}
+        node_info: Dict[int, Dict[str, str]] = {
+            1: {
+                "entity_id": path.head,
+                "name": self._id_to_name(self.entity_inv, path.head),
+                "type": self._entity_type(path.head),
+            }
+        }
         next_idx = 2
         current = path.head
-        edges: List[List[int]] = []
-        relation_chain: List[str] = []
-        time_predicates: List[List[str]] = []
-        relation_predicates: List[List[str]] = []
+        edges_payload: List[Dict[str, object]] = []
 
         for hop_idx, edge in enumerate(path.edges, 1):
             if edge.dst not in node_ids:
                 node_ids[edge.dst] = next_idx
-                node_types[next_idx] = self._entity_type(edge.dst)
+                node_info[next_idx] = {
+                    "entity_id": edge.dst,
+                    "name": self._id_to_name(self.entity_inv, edge.dst),
+                    "type": self._entity_type(edge.dst),
+                }
                 next_idx += 1
             src_idx = node_ids[current]
             dst_idx = node_ids[edge.dst]
-            edges.append([src_idx, dst_idx, edge.relation])
-
-            # 记录关系与时间分箱信息，便于规则可读化
-            rel_name = self._relation_name(edge.relation)
-            relation_chain.append(rel_name)
-            relation_predicates.append(["Constant", dst_idx, "relation_name", rel_name, "string", "="])
 
             bucket, delta = self._time_bin(path.query_time, edge.timestamp)
-            time_predicates.append(
-                ["Constant", dst_idx, f"time_bin_hop{hop_idx}", str(bucket), "string", "="]
-            )
-            time_predicates.append(
-                ["Constant", dst_idx, f"time_gap_days_hop{hop_idx}", f"{delta / 86400.0:.2f}", "string", "="]
+            edges_payload.append(
+                {
+                    "src": src_idx,
+                    "dst": dst_idx,
+                    "relation_id": edge.relation,
+                    "relation": self._relation_name(edge.relation),
+                    "time_bin": bucket,
+                    "gap_days": round(delta / 86400.0, 2),
+                }
             )
 
             current = edge.dst
 
-        # 2. 构建顶点列表（第二列写入类型，便于阅读）
-        vertices = [[idx, node_types[idx]] for idx in sorted(node_types.keys())]
-
-        # 3. 构建谓词约束：包含查询关系名、ID、路径长度、方向、类型约束与时间分箱
-        predicates: List[List[str]] = [
-            ["Constant", 1, "query_relation", self._relation_name(path.relation), "string", "="],
-            ["Constant", 1, "query_relation_id", str(path.relation), "string", "="],
-            ["Constant", 1, "path_length", str(len(path.edges)), "string", "="],
-            ["Constant", 1, "star_side", path.side, "string", "="],  # 关键：标记是 Head 星还是 Tail 星
-            ["Constant", 1, "relation_chain", " -> ".join(relation_chain), "string", "="],
+        # 2. 构建节点列表（包含原始 ID、名称、类型）
+        vertices = [
+            {
+                "pattern_id": idx,
+                "entity_id": info["entity_id"],
+                "name": info["name"],
+                "type": info["type"],
+            }
+            for idx, info in sorted(node_info.items(), key=lambda kv: kv[0])
         ]
 
-        # 为每个节点补充类型谓词，便于下游直接查看类型
-        for idx, type_name in node_types.items():
-            predicates.append(["Constant", idx, "type", type_name, "string", "="])
-
-        predicates.extend(relation_predicates)
-        predicates.extend(time_predicates)
-
-        # 4. 统计信息 [Support, Confidence]
-        stats = [float(support), 1.0]
-
-        # 5. 元数据
-        meta = [1, 2, 1, 1.0]
-        return [vertices, edges, predicates, stats, meta]
+        # 3. 查询信息与统计
+        rep_entry = {
+            "nodes": vertices,
+            "edges": edges_payload,
+            "query": {
+                "relation_id": path.relation,
+                "relation": self._relation_name(path.relation),
+                "path_length": len(path.edges),
+                "star_side": path.side,
+            },
+            "support": float(support),
+            "confidence": 1.0,
+        }
+        return rep_entry
 
     @staticmethod
     def _format_ts(ts: float) -> str:
