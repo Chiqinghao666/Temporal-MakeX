@@ -234,7 +234,7 @@ def main() -> None:
     grouped = miner.cluster_paths(all_paths, args.time_bucket)
     ranked_groups = sorted(grouped.items(), key=lambda kv: len(kv[1]), reverse=True)
     rep_entries = []
-    for (_, _, _, _), path_list in ranked_groups[: args.top_signatures]:
+    for (_, _), path_list in ranked_groups[: args.top_signatures]:
         rep_entries.append(miner.path_to_rep(path_list[0], len(path_list)))
 
     output_path = args.output_rep

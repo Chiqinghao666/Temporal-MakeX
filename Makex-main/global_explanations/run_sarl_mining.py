@@ -295,9 +295,8 @@ def main() -> None:
 
     # 8. 格式转换并保存
     rep_entries = []
-    # 解包 key: (head, relation, signature, side)
-    for (head, relation, _, side), path_group in ranked[: args.top_signatures]:
-        # 将聚类后的代表路径转换为 Makex 兼容的规则格式
+    # key: (signature, side)
+    for (_, side), path_group in ranked[: args.top_signatures]:
         rep_entries.append(miner.path_to_rep(path_group[0], len(path_group)))
 
     # 写入 rep_sarl.txt
@@ -307,7 +306,7 @@ def main() -> None:
 
     print(
         f"[Summary] Saved {len(rep_entries)} SARL patterns to {args.output_rep}."
-        f" Raw paths logged at {options.log_dir / 'sarl_raw_paths_5000_queries.txt'}"
+        f" Raw paths logged at {options.log_dir / 'sarl_raw_paths.txt'}"
     )
 
 
