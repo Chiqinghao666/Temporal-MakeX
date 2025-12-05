@@ -47,6 +47,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--entity_type_map", type=Path, default=Path("../DataSets/icews14/entity2type.json")
     )
+    parser.add_argument(
+        "--entity_type_csv", type=Path, default=Path("../DataSets/icews14/entity_classification.csv")
+    )
     parser.add_argument("--output_rep", type=Path, default=Path("./rep_sarl.txt"))
     parser.add_argument("--num_entities", type=int, default=0)
     parser.add_argument("--num_relations", type=int, default=0)
@@ -205,6 +208,7 @@ def main() -> None:
         graph_ptr=graph_ptr,
         edge_store=edge_store,
         entity_type_path=args.entity_type_map,
+        entity_type_csv=args.entity_type_csv,
         vertex_file=args.vertex_file,
     )
 
