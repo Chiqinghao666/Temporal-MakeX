@@ -615,30 +615,33 @@ class SARLMiner:
     # 注意：此处函数名 t 似乎是笔误，应为 cluster_paths，这里保持原样但加上正确注释逻辑
     def cluster_paths(
             self, paths: List[TemporalPath], time_bucket: float
-    ) -> Dict[Tuple[int, int, str, str], List[TemporalPath]]:
+    ) -> Dict[Tuple[str, str], List[TemporalPath]]:
         """
         路径聚类函数。
-        将结构相同、时间模式相同的路径归为一类。
+        规则唯一性定义：关系序列相同 + 时间分箱序列相同 + 节点类型序列相同（同时区分星侧）。
         """
-        grouped: Dict[Tuple[int, int, str, str], List[TemporalPath]] = {}
+        grouped: Dict[Tuple[str, str], List[TemporalPath]] = {}
         for path in paths:
             signature = self._build_signature(path, time_bucket)
-            # Key: (Head, Rel, Signature, Side) -> 区分了 Head 侧和 Tail 侧规则
-            key = (path.head, path.relation, signature, path.side)
+            # Key: (Signature, Side)
+            key = (signature, path.side)
             grouped.setdefault(key, []).append(path)
         return grouped
 
     def _build_signature(self, path: TemporalPath, bucket: float) -> str:
         """
-        生成路径的时空签名 (Pattern Signature)。
-        格式示例: L3|Visit:0|Support:1
+        生成路径的时空签名，包含：长度 + 关系序列+时间分箱 + 节点类型序列。
+        格式示例: L3|TYPE:Person|REL:Visit:0|TYPE:Location|REL:Support:1|TYPE:Location
         """
         tokens = [f"L{len(path.edges)}"]
+        # 起点类型
+        tokens.append(f"TYPE:{self._entity_type(path.head)}")
         for edge in path.edges:
             # 计算时间差
             delta = max(0.0, path.query_time - edge.timestamp)
             # 时间分箱 + 关系 ID
-            tokens.append(f"{edge.relation}:{int(delta // bucket)}")
+            tokens.append(f"REL:{edge.relation}:{int(delta // bucket)}")
+            tokens.append(f"TYPE:{self._entity_type(edge.dst)}")
         return "|".join(tokens)
 
     def path_to_rep(self, path: TemporalPath, support: int) -> List:
